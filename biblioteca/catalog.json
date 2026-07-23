@@ -1,10 +1,24 @@
 {
-  "versao": "2.0-fase1-completa",
+  "versao": "3.0-fases-1-e-2",
   "gerado_em": "2026-07-23",
   "formato_mestre": "1024x1536 (2:3 retrato)",
   "recolor": "duotone — sombra = cor escura da marca, luz = cor clara da marca",
   "regras": "centro livre para conteudo; QR sempre real sobreposto; marca dagua pin GeoRanking obrigatoria na arte final",
-  "total_bases": 36,
+  "total_bases": 72,
+  "segmentos": [
+    "automotivo",
+    "beleza-estetica",
+    "casa-construcao",
+    "celular-assistencia",
+    "distribuidora-corporativo",
+    "food",
+    "joalheria",
+    "moda-varejo",
+    "pet",
+    "saude-clinicas",
+    "seguranca-eletronica",
+    "tecnologia-internet"
+  ],
   "estilos_por_segmento": "premium-escuro (x2), clean-claro, vibrante, minimalista, cor-alternativa",
   "bases": [
     {
@@ -60,6 +74,114 @@
       "recolor": "duotone",
       "centro_livre": true,
       "arquivo": "automotivo/vibrante-01.png"
+    },
+    {
+      "id": "beleza-estetica-alt-01",
+      "segmento": "beleza-estetica",
+      "estilo": "cor-alternativa",
+      "tom_base": "rosa-champanhe",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "beleza-estetica/alt-01.png"
+    },
+    {
+      "id": "beleza-estetica-claro-01",
+      "segmento": "beleza-estetica",
+      "estilo": "clean-claro",
+      "tom_base": "rosa-champanhe",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "beleza-estetica/claro-01.png"
+    },
+    {
+      "id": "beleza-estetica-escuro-01",
+      "segmento": "beleza-estetica",
+      "estilo": "premium-escuro",
+      "tom_base": "rosa-champanhe",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "beleza-estetica/escuro-01.png"
+    },
+    {
+      "id": "beleza-estetica-escuro-02",
+      "segmento": "beleza-estetica",
+      "estilo": "premium-escuro",
+      "tom_base": "rosa-champanhe",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "beleza-estetica/escuro-02.png"
+    },
+    {
+      "id": "beleza-estetica-minimal-01",
+      "segmento": "beleza-estetica",
+      "estilo": "minimalista",
+      "tom_base": "rosa-champanhe",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "beleza-estetica/minimal-01.png"
+    },
+    {
+      "id": "beleza-estetica-vibrante-01",
+      "segmento": "beleza-estetica",
+      "estilo": "vibrante",
+      "tom_base": "rosa-champanhe",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "beleza-estetica/vibrante-01.png"
+    },
+    {
+      "id": "casa-construcao-alt-01",
+      "segmento": "casa-construcao",
+      "estilo": "cor-alternativa",
+      "tom_base": "amarelo-grafite",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "casa-construcao/alt-01.png"
+    },
+    {
+      "id": "casa-construcao-claro-01",
+      "segmento": "casa-construcao",
+      "estilo": "clean-claro",
+      "tom_base": "amarelo-grafite",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "casa-construcao/claro-01.png"
+    },
+    {
+      "id": "casa-construcao-escuro-01",
+      "segmento": "casa-construcao",
+      "estilo": "premium-escuro",
+      "tom_base": "amarelo-grafite",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "casa-construcao/escuro-01.png"
+    },
+    {
+      "id": "casa-construcao-escuro-02",
+      "segmento": "casa-construcao",
+      "estilo": "premium-escuro",
+      "tom_base": "amarelo-grafite",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "casa-construcao/escuro-02.png"
+    },
+    {
+      "id": "casa-construcao-minimal-01",
+      "segmento": "casa-construcao",
+      "estilo": "minimalista",
+      "tom_base": "amarelo-grafite",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "casa-construcao/minimal-01.png"
+    },
+    {
+      "id": "casa-construcao-vibrante-01",
+      "segmento": "casa-construcao",
+      "estilo": "vibrante",
+      "tom_base": "amarelo-grafite",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "casa-construcao/vibrante-01.png"
     },
     {
       "id": "celular-assistencia-alt-01",
@@ -170,6 +292,60 @@
       "arquivo": "distribuidora-corporativo/vibrante-01.png"
     },
     {
+      "id": "food-alt-01",
+      "segmento": "food",
+      "estilo": "cor-alternativa",
+      "tom_base": "carvao-laranja",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "food/alt-01.png"
+    },
+    {
+      "id": "food-claro-01",
+      "segmento": "food",
+      "estilo": "clean-claro",
+      "tom_base": "carvao-laranja",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "food/claro-01.png"
+    },
+    {
+      "id": "food-escuro-01",
+      "segmento": "food",
+      "estilo": "premium-escuro",
+      "tom_base": "carvao-laranja",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "food/escuro-01.png"
+    },
+    {
+      "id": "food-escuro-02",
+      "segmento": "food",
+      "estilo": "premium-escuro",
+      "tom_base": "carvao-laranja",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "food/escuro-02.png"
+    },
+    {
+      "id": "food-minimal-01",
+      "segmento": "food",
+      "estilo": "minimalista",
+      "tom_base": "carvao-laranja",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "food/minimal-01.png"
+    },
+    {
+      "id": "food-vibrante-01",
+      "segmento": "food",
+      "estilo": "vibrante",
+      "tom_base": "carvao-laranja",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "food/vibrante-01.png"
+    },
+    {
       "id": "joalheria-alt-01",
       "segmento": "joalheria",
       "estilo": "cor-alternativa",
@@ -222,6 +398,168 @@
       "recolor": "duotone",
       "centro_livre": true,
       "arquivo": "joalheria/vibrante-01.png"
+    },
+    {
+      "id": "moda-varejo-alt-01",
+      "segmento": "moda-varejo",
+      "estilo": "cor-alternativa",
+      "tom_base": "preto-magenta",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "moda-varejo/alt-01.png"
+    },
+    {
+      "id": "moda-varejo-claro-01",
+      "segmento": "moda-varejo",
+      "estilo": "clean-claro",
+      "tom_base": "preto-magenta",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "moda-varejo/claro-01.png"
+    },
+    {
+      "id": "moda-varejo-escuro-01",
+      "segmento": "moda-varejo",
+      "estilo": "premium-escuro",
+      "tom_base": "preto-magenta",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "moda-varejo/escuro-01.png"
+    },
+    {
+      "id": "moda-varejo-escuro-02",
+      "segmento": "moda-varejo",
+      "estilo": "premium-escuro",
+      "tom_base": "preto-magenta",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "moda-varejo/escuro-02.png"
+    },
+    {
+      "id": "moda-varejo-minimal-01",
+      "segmento": "moda-varejo",
+      "estilo": "minimalista",
+      "tom_base": "preto-magenta",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "moda-varejo/minimal-01.png"
+    },
+    {
+      "id": "moda-varejo-vibrante-01",
+      "segmento": "moda-varejo",
+      "estilo": "vibrante",
+      "tom_base": "preto-magenta",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "moda-varejo/vibrante-01.png"
+    },
+    {
+      "id": "pet-alt-01",
+      "segmento": "pet",
+      "estilo": "cor-alternativa",
+      "tom_base": "turquesa-laranja",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "pet/alt-01.png"
+    },
+    {
+      "id": "pet-claro-01",
+      "segmento": "pet",
+      "estilo": "clean-claro",
+      "tom_base": "turquesa-laranja",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "pet/claro-01.png"
+    },
+    {
+      "id": "pet-escuro-01",
+      "segmento": "pet",
+      "estilo": "premium-escuro",
+      "tom_base": "turquesa-laranja",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "pet/escuro-01.png"
+    },
+    {
+      "id": "pet-escuro-02",
+      "segmento": "pet",
+      "estilo": "premium-escuro",
+      "tom_base": "turquesa-laranja",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "pet/escuro-02.png"
+    },
+    {
+      "id": "pet-minimal-01",
+      "segmento": "pet",
+      "estilo": "minimalista",
+      "tom_base": "turquesa-laranja",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "pet/minimal-01.png"
+    },
+    {
+      "id": "pet-vibrante-01",
+      "segmento": "pet",
+      "estilo": "vibrante",
+      "tom_base": "turquesa-laranja",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "pet/vibrante-01.png"
+    },
+    {
+      "id": "saude-clinicas-alt-01",
+      "segmento": "saude-clinicas",
+      "estilo": "cor-alternativa",
+      "tom_base": "azul-verde",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "saude-clinicas/alt-01.png"
+    },
+    {
+      "id": "saude-clinicas-claro-01",
+      "segmento": "saude-clinicas",
+      "estilo": "clean-claro",
+      "tom_base": "azul-verde",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "saude-clinicas/claro-01.png"
+    },
+    {
+      "id": "saude-clinicas-escuro-01",
+      "segmento": "saude-clinicas",
+      "estilo": "premium-escuro",
+      "tom_base": "azul-verde",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "saude-clinicas/escuro-01.png"
+    },
+    {
+      "id": "saude-clinicas-escuro-02",
+      "segmento": "saude-clinicas",
+      "estilo": "premium-escuro",
+      "tom_base": "azul-verde",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "saude-clinicas/escuro-02.png"
+    },
+    {
+      "id": "saude-clinicas-minimal-01",
+      "segmento": "saude-clinicas",
+      "estilo": "minimalista",
+      "tom_base": "azul-verde",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "saude-clinicas/minimal-01.png"
+    },
+    {
+      "id": "saude-clinicas-vibrante-01",
+      "segmento": "saude-clinicas",
+      "estilo": "vibrante",
+      "tom_base": "azul-verde",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "saude-clinicas/vibrante-01.png"
     },
     {
       "id": "seguranca-eletronica-alt-01",
@@ -333,20 +671,13 @@
     }
   ],
   "proximas_fases": {
-    "fase2_segmentos": [
-      "food",
-      "beleza-estetica",
-      "saude-clinicas",
-      "casa-construcao",
-      "pet",
-      "moda-varejo"
-    ],
     "pack_universal": "12 bases neutras (gradientes, texturas, geometrico, luxo escuro, clean claro)",
     "sazonais": [
       "natal",
       "black-friday",
       "dia-das-maes",
       "dia-dos-pais"
-    ]
+    ],
+    "formatos_derivados": "post 1:1 e story 9:16 por crop das mestras"
   }
 }
