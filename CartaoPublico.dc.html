@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0..1,0&display=block" rel="stylesheet">
+</helmet>
+<div style="font-family:'Google Sans','Google Sans Text',Inter,system-ui,Arial,sans-serif;background:{{ page }};padding:0;width:100%;min-height:100%;color:#202124;-webkit-font-smoothing:antialiased">
+  <sc-if value="{{ d.cover }}" hint-placeholder-val="{{ true }}">
+    <div style="height:76px;background:{{ cover }}"></div>
+  </sc-if>
+  <div style="padding:0 20px 24px;display:flex;flex-direction:column;gap:16px;max-width:480px;margin:0 auto">
+
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;margin-top:{{ logoTop }}">
+      <div style="width:76px;height:76px;border-radius:20px;background:{{ accent }};color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:600;box-shadow:0 2px 6px rgba(60,64,67,.16);border:3px solid #fff">{{ d.short }}</div>
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <div style="font-size:20px;line-height:26px;font-weight:600;letter-spacing:-.2px">{{ d.name }}</div>
+        <div style="font-size:13px;color:#5F6368">{{ d.category }} · {{ d.city }}</div>
+      </div>
+      <div style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:{{ statusBg }};color:{{ statusColor }};font-size:12px;font-weight:600">
+        <span style="width:7px;height:7px;border-radius:999px;background:{{ statusColor }}"></span>{{ statusText }}
+      </div>
+    </div>
+
+    <button style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:52px;border:none;border-radius:{{ ctaRad }};background:{{ accent }};color:#fff;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(60,64,67,.12);font-family:inherit">
+      <span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1">contact_page</span>Salvar contato
+    </button>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <button style="display:flex;align-items:center;justify-content:center;gap:7px;height:48px;border-radius:{{ btnRad }};border:none;background:#E6F4EA;color:#188038;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit">
+        <span style="font-family:'Material Symbols Rounded';font-size:19px;line-height:1">chat</span>WhatsApp
+      </button>
+      <button style="display:flex;align-items:center;justify-content:center;gap:7px;height:48px;border-radius:{{ btnRad }};border:1px solid {{ border }};background:#fff;color:#202124;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit">
+        <span style="font-family:'Material Symbols Rounded';font-size:19px;line-height:1">call</span>Ligar
+      </button>
+    </div>
+
+    <div style="display:flex;flex-direction:column;background:#fff;border:1px solid {{ border }};border-radius:{{ cardRad }};overflow:hidden">
+      <sc-for list="{{ rows }}" as="r" hint-placeholder-count="3">
+        <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:1px solid #F1F3F4;cursor:pointer">
+          <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;color:{{ accent }}">{{ r.icon }}</span>
+          <div style="flex:1;display:flex;flex-direction:column;gap:1px;min-width:0">
+            <div style="font-size:14px;font-weight:500;color:#202124">{{ r.title }}</div>
+            <div style="font-size:12px;color:#80868B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.sub }}</div>
+          </div>
+          <span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#BDC1C6">chevron_right</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;justify-content:center;gap:12px;margin-top:2px">
+      <div style="width:44px;height:44px;border-radius:999px;border:1px solid {{ border }};background:#fff;display:flex;align-items:center;justify-content:center;color:{{ accent }};cursor:pointer">
+        <span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1">photo_camera</span>
+      </div>
+      <div style="width:44px;height:44px;border-radius:999px;border:1px solid {{ border }};background:#fff;display:flex;align-items:center;justify-content:center;color:{{ accent }};cursor:pointer">
+        <span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1">public</span>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px">
+      <button style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;height:44px;border-radius:{{ btnRad }};border:1px solid {{ border }};background:#fff;color:#5F6368;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit">
+        <span style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1">share</span>Compartilhar
+      </button>
+      <button style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;height:44px;border-radius:{{ btnRad }};border:1px solid {{ border }};background:#fff;color:#5F6368;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit">
+        <span style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1">qr_code_2</span>QR Code
+      </button>
+    </div>
+
+    <div style="text-align:center;font-size:11px;color:#9AA0A6;margin-top:6px;letter-spacing:.2px">Presença Digital · GeoRanking</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:720}}">
+class Component extends DCLogic {
+  renderVals() {
+    const d = this.props.data || {};
+    const accent = this.props.accent || '#1A73E8';
+    const theme = this.props.theme || 'clean';
+    const T = {
+      clean:    { page:'#F1F3F4', border:'#DADCE0', cardRad:16, ctaRad:'12px', btnRad:'12px', cover:accent },
+      business: { page:'#F1F3F4', border:'#DADCE0', cardRad:12, ctaRad:'10px', btnRad:'10px', cover:'#202124' },
+      minimal:  { page:'#FFFFFF', border:'#E8EAED', cardRad:8,  ctaRad:'8px',  btnRad:'8px',  cover:'#F1F3F4' },
+      destaque: { page:'#E8F0FE', border:'#D3E3FD', cardRad:20, ctaRad:'999px', btnRad:'999px', cover:accent },
+    };
+    const t = T[theme] || T.clean;
+    const rows = [];
+    if (d.showRoute !== false) rows.push({ icon:'directions', title:'Como chegar', sub:d.address });
+    if (d.showSite !== false && d.site) rows.push({ icon:'language', title:'Visitar site', sub:d.site });
+    if (d.showEmail !== false && d.email) rows.push({ icon:'mail', title:'Enviar e-mail', sub:d.email });
+    return {
+      d, accent, page:t.page, border:t.border, cardRad:t.cardRad,
+      ctaRad:t.ctaRad, btnRad:t.btnRad, cover:t.cover,
+      logoTop: d.cover ? '-42px' : '8px',
+      rows,
+      statusText: d.open ? 'Aberto agora' : 'Fechado',
+      statusBg: d.open ? '#E6F4EA' : '#FCE8E6',
+      statusColor: d.open ? '#188038' : '#D93025',
+    };
+  }
+}
+</script>
+</body>
+</html>

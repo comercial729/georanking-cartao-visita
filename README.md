@@ -2,10 +2,14 @@
 
 Protótipo navegável de alta fidelidade (arquivo único) da feature **Presença Digital**, que fica dentro de **Gerenciar Perfil** no GeoRanking. É a camada pública de conversão do negócio, montada a partir dos dados do Perfil (fonte de verdade), sem recadastro.
 
-**Abrir:** `index.html` (mesmo conteúdo de `Presenca-Digital.dc.html`). HTML/CSS/JS puro, sem build. Fontes e ícones via Google Fonts (precisa de internet).
-**Navegar:** botão flutuante **"Telas do protótipo"** (canto inferior direito) leva a todas as telas e estados. As sub-abas no topo também navegam.
+## Estrutura (v2 — redesign do Claude Design)
+- **`index.html`** → redireciona para **`Presença Digital.dc.html`** (protótipo principal: Visão geral, Cartão Digital, Página de Links + Mini-site, Compartilhar + NFC, Desempenho).
+- **`Cartão de Avaliação.dc.html`** — Criador de Cartões de Avaliação: 35 modelos em 8 motores de design, filtro por estilo e por segmento (12 segmentos), paleta alterável por modelo, marca d'água pin GeoRanking em todos.
+- Componentes: `CartaoAvaliacao.dc.html` (cartão), `CartaoPublico.dc.html`, `PaginaPublica.dc.html` + runtime `support.js`.
+  ⚠️ **Não renomear** os arquivos `.dc.html` — o runtime importa componentes pelo nome via fetch (`<dc-import name="...">`), e por isso o protótipo precisa ser servido por **HTTP** (não abre por file://).
+- `legacy-v1.html` — versão 1 (arquivo único), mantida como referência.
 
-**Modo embed:** abra com `?embed=1` (ex.: `index.html?embed=1`) para ver **só a feature**, sem o cabeçalho azul "Gerenciar Perfil", a navegação global e o rodapé — que são o chrome do **modal real** do GeoRanking. É assim que a Presença Digital entra no sistema.
+**Navegar:** botão flutuante (canto inferior direito) indexa as telas; sub-abas no topo navegam entre módulos.
 
 ## Módulos
 - **Visão geral** + primeiro acesso (nunca abre vazio; já vem pré-preenchido pelo Perfil).

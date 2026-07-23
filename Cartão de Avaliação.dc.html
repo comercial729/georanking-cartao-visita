@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0..1,0&display=block" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-thumb{background:#DADCE0;border-radius:999px;border:2px solid transparent;background-clip:content-box}
+  a{color:#1A73E8;text-decoration:none}a:hover{color:#0B57D0}
+  input,textarea{font-family:inherit}
+  input:focus,textarea:focus{outline:none;border-color:#1A73E8!important;box-shadow:0 0 0 1px #1A73E8}
+  @keyframes gr-fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @keyframes gr-snack{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="font-family:'Google Sans','Google Sans Text',Inter,system-ui,Arial,sans-serif;min-height:100vh;background:#F8FAFD;color:#202124;-webkit-font-smoothing:antialiased">
+
+  <div style="background:#1A73E8;color:#fff;padding:16px 28px;display:flex;align-items:center;gap:16px">
+    <div style="width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center"><span style="font-family:'Material Symbols Rounded';font-size:28px;line-height:1">storefront</span></div>
+    <div style="flex:1;min-width:0"><div style="font-size:22px;font-weight:600;letter-spacing:-.2px">Gerenciar Perfil</div><div style="font-size:13px;opacity:.9">CSA Casa da Segurança Eletrônica</div></div>
+    <div style="width:40px;height:40px;border-radius:999px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer"><span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1">close</span></div>
+  </div>
+
+  <div style="background:#fff;border-bottom:1px solid #E8EAED;padding:12px 28px;display:flex;align-items:center;gap:8px;font-size:13px;color:#5F6368">
+    <a href="Presença Digital.dc.html" style="color:#1A73E8;font-weight:600;display:flex;align-items:center;gap:6px;text-decoration:none"><span style="font-family:'Material Symbols Rounded';font-size:17px;line-height:1">arrow_back</span>Presença Digital</a>
+    <span style="font-family:'Material Symbols Rounded';font-size:16px;line-height:1;color:#BDC1C6">chevron_right</span>
+    <span style="color:#202124;font-weight:600">Cartão de Avaliações</span>
+  </div>
+
+  <div style="max-width:1360px;margin:0 auto;padding:24px 24px 60px">
+    <div style="display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-bottom:22px">
+      <div style="flex:1;min-width:280px">
+        <div style="display:flex;align-items:center;gap:12px"><div style="width:5px;height:26px;border-radius:3px;background:#1A73E8"></div><h1 style="margin:0;font-size:26px;line-height:32px;font-weight:600;letter-spacing:-.4px">Criador de Cartões de Avaliação</h1></div>
+        <div style="font-size:14.5px;line-height:21px;color:#5F6368;max-width:660px;margin-top:8px;text-wrap:pretty">Cartões prontos para pedir avaliações no Google — balcão, vitrine ou escritório. Escolha um estilo, ajuste o texto e baixe pronto para imprimir. O QR abre direto a caixa de avaliação do Google.</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <button onClick="{{ shareQR }}" style="display:flex;align-items:center;gap:8px;height:42px;padding:0 16px;border-radius:8px;border:1px solid #DADCE0;background:#fff;color:#202124;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit"><span style="font-family:'Material Symbols Rounded';font-size:19px;line-height:1">qr_code_2</span>Compartilhar QR</button>
+        <button onClick="{{ download }}" style="display:flex;align-items:center;gap:8px;height:42px;padding:0 20px;border-radius:8px;border:none;background:#1A73E8;color:#fff;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(60,64,67,.12);font-family:inherit"><span style="font-family:'Material Symbols Rounded';font-size:19px;line-height:1">download</span>Baixar cartão</button>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start">
+
+      <!-- ===== LEFT ===== -->
+      <div style="flex:1;min-width:min(100%,440px);display:flex;flex-direction:column;gap:20px">
+
+        <!-- brand IA panel -->
+        <div style="background:linear-gradient(135deg,#0B57D0,#1A73E8);color:#fff;border-radius:12px;padding:22px;display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+          <div style="width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-family:'Material Symbols Rounded';font-size:24px;line-height:1">auto_awesome</span></div>
+          <div style="flex:1;min-width:200px"><div style="font-size:15px;font-weight:600">Design a partir da marca</div><div style="font-size:12.5px;opacity:.9;line-height:18px;margin-top:2px">Suba seu logo — a IA lê as cores, sugere o estilo ideal e ajusta o logo para o cartão.</div></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button onClick="{{ aiGenerate }}" style="height:40px;padding:0 15px;border-radius:8px;border:none;background:#fff;color:#0B57D0;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px"><span style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1">upload</span>Gerar design da marca</button>
+            <button onClick="{{ aiLogo }}" style="height:40px;padding:0 15px;border-radius:8px;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">Melhorar logo</button>
+          </div>
+        </div>
+
+        <!-- templates -->
+        <div style="background:#fff;border:1px solid #DADCE0;border-radius:12px;padding:22px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div style="display:flex;align-items:center;gap:10px"><span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#1A73E8">style</span><span style="font-size:16px;font-weight:600">Modelos</span></div><span style="font-size:12px;color:#80868B">{{ shownCount }} de {{ templateCount }}</span></div>
+          <div style="font-size:12.5px;color:#80868B;margin-bottom:14px">8 motores de design premium. Filtre por estilo do seu negócio.</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px">
+            <sc-for list="{{ styleChips }}" as="sc" hint-placeholder-count="6"><div onClick="{{ sc.onClick }}" style="padding:8px 14px;border-radius:999px;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;background:{{ sc.bg }};color:{{ sc.color }};border:1px solid {{ sc.bd }}">{{ sc.label }}</div></sc-for>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin:-8px 0 18px">
+            <sc-for list="{{ segChips }}" as="sg" hint-placeholder-count="8"><div onClick="{{ sg.onClick }}" style="padding:6px 11px;border-radius:999px;font-size:11.5px;font-weight:600;cursor:pointer;white-space:nowrap;background:{{ sg.bg }};color:{{ sg.color }};border:1px solid {{ sg.bd }}">{{ sg.label }}</div></sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:12px">
+            <sc-for list="{{ templates }}" as="tp" hint-placeholder-count="9">
+              <div onClick="{{ tp.onClick }}" style="cursor:pointer;display:flex;flex-direction:column;gap:6px">
+                <div style="aspect-ratio:105/148;border-radius:10px;overflow:hidden;border:2.5px solid {{ tp.ring }};box-shadow:0 1px 3px rgba(60,64,67,.14);position:relative;background:{{ tp.bg }};display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:13px 9px">
+                  <sc-if value="{{ tp.showBar }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:0;left:0;right:0;height:8px;background:{{ tp.accent }}"></div></sc-if>
+                  <sc-if value="{{ tp.showFrame }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;inset:6px;border:1px solid {{ tp.accent }};opacity:.6"></div></sc-if>
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;margin-top:{{ tp.headTop }}">
+                    <div style="font-family:{{ tp.headFont }};font-size:9px;font-weight:700;color:{{ tp.ink }}">{{ tp.initials }}</div>
+                    <div style="display:flex;gap:1px;color:{{ tp.star }};font-size:10px;line-height:1;letter-spacing:1px">★★★★★</div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;position:relative">
+                    <div style="width:74%;height:6px;border-radius:3px;background:{{ tp.ink }}"></div>
+                    <div style="width:54%;height:4px;border-radius:2px;background:{{ tp.sub }}"></div>
+                  </div>
+                  <div style="width:34px;height:34px;border-radius:6px;background:{{ tp.qrBg }};border:{{ tp.qrThumbBorder }};display:flex;align-items:center;justify-content:center;position:relative"><div style="width:22px;height:22px;border-radius:3px;background:{{ tp.qrModule }}"></div></div>
+                  <div style="padding:3px 10px;border-radius:{{ tp.pillRad }};background:{{ tp.ctaBg }};color:{{ tp.ctaInk }};font-size:7px;font-weight:700;position:relative">AVALIAR</div>
+                  <sc-if value="{{ tp.selected }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:999px;background:#1A73E8;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.3)"><span style="font-family:'Material Symbols Rounded';font-size:15px;line-height:1">check</span></div></sc-if>
+                </div>
+                <div style="font-size:11.5px;font-weight:500;color:{{ tp.labelColor }};text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ tp.name }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="margin-top:18px;padding-top:16px;border-top:1px solid #F1F3F4">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><span style="font-size:13px;font-weight:600;color:#5F6368">Cor principal do modelo</span><span style="font-size:11.5px;color:#9AA0A6">Mantém o desenho, troca a paleta</span></div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <sc-for list="{{ accentSwatches }}" as="a" hint-placeholder-count="8">
+                <div onClick="{{ a.onClick }}" title="{{ a.label }}" style="width:34px;height:34px;border-radius:999px;background:{{ a.hex }};cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff,0 0 0 {{ a.ring }} {{ a.hex }}"><span style="font-family:'Material Symbols Rounded';font-size:19px;line-height:1;color:#fff">{{ a.check }}</span></div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+
+        <!-- format -->
+        <div style="background:#fff;border:1px solid #DADCE0;border-radius:12px;padding:22px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#1A73E8">crop</span><span style="font-size:16px;font-weight:600">Formato e dimensões</span></div>
+          <div style="font-size:12.5px;color:#80868B;margin-bottom:16px">Tamanhos ideais para diferentes tipos de negócio.</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px">
+            <sc-for list="{{ formats }}" as="f" hint-placeholder-count="8">
+              <div onClick="{{ f.onClick }}" style="display:flex;align-items:center;gap:11px;padding:12px;border-radius:10px;border:2px solid {{ f.bd }};background:{{ f.bg }};cursor:pointer">
+                <div style="width:26px;height:26px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:{{ f.iconColor }}"><div style="border:2px solid currentColor;border-radius:3px;width:{{ f.glyphW }};height:{{ f.glyphH }}"></div></div>
+                <div style="min-width:0"><div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ f.name }}</div><div style="font-size:11px;color:#80868B">{{ f.dim }}</div></div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- message presets -->
+        <div style="background:#fff;border:1px solid #DADCE0;border-radius:12px;padding:22px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#1A73E8">chat_bubble</span><span style="font-size:16px;font-weight:600">Mensagem</span></div>
+          <div style="font-size:12.5px;color:#80868B;margin-bottom:16px">Frases prontas — clique para aplicar ou edite abaixo.</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ copyPresets }}" as="p" hint-placeholder-count="6">
+              <div onClick="{{ p.onClick }}" style="padding:12px 14px;border-radius:10px;border:1.5px solid {{ p.bd }};background:{{ p.bg }};cursor:pointer"><div style="font-size:13.5px;font-weight:600">{{ p.t }}</div><div style="font-size:12px;color:#5F6368;margin-top:2px">{{ p.s }}</div></div>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- content -->
+        <div style="background:#fff;border:1px solid #DADCE0;border-radius:12px;padding:22px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#1A73E8">edit</span><span style="font-size:16px;font-weight:600">Conteúdo</span></div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div><div style="font-size:12.5px;font-weight:600;color:#5F6368;margin-bottom:6px">Título</div><input value="{{ content.headline }}" onInput="{{ onHeadline }}" style="width:100%;height:44px;padding:0 14px;border-radius:8px;border:1px solid #DADCE0;font-size:14px;color:#202124"></div>
+            <div><div style="font-size:12.5px;font-weight:600;color:#5F6368;margin-bottom:6px">Subtítulo</div><textarea value="{{ content.subcopy }}" onInput="{{ onSub }}" style="width:100%;min-height:64px;padding:10px 14px;border-radius:8px;border:1px solid #DADCE0;font-size:14px;color:#202124;resize:vertical"></textarea></div>
+            <div style="display:flex;gap:14px;flex-wrap:wrap">
+              <div style="flex:1;min-width:150px"><div style="font-size:12.5px;font-weight:600;color:#5F6368;margin-bottom:6px">Botão</div><input value="{{ content.cta }}" onInput="{{ onCta }}" style="width:100%;height:44px;padding:0 14px;border-radius:8px;border:1px solid #DADCE0;font-size:14px;color:#202124"></div>
+              <div style="flex:1;min-width:150px"><div style="font-size:12.5px;font-weight:600;color:#5F6368;margin-bottom:6px">Link do QR</div><input value="{{ content.url }}" onInput="{{ onUrl }}" style="width:100%;height:44px;padding:0 14px;border-radius:8px;border:1px solid #DADCE0;font-size:14px;color:#202124"></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding:11px 13px;border-radius:8px;background:#F8FAFD;border:1px solid #E8EAED;font-size:12.5px;color:#5F6368"><span style="font-family:'Material Symbols Rounded';font-size:17px;line-height:1;color:#1A73E8">sync</span>Nome e logo vêm do Perfil · <span style="color:#1A73E8;font-weight:600;cursor:pointer">Editar no Perfil</span></div>
+          </div>
+        </div>
+
+        <!-- options -->
+        <div style="background:#fff;border:1px solid #DADCE0;border-radius:12px;padding:22px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#1A73E8">tune</span><span style="font-size:16px;font-weight:600">Opções</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0"><div><div style="font-size:14px;font-weight:500">Mostrar 5 estrelas</div><div style="font-size:12px;color:#80868B">Reforça o pedido de avaliação</div></div><div onClick="{{ toggleStars }}" style="width:44px;height:26px;border-radius:999px;background:{{ starsTrack }};position:relative;cursor:pointer"><div style="width:20px;height:20px;border-radius:999px;background:#fff;position:absolute;top:3px;left:{{ starsKnob }};box-shadow:0 1px 2px rgba(60,64,67,.3);transition:left .18s"></div></div></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid #F1F3F4"><div><div style="font-size:14px;font-weight:500">Mostrar logo e nome</div><div style="font-size:12px;color:#80868B">Identidade da empresa no cartão</div></div><div onClick="{{ toggleLogo }}" style="width:44px;height:26px;border-radius:999px;background:{{ logoTrack }};position:relative;cursor:pointer"><div style="width:20px;height:20px;border-radius:999px;background:#fff;position:absolute;top:3px;left:{{ logoKnob }};box-shadow:0 1px 2px rgba(60,64,67,.3);transition:left .18s"></div></div></div>
+        </div>
+      </div>
+
+      <!-- ===== RIGHT ===== -->
+      <div style="width:660px;max-width:100%;position:sticky;top:16px;align-self:flex-start;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+          <div><div style="font-size:15px;font-weight:600">{{ activeName }} · {{ activeFormat.name }}</div><div style="font-size:12.5px;color:#80868B">{{ activeFormat.dim }} · {{ activeTags }}</div></div>
+          <div style="display:flex;gap:8px">
+            <button onClick="{{ downloadPdf }}" style="height:38px;padding:0 13px;border-radius:8px;border:1px solid #DADCE0;background:#fff;color:#202124;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px"><span style="font-family:'Material Symbols Rounded';font-size:17px;line-height:1">picture_as_pdf</span>PDF</button>
+            <button onClick="{{ downloadPng }}" style="height:38px;padding:0 13px;border-radius:8px;border:1px solid #DADCE0;background:#fff;color:#202124;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px"><span style="font-family:'Material Symbols Rounded';font-size:17px;line-height:1">image</span>PNG</button>
+            <button onClick="{{ print }}" style="height:38px;padding:0 13px;border-radius:8px;border:1px solid #DADCE0;background:#fff;color:#202124;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px"><span style="font-family:'Material Symbols Rounded';font-size:17px;line-height:1">print</span>Imprimir</button>
+          </div>
+        </div>
+        <div style="background:radial-gradient(circle at 50% 30%,#EEF1F6,#E3E7ED);border:1px solid #DADCE0;border-radius:16px;padding:40px;display:flex;align-items:center;justify-content:center;min-height:600px">
+          <div style="width:{{ previewW }};height:{{ previewH }};border-radius:14px;overflow:hidden;box-shadow:0 18px 50px rgba(32,33,36,.24);animation:gr-fade .2s ease;display:grid">
+            <dc-import name="CartaoAvaliacao" t="{{ activeTemplate }}" c="{{ content }}" orient="{{ activeFormat.orient }}" show-logo="{{ showLogo }}" show-stars="{{ showStars }}" style="width:100%;height:100%" hint-size="100%,100%"></dc-import>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;justify-content:center;font-size:12px;color:#80868B"><span style="font-family:'Material Symbols Rounded';font-size:16px;line-height:1">info</span>Impressão em alta resolução com sangria 3 mm e área de segurança. QR abre a avaliação via Place ID.</div>
+      </div>
+    </div>
+  </div>
+
+  <sc-if value="{{ snackbar }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#202124;color:#fff;padding:13px 20px;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.3);display:flex;align-items:center;gap:10px;font-size:14px;z-index:60;animation:gr-snack .2s ease"><span style="font-family:'Material Symbols Rounded';font-size:19px;line-height:1;color:#81C995">{{ snackIcon }}</span>{{ snackbar }}</div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    const D={ sub:'#5F6368', faint:'#9AA0A6', star:'#FBBC04', onAccent:'#FFFFFF', acc2:'#E8EAED', bg2:'#E8EAED',
+      qrBg:'#FFFFFF', qrModule:'#202124', qrBorder:'none', qrShadow:'0 3cqmin 8cqmin rgba(0,0,0,.16)',
+      bodyFont:"'Inter',sans-serif", headWeight:800, headLS:'-.02em', headCase:'none', eyebrow:'#9AA0A6',
+      headSize:'8.6cqmin', headSizeL:'6.4cqmin', logoRad:'2.4cqmin', ctaRad:'999px', ctaCase:'none', ctaLS:'0', brandLS:'0' };
+    const S={
+      luxo:{ headFont:"'Playfair Display',serif", headWeight:700, headLS:'-.01em', ctaRad:'1cqmin', ctaCase:'uppercase', ctaLS:'.14em', brandLS:'.08em', logoRad:'1.4cqmin', qrBorder:'1px solid rgba(201,162,75,.6)' },
+      tech:{ headFont:"'Oswald',sans-serif", headWeight:600, headCase:'uppercase', headLS:'.01em', ctaRad:'1cqmin', ctaCase:'uppercase', ctaLS:'.1em', logoRad:'1.6cqmin' },
+      auto:{ headFont:"'Oswald',sans-serif", headWeight:700, headCase:'uppercase', headLS:'.005em', ctaRad:'.6cqmin', ctaCase:'uppercase', ctaLS:'.12em', logoRad:'.8cqmin' },
+      corp:{ headFont:"'Sora',sans-serif", headWeight:800, ctaRad:'2cqmin', logoRad:'2.4cqmin', qrBorder:'1px solid #E8EAED' },
+      vibr:{ headFont:"'Oswald',sans-serif", headWeight:700, headCase:'uppercase', ctaRad:'2cqmin', ctaCase:'uppercase', ctaLS:'.06em', logoRad:'2cqmin' },
+      editorial:{ headFont:"'Playfair Display',serif", headWeight:800, headLS:'-.015em', ctaRad:'0.4cqmin', ctaCase:'uppercase', ctaLS:'.16em', brandLS:'.1em', logoRad:'1cqmin', headSize:'9.4cqmin' },
+      retro:{ headFont:"'Oswald',sans-serif", headWeight:700, headCase:'uppercase', headLS:'.02em', ctaRad:'999px', ctaCase:'uppercase', ctaLS:'.1em', logoRad:'999px' },
+      gradient:{ headFont:"'Sora',sans-serif", headWeight:800, headLS:'-.02em', ctaRad:'999px', logoRad:'2.6cqmin', qrBorder:'none' },
+    };
+    const mk=(style,o)=>Object.assign({style},D,S[style],o);
+    this.TEMPLATES=[
+      // LUXO
+      {name:'Ônix & Ouro', style:'luxo', t:mk('luxo',{bg:'#111114',ink:'#F5F1E6',sub:'rgba(245,241,230,.68)',faint:'rgba(245,241,230,.5)',accent:'#C9A24B',acc2:'#C9A24B',onAccent:'#111114',star:'#E8C27A',qrBg:'#F5ECD9',qrModule:'#111114',ctaBg:'#C9A24B',ctaInk:'#111114',eyebrow:'#C9A24B',qrSeed:3})},
+      {name:'Safira Nobre', style:'luxo', t:mk('luxo',{bg:'#12233F',ink:'#F3F6FB',sub:'rgba(243,246,251,.7)',faint:'rgba(243,246,251,.5)',accent:'#C9A24B',acc2:'#C9A24B',onAccent:'#12233F',star:'#E8C27A',qrBg:'#FFFFFF',qrModule:'#12233F',ctaBg:'#C9A24B',ctaInk:'#12233F',eyebrow:'#C9A24B',qrSeed:5})},
+      {name:'Bordô Premium', style:'luxo', t:mk('luxo',{bg:'#3A121F',ink:'#F8E9EC',sub:'rgba(248,233,236,.7)',faint:'rgba(248,233,236,.5)',accent:'#D9B36B',acc2:'#D9B36B',onAccent:'#3A121F',star:'#E8C27A',qrBg:'#F8ECD9',qrModule:'#3A121F',ctaBg:'#D9B36B',ctaInk:'#3A121F',eyebrow:'#D9B36B',qrSeed:7})},
+      {name:'Esmeralda Real', style:'luxo', t:mk('luxo',{bg:'#0E3B2E',ink:'#EFF6F1',sub:'rgba(239,246,241,.7)',faint:'rgba(239,246,241,.5)',accent:'#D9B36B',acc2:'#D9B36B',onAccent:'#0E3B2E',star:'#E8C27A',qrBg:'#FFFFFF',qrModule:'#0E3B2E',ctaBg:'#D9B36B',ctaInk:'#0E3B2E',eyebrow:'#D9B36B',qrSeed:11})},
+      // TECH
+      {name:'Cyber Azul', style:'tech', t:mk('tech',{bg:'#0A1230',ink:'#EAF2FF',sub:'rgba(234,242,255,.68)',faint:'rgba(234,242,255,.48)',accent:'#2FB4FF',acc2:'#1E3A6E',onAccent:'#04122B',star:'#FFD34E',qrBg:'#FFFFFF',qrModule:'#0A1230',ctaBg:'#2FB4FF',ctaInk:'#04122B',eyebrow:'#2FB4FF',qrSeed:13})},
+      {name:'Neon Ciano', style:'tech', t:mk('tech',{bg:'#041E22',ink:'#E6FBF9',sub:'rgba(230,251,249,.68)',faint:'rgba(230,251,249,.48)',accent:'#22E0C8',acc2:'#0B4A47',onAccent:'#032220',star:'#FFD34E',qrBg:'#FFFFFF',qrModule:'#041E22',ctaBg:'#22E0C8',ctaInk:'#032220',eyebrow:'#22E0C8',qrSeed:17})},
+      {name:'Violeta Digital', style:'tech', t:mk('tech',{bg:'#150A33',ink:'#EFE9FF',sub:'rgba(239,233,255,.68)',faint:'rgba(239,233,255,.48)',accent:'#8A6BFF',acc2:'#33206E',onAccent:'#FFFFFF',star:'#FFD34E',qrBg:'#FFFFFF',qrModule:'#150A33',ctaBg:'#8A6BFF',ctaInk:'#FFFFFF',eyebrow:'#8A6BFF',qrSeed:19})},
+      {name:'Grafeno', style:'tech', t:mk('tech',{bg:'#0E1418',ink:'#E8F0F4',sub:'rgba(232,240,244,.68)',faint:'rgba(232,240,244,.48)',accent:'#3DD6F5',acc2:'#22323A',onAccent:'#04161B',star:'#FFD34E',qrBg:'#FFFFFF',qrModule:'#0E1418',ctaBg:'#3DD6F5',ctaInk:'#04161B',eyebrow:'#3DD6F5',qrSeed:23})},
+      // AUTO
+      {name:'Carbono Vermelho', style:'auto', t:mk('auto',{bg:'#16181B',ink:'#F2F3F4',sub:'rgba(242,243,244,.66)',faint:'rgba(242,243,244,.46)',accent:'#E1352E',acc2:'#2A2E33',onAccent:'#FFFFFF',star:'#FBBC04',qrBg:'#FFFFFF',qrModule:'#16181B',ctaBg:'#E1352E',ctaInk:'#FFFFFF',eyebrow:'#E1352E',qrSeed:29})},
+      {name:'Turbo Laranja', style:'auto', t:mk('auto',{bg:'#1A1305',ink:'#FBF3E6',sub:'rgba(251,243,230,.66)',faint:'rgba(251,243,230,.46)',accent:'#F5852B',acc2:'#33280F',onAccent:'#1A1305',star:'#FBBC04',qrBg:'#FFFFFF',qrModule:'#1A1305',ctaBg:'#F5852B',ctaInk:'#1A1305',eyebrow:'#F5852B',qrSeed:31})},
+      {name:'Aço & Âmbar', style:'auto', t:mk('auto',{bg:'#1C2226',ink:'#EDF1F3',sub:'rgba(237,241,243,.66)',faint:'rgba(237,241,243,.46)',accent:'#E6A817',acc2:'#2E373D',onAccent:'#1C2226',star:'#FBBC04',qrBg:'#FFFFFF',qrModule:'#1C2226',ctaBg:'#E6A817',ctaInk:'#1C2226',eyebrow:'#E6A817',qrSeed:37})},
+      {name:'Pista Verde', style:'auto', t:mk('auto',{bg:'#0F1A12',ink:'#EAF4EC',sub:'rgba(234,244,236,.66)',faint:'rgba(234,244,236,.46)',accent:'#35C15A',acc2:'#223528',onAccent:'#05230F',star:'#FBBC04',qrBg:'#FFFFFF',qrModule:'#0F1A12',ctaBg:'#35C15A',ctaInk:'#05230F',eyebrow:'#35C15A',qrSeed:41})},
+      // CORP
+      {name:'Azul Confiança', style:'corp', t:mk('corp',{bg:'#FFFFFF',ink:'#14213D',sub:'#5F6B85',faint:'#9AA3BC',accent:'#1A73E8',acc2:'#0B57D0',bg2:'#E8F0FE',star:'#FBBC04',qrModule:'#14213D',ctaBg:'#1A73E8',ctaInk:'#FFFFFF',eyebrow:'#1A73E8',qrSeed:43})},
+      {name:'Verde Executivo', style:'corp', t:mk('corp',{bg:'#FFFFFF',ink:'#0E3B2E',sub:'#5A7268',faint:'#9BB0A7',accent:'#12A46B',acc2:'#0E7A50',bg2:'#E6F7EF',star:'#FBBC04',qrModule:'#0E3B2E',ctaBg:'#12A46B',ctaInk:'#FFFFFF',eyebrow:'#12A46B',qrSeed:47})},
+      {name:'Grafite Neutro', style:'corp', t:mk('corp',{bg:'#FFFFFF',ink:'#202124',sub:'#5F6368',faint:'#9AA0A6',accent:'#5F6368',acc2:'#202124',bg2:'#F1F3F4',star:'#FBBC04',qrModule:'#202124',ctaBg:'#202124',ctaInk:'#FFFFFF',eyebrow:'#5F6368',qrSeed:53})},
+      {name:'Índigo Sóbrio', style:'corp', t:mk('corp',{bg:'#F7F8FC',ink:'#23235B',sub:'#5C5F86',faint:'#9A9CC0',accent:'#4C4FD6',acc2:'#23235B',bg2:'#E7E7FA',star:'#FBBC04',qrModule:'#23235B',ctaBg:'#4C4FD6',ctaInk:'#FFFFFF',eyebrow:'#4C4FD6',qrSeed:59})},
+      // VIBR
+      {name:'Coral Pop', style:'vibr', t:mk('vibr',{bg:'#FFF4EE',ink:'#4A1E12',sub:'#8A5544',faint:'#BC9284',accent:'#FF5A3C',acc2:'#FFD1C2',onAccent:'#FFFFFF',star:'#FBBC04',qrModule:'#4A1E12',ctaBg:'#FF5A3C',ctaInk:'#FFFFFF',eyebrow:'#FF5A3C',qrSeed:61})},
+      {name:'Amarelo Energia', style:'vibr', t:mk('vibr',{bg:'#FFF7DE',ink:'#3A2E05',sub:'#7A6A2C',faint:'#B8A85C',accent:'#F5B301',acc2:'#FFE79A',onAccent:'#3A2E05',star:'#F5852B',qrModule:'#3A2E05',ctaBg:'#3A2E05',ctaInk:'#FFD34E',eyebrow:'#B8860B',qrSeed:67})},
+      {name:'Rosa Choque', style:'vibr', t:mk('vibr',{bg:'#FFF0F6',ink:'#4A1230',sub:'#8A4A66',faint:'#C08AA2',accent:'#E23C8A',acc2:'#FBD0E4',onAccent:'#FFFFFF',star:'#FBBC04',qrModule:'#4A1230',ctaBg:'#E23C8A',ctaInk:'#FFFFFF',eyebrow:'#E23C8A',qrSeed:71})},
+      {name:'Turquesa Vivo', style:'vibr', t:mk('vibr',{bg:'#E9FBF6',ink:'#063B33',sub:'#3E7A6E',faint:'#86B5AA',accent:'#12B39A',acc2:'#B9EFE3',onAccent:'#FFFFFF',star:'#FBBC04',qrModule:'#063B33',ctaBg:'#12B39A',ctaInk:'#FFFFFF',eyebrow:'#0E8A76',qrSeed:73})},
+      // EDITORIAL
+      {name:'Revista Marfim', style:'editorial', t:mk('editorial',{bg:'#F6F2EA',ink:'#1C1B18',sub:'#6B665C',faint:'#A69F90',accent:'#1C1B18',acc2:'#1C1B18',onAccent:'#F6F2EA',star:'#B99331',qrModule:'#1C1B18',ctaBg:'#1C1B18',ctaInk:'#F6F2EA',eyebrow:'#B99331',qrBorder:'1px solid #DCD6C8',qrSeed:101})},
+      {name:'Editorial Terra', style:'editorial', t:mk('editorial',{bg:'#EFE7DD',ink:'#3B2A1E',sub:'#7A6555',faint:'#AF9C88',accent:'#B4552F',acc2:'#B4552F',onAccent:'#EFE7DD',star:'#B4552F',qrModule:'#3B2A1E',ctaBg:'#B4552F',ctaInk:'#FFFFFF',eyebrow:'#B4552F',qrBorder:'1px solid #DBCDBD',qrSeed:103})},
+      {name:'Estúdio Preto', style:'editorial', t:mk('editorial',{bg:'#1A1A1A',ink:'#F2F0EC',sub:'rgba(242,240,236,.66)',faint:'rgba(242,240,236,.46)',accent:'#E9E2D2',acc2:'#E9E2D2',onAccent:'#1A1A1A',star:'#D9C48A',qrBg:'#F2F0EC',qrModule:'#1A1A1A',ctaBg:'#E9E2D2',ctaInk:'#1A1A1A',eyebrow:'#D9C48A',qrSeed:107})},
+      {name:'Café Sépia', style:'editorial', t:mk('editorial',{bg:'#EDE3D3',ink:'#42301C',sub:'#7C6446',faint:'#B29A78',accent:'#8A5A2B',acc2:'#8A5A2B',onAccent:'#EDE3D3',star:'#B98B3A',qrModule:'#42301C',ctaBg:'#42301C',ctaInk:'#EDE3D3',eyebrow:'#8A5A2B',qrBorder:'1px solid #D8C6AC',qrSeed:109})},
+      {name:'Verde Botânico', style:'editorial', t:mk('editorial',{bg:'#EAEFE4',ink:'#26361F',sub:'#5E7150',faint:'#9AAC89',accent:'#3E6B2E',acc2:'#3E6B2E',onAccent:'#EAEFE4',star:'#B99331',qrModule:'#26361F',ctaBg:'#3E6B2E',ctaInk:'#FFFFFF',eyebrow:'#3E6B2E',qrBorder:'1px solid #D3DCC7',qrSeed:113})},
+      // RETRO
+      {name:'Sunset Retrô', style:'retro', t:mk('retro',{bg:'#F4C24B',ink:'#3A1E0A',sub:'#6E4A22',faint:'#A67C43',accent:'#D9481F',acc2:'#E88A2B',onAccent:'#FFF7E6',star:'#3A1E0A',qrBg:'#FFF7E6',qrModule:'#3A1E0A',ctaBg:'#D9481F',ctaInk:'#FFF7E6',eyebrow:'#D9481F',qrSeed:127})},
+      {name:'Barbearia Vintage', style:'retro', t:mk('retro',{bg:'#123A46',ink:'#F3E9D2',sub:'rgba(243,233,210,.7)',faint:'rgba(243,233,210,.5)',accent:'#D9A441',acc2:'#1C5361',onAccent:'#123A46',star:'#D9A441',qrBg:'#F3E9D2',qrModule:'#123A46',ctaBg:'#D9A441',ctaInk:'#123A46',eyebrow:'#D9A441',qrSeed:131})},
+      {name:'Diner Cereja', style:'retro', t:mk('retro',{bg:'#E8DCC0',ink:'#7A1F2B',sub:'#9A5560',faint:'#C08D95',accent:'#C6262E',acc2:'#2E7D74',onAccent:'#FFF7E6',star:'#C6262E',qrBg:'#FFF7E6',qrModule:'#7A1F2B',ctaBg:'#C6262E',ctaInk:'#FFF7E6',eyebrow:'#C6262E',qrSeed:137})},
+      {name:'Mostarda Antiga', style:'retro', t:mk('retro',{bg:'#3A3320',ink:'#F3E7C6',sub:'rgba(243,231,198,.7)',faint:'rgba(243,231,198,.5)',accent:'#E0A020',acc2:'#54492B',onAccent:'#3A3320',star:'#E0A020',qrBg:'#F3E7C6',qrModule:'#3A3320',ctaBg:'#E0A020',ctaInk:'#3A3320',eyebrow:'#E0A020',qrSeed:139})},
+      {name:'Praia 70', style:'retro', t:mk('retro',{bg:'#F2A65A',ink:'#3A2410',sub:'#6E4A24',faint:'#A67C48',accent:'#2E7D74',acc2:'#E86A33',onAccent:'#FFF7E6',star:'#2E7D74',qrBg:'#FFF7E6',qrModule:'#3A2410',ctaBg:'#2E7D74',ctaInk:'#FFF7E6',eyebrow:'#2E7D74',qrSeed:149})},
+      // GRADIENT
+      {name:'Aurora', style:'gradient', t:mk('gradient',{bg:'linear-gradient(150deg,#6A5BFF,#B14BE0)',ink:'#FFFFFF',sub:'rgba(255,255,255,.82)',faint:'rgba(255,255,255,.6)',accent:'#FFFFFF',acc2:'#FF7AD9',onAccent:'#6A2BE0',star:'#FFD34E',qrBg:'#FFFFFF',qrModule:'#3A1E7A',ctaBg:'#FFFFFF',ctaInk:'#6A2BE0',eyebrow:'#FFE1F6',qrSeed:151})},
+      {name:'Oceano', style:'gradient', t:mk('gradient',{bg:'linear-gradient(150deg,#0BA5EC,#0B57D0)',ink:'#FFFFFF',sub:'rgba(255,255,255,.82)',faint:'rgba(255,255,255,.6)',accent:'#FFFFFF',acc2:'#5FE0D0',onAccent:'#0B57D0',star:'#FFD34E',qrBg:'#FFFFFF',qrModule:'#083A73',ctaBg:'#FFFFFF',ctaInk:'#0B57D0',eyebrow:'#CDEBFF',qrSeed:157})},
+      {name:'Pôr do Sol', style:'gradient', t:mk('gradient',{bg:'linear-gradient(150deg,#FF6A88,#FF9A44)',ink:'#FFFFFF',sub:'rgba(255,255,255,.85)',faint:'rgba(255,255,255,.62)',accent:'#FFFFFF',acc2:'#FFD36A',onAccent:'#C23A4E',star:'#FFF1B8',qrBg:'#FFFFFF',qrModule:'#B83A4E',ctaBg:'#FFFFFF',ctaInk:'#C23A4E',eyebrow:'#FFE6D6',qrSeed:163})},
+      {name:'Menta Fresh', style:'gradient', t:mk('gradient',{bg:'linear-gradient(150deg,#12C29A,#0E8A9E)',ink:'#FFFFFF',sub:'rgba(255,255,255,.85)',faint:'rgba(255,255,255,.62)',accent:'#FFFFFF',acc2:'#8CF0D2',onAccent:'#0E7A6E',star:'#FFF1B8',qrBg:'#FFFFFF',qrModule:'#0A5A54',ctaBg:'#FFFFFF',ctaInk:'#0E7A6E',eyebrow:'#CFF7EC',qrSeed:167})},
+      {name:'Meia-noite', style:'gradient', t:mk('gradient',{bg:'linear-gradient(150deg,#2B3A67,#141B33)',ink:'#EAF0FF',sub:'rgba(234,240,255,.78)',faint:'rgba(234,240,255,.55)',accent:'#8AB4F8',acc2:'#3A4A80',onAccent:'#141B33',star:'#FFD34E',qrBg:'#FFFFFF',qrModule:'#141B33',ctaBg:'#8AB4F8',ctaInk:'#141B33',eyebrow:'#8AB4F8',qrSeed:173})},
+    ];
+    this.STYLES=[['all','Todos'],['luxo','Elegante'],['tech','Tech'],['auto','Automotivo'],['corp','Corporativo'],['vibr','Vibrante'],['editorial','Editorial'],['retro','Retrô'],['gradient','Gradiente']];
+    this.SEGMENTS=[['all','Todos os segmentos'],['joalheria','Joalheria'],['tech','Tech & Internet'],['celular','Celular'],['automotivo','Automotivo'],['seguranca','Segurança Eletrônica'],['distribuicao','Distribuição'],['food','Food'],['beleza','Beleza'],['saude','Saúde'],['construcao','Construção'],['pet','Pet'],['moda','Moda']];
+    // tags por modelo p/ futuro auto-match pela paleta do logo (BRIEF_BIBLIOTECA_ARTES)
+    this.SEG={
+      'Ônix & Ouro':['joalheria','moda'],'Safira Nobre':['joalheria','distribuicao'],'Bordô Premium':['beleza','moda'],'Esmeralda Real':['joalheria','beleza'],
+      'Cyber Azul':['tech','celular','seguranca'],'Neon Ciano':['tech','celular'],'Violeta Digital':['tech','celular','beleza'],'Grafeno':['tech','seguranca','celular'],
+      'Carbono Vermelho':['automotivo'],'Turbo Laranja':['automotivo','construcao'],'Aço & Âmbar':['automotivo','construcao'],'Pista Verde':['automotivo'],
+      'Azul Confiança':['distribuicao','seguranca','saude','tech'],'Verde Executivo':['distribuicao','saude'],'Grafite Neutro':['distribuicao','construcao','automotivo'],'Índigo Sóbrio':['distribuicao','tech','seguranca'],
+      'Coral Pop':['food','moda','pet'],'Amarelo Energia':['food','construcao'],'Rosa Choque':['beleza','moda'],'Turquesa Vivo':['pet','saude','food'],
+      'Revista Marfim':['moda','beleza','joalheria'],'Editorial Terra':['food','construcao','moda'],'Estúdio Preto':['moda','joalheria','beleza'],'Café Sépia':['food'],'Verde Botânico':['saude','pet','food'],
+      'Sunset Retrô':['food','moda'],'Barbearia Vintage':['beleza','moda'],'Diner Cereja':['food'],'Mostarda Antiga':['food','construcao'],'Praia 70':['food','pet','moda'],
+      'Aurora':['beleza','tech','celular'],'Oceano':['tech','saude','celular'],'Pôr do Sol':['food','beleza'],'Menta Fresh':['saude','pet','beleza'],'Meia-noite':['seguranca','tech','distribuicao'],
+    };
+    this.FORMATS=[
+      {id:'a6p', name:'Cartão de balcão', dim:'105 × 148 mm · A6', w:105,h:148, orient:'portrait', glyph:[16,22]},
+      {id:'a5', name:'Vitrine A5', dim:'148 × 210 mm', w:148,h:210, orient:'portrait', glyph:[15,22]},
+      {id:'sq', name:'Adesivo quadrado', dim:'100 × 100 mm', w:100,h:100, orient:'portrait', glyph:[20,20]},
+      {id:'tent', name:'Display de mesa', dim:'100 × 180 mm', w:100,h:180, orient:'portrait', glyph:[13,22]},
+      {id:'a6l', name:'Cartão paisagem', dim:'148 × 105 mm', w:148,h:105, orient:'landscape', glyph:[22,16]},
+      {id:'card', name:'Cartão de visita', dim:'90 × 54 mm', w:90,h:54, orient:'landscape', glyph:[22,13]},
+      {id:'a4', name:'Pôster A4', dim:'210 × 297 mm', w:210,h:297, orient:'portrait', glyph:[15,22]},
+      {id:'post', name:'Post para redes', dim:'1080 × 1080 px', w:120,h:120, orient:'portrait', glyph:[20,20]},
+    ];
+    this.COPY=[
+      {t:'Gostou do atendimento?', s:'Deixe sua avaliação no Google — leva menos de 1 minuto.'},
+      {t:'Sua opinião vale muito', s:'Conte como foi sua experiência com a gente aqui no Google.'},
+      {t:'Nos ajude a crescer', s:'Avalie nosso negócio no Google e ajude mais clientes a nos encontrar.'},
+      {t:'Foi um prazer atender você!', s:'Se puder, compartilhe sua experiência no Google. É rapidinho.'},
+      {t:'Que tal 5 estrelas?', s:'Se curtiu, registre sua avaliação no Google. Muito obrigado!'},
+      {t:'Avalie-nos no Google', s:'Aponte a câmera do celular para o QR Code e conte como foi.'},
+    ];
+    this.state={
+      tpl:0, fmt:0, copyIdx:0, filter:'all', segFilter:'all', accent:null, showStars:true, showLogo:true, snackbar:null, snackIcon:'check_circle',
+      content:{ brand:'CSA Casa da Segurança Eletrônica', category:'Segurança Eletrônica', initials:'CSA', eyebrow:'Avaliação no Google', headline:this.COPY[0].t, subcopy:this.COPY[0].s, cta:'Avaliar no Google', url:'g.page/csa', hint:'Aponte a câmera do celular para o QR Code' },
+    };
+  }
+  toast(m,ic){ this.setState({snackbar:m,snackIcon:ic||'check_circle'}); clearTimeout(this._t); this._t=setTimeout(()=>this.setState({snackbar:null}),2600); }
+  renderVals(){
+    const s=this.state;
+    const styleChips=this.STYLES.map(([id,label])=>{const on=s.filter===id;return{label,onClick:()=>this.setState({filter:id}),bg:on?'#1A73E8':'#fff',color:on?'#fff':'#5F6368',bd:on?'#1A73E8':'#DADCE0'};});
+    const segChips=this.SEGMENTS.map(([id,label])=>{const on=s.segFilter===id;return{label,onClick:()=>this.setState({segFilter:id}),bg:on?'#E8F0FE':'#fff',color:on?'#0B57D0':'#80868B',bd:on?'#0B57D0':'#E8EAED'};});
+    const templates=this.TEMPLATES.map((tp,i)=>({tp,i})).filter(({tp})=>(s.filter==='all'||tp.style===s.filter)&&(s.segFilter==='all'||(this.SEG[tp.name]||[]).includes(s.segFilter))).map(({tp,i})=>({
+      name:tp.name, selected:s.tpl===i, ring:s.tpl===i?'#1A73E8':'transparent', labelColor:s.tpl===i?'#1A73E8':'#5F6368',
+      onClick:()=>this.setState({tpl:i,accent:null}),
+      bg:tp.t.bg, ink:tp.t.ink, sub:tp.t.sub, star:tp.t.star, qrBg:tp.t.qrBg, qrModule:tp.t.qrModule, ctaBg:tp.t.ctaBg, ctaInk:tp.t.ctaInk, accent:tp.t.accent, headFont:tp.t.headFont, initials:s.content.initials,
+      showBar:tp.style==='corp', showFrame:tp.style==='luxo'||tp.style==='retro'||tp.style==='editorial', headTop:tp.style==='corp'?'6px':'0px',
+      pillRad:tp.style==='auto'?'3px':'999px', qrThumbBorder:tp.style==='corp'?'1px solid #E8EAED':'none',
+    }));
+    const formats=this.FORMATS.map((f,i)=>{const on=s.fmt===i;return{...f, bd:on?'#1A73E8':'#DADCE0', bg:on?'#E8F0FE':'#fff', iconColor:on?'#1A73E8':'#80868B', glyphW:f.glyph[0]+'px', glyphH:f.glyph[1]+'px', onClick:()=>this.setState({fmt:i})};});
+    const copyPresets=this.COPY.map((p,i)=>{const on=s.copyIdx===i;return{...p, bd:on?'#1A73E8':'#DADCE0', bg:on?'#E8F0FE':'#fff', onClick:()=>this.setState(st=>({copyIdx:i, content:{...st.content, headline:p.t, subcopy:p.s}}))};});
+    // recolor: swap every occurrence of the template's original accent across string tokens (bg gradients included)
+    const base=this.TEMPLATES[s.tpl].t;
+    let activeT=base;
+    if(s.accent && s.accent!==base.accent){
+      activeT={...base};
+      const A=base.accent;
+      for(const k in activeT){ const v=activeT[k]; if(typeof v==='string' && v.indexOf(A)>=0) activeT[k]=v.split(A).join(s.accent); }
+    }
+    const PALETTE=['#C9A24B','#1A73E8','#0B57D0','#12A46B','#E1352E','#F5852B','#8A6BFF','#E23C8A','#22B8CE','#B4552F','#5F6368','#202124'];
+    const accentSwatches=[{hex:base.accent,label:'Original',on:!s.accent||s.accent===base.accent,onClick:()=>this.setState({accent:null})}]
+      .concat(PALETTE.filter(h=>h!==base.accent).map(hex=>({hex,label:'',on:s.accent===hex,onClick:()=>this.setState({accent:hex})})))
+      .map(a=>({...a,ring:a.on?'3px':'0px',check:a.on?'check':''}));
+    const f=this.FORMATS[s.fmt];
+    let pxW,pxH;
+    if(f.orient==='landscape'){ pxW=600; pxH=Math.round(pxW*f.h/f.w); }
+    else { pxH=540; pxW=Math.round(pxH*f.w/f.h); if(pxW>580){pxW=580;pxH=Math.round(pxW*f.h/f.w);} }
+    return {
+      styleChips, segChips, templates, formats, copyPresets,
+      activeTags:(this.SEG[this.TEMPLATES[s.tpl].name]||[]).map(id=>{const e=this.SEGMENTS.find(x=>x[0]===id);return e?e[1]:id;}).join(' · '), templateCount:this.TEMPLATES.length, shownCount:templates.length,
+      activeTemplate:activeT, activeName:this.TEMPLATES[s.tpl].name, activeFormat:f, accentSwatches,
+      content:s.content, showStars:s.showStars, showLogo:s.showLogo,
+      previewW:pxW+'px', previewH:pxH+'px',
+      starsTrack:s.showStars?'#1A73E8':'#DADCE0', starsKnob:s.showStars?'21px':'3px', toggleStars:()=>this.setState(st=>({showStars:!st.showStars})),
+      logoTrack:s.showLogo?'#1A73E8':'#DADCE0', logoKnob:s.showLogo?'21px':'3px', toggleLogo:()=>this.setState(st=>({showLogo:!st.showLogo})),
+      onHeadline:(e)=>this.setState(st=>({content:{...st.content,headline:e.target.value}})),
+      onSub:(e)=>this.setState(st=>({content:{...st.content,subcopy:e.target.value}})),
+      onCta:(e)=>this.setState(st=>({content:{...st.content,cta:e.target.value}})),
+      onUrl:(e)=>this.setState(st=>({content:{...st.content,url:e.target.value}})),
+      snackbar:s.snackbar, snackIcon:s.snackIcon,
+      download:()=>this.toast('Cartão exportado em alta resolução'),
+      downloadPdf:()=>this.toast('PDF pronto para impressão gerado'),
+      downloadPng:()=>this.toast('Imagem PNG baixada'),
+      print:()=>this.toast('Enviando para impressão…','print'),
+      shareQR:()=>this.toast('QR de avaliação copiado'),
+      aiGenerate:()=>this.toast('IA analisando a marca e aplicando o design…','auto_awesome'),
+      aiLogo:()=>this.toast('Ajustando e redimensionando o logo…','auto_awesome'),
+    };
+  }
+}
+</script>
+</body>
+</html>
