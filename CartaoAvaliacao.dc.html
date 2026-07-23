@@ -13,6 +13,12 @@
 </helmet>
 <div style="width:100%;height:100%;position:relative;overflow:hidden;background:{{ t.bg }};color:{{ t.ink }};font-family:{{ t.bodyFont }};container-type:size">
 
+  <!-- ===== ARTE DE FUNDO (biblioteca) + scrim de contraste ===== -->
+  <sc-if value="{{ hasArt }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;background-image:url({{ t.bgImage }});background-size:cover;background-position:center;pointer-events:none"></div>
+    <div style="position:absolute;inset:0;background:{{ t.artScrim }};pointer-events:none"></div>
+  </sc-if>
+
   <!-- ===== ENGINE DECORATION ===== -->
   <sc-if value="{{ isLuxo }}" hint-placeholder-val="{{ false }}">
     <div style="position:absolute;inset:3.4cqmin;border:1px solid {{ t.accent }};opacity:.55;pointer-events:none"></div>
@@ -153,6 +159,7 @@ class Component extends DCLogic {
       showStars:this.props.showStars!==false,
       isLuxo:style==='luxo', isTech:style==='tech', isAuto:style==='auto', isCorp:style==='corp', isVibr:style==='vibr',
       isEditorial:style==='editorial', isRetro:style==='retro', isGradient:style==='gradient',
+      hasArt:!!t.bgImage,
       qr:this.qrEl(t.qrSeed||7, t.qrModule||'#202124'),
     };
   }

@@ -11,6 +11,13 @@ Protótipo navegável de alta fidelidade (arquivo único) da feature **Presença
 
 **Navegar:** botão flutuante (canto inferior direito) indexa as telas; sub-abas no topo navegam entre módulos.
 
+## Biblioteca de artes + Integração (teste local)
+- **`biblioteca/`** — 72 bases premium (12 segmentos × 6 estilos) + `catalog.json`. O criador de cartões tem a seção **"Arte de fundo · Biblioteca"**: filtro por segmento, thumbnail aplica a arte no cartão com scrim de contraste do próprio tema (conteúdo, QR e pin por cima).
+- **`georanking-api.js`** — adaptador da API real (`GET /api/v1/business-profiles/{id}/details` → modelo da Presença), com fallback mock automático.
+- **`integracao.html`** — harness de teste: configure base/profileId/token (fica no localStorage), teste a conexão e veja o perfil mapeado + contrato completo dos endpoints.
+- **`TESTAR-LOCAL.bat`** — duplo clique sobe o servidor local (requer Python) e abre o navegador.
+⚠️ Staging apenas — nada aqui escreve no GeoRanking produção.
+
 ## Módulos
 - **Visão geral** + primeiro acesso (nunca abre vazio; já vem pré-preenchido pelo Perfil).
 - **Cartão Digital** — editor (edição à esquerda, preview mobile ao vivo à direita) + página pública.
