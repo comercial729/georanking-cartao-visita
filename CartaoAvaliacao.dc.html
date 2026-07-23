@@ -69,7 +69,12 @@
       <div style="display:flex;flex-direction:column;align-items:center;gap:3.2cqmin;width:100%">
         <sc-if value="{{ showLogo }}" hint-placeholder-val="{{ true }}">
           <div style="display:flex;align-items:center;gap:2cqmin">
-            <div style="width:10cqmin;height:10cqmin;border-radius:{{ t.logoRad }};background:{{ t.accent }};color:{{ t.onAccent }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:4cqmin;font-family:{{ t.headFont }}">{{ c.initials }}</div>
+            <sc-if value="{{ hasLogoImg }}" hint-placeholder-val="{{ false }}">
+              <div style="width:10cqmin;height:10cqmin;border-radius:{{ t.logoRad }};background:#FFFFFF;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.18)"><img src="{{ c.logoUrl }}" style="width:86%;height:86%;object-fit:contain" alt=""></div>
+            </sc-if>
+            <sc-if value="{{ noLogoImg }}" hint-placeholder-val="{{ true }}">
+              <div style="width:10cqmin;height:10cqmin;border-radius:{{ t.logoRad }};background:{{ t.accent }};color:{{ t.onAccent }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:4cqmin;font-family:{{ t.headFont }}">{{ c.initials }}</div>
+            </sc-if>
             <div style="text-align:left;line-height:1.12"><div style="font-size:3.3cqmin;font-weight:700;font-family:{{ t.headFont }};letter-spacing:{{ t.brandLS }}">{{ c.brand }}</div><div style="font-size:2.4cqmin;color:{{ t.sub }};font-weight:500;text-transform:uppercase;letter-spacing:.12em">{{ c.category }}</div></div>
           </div>
         </sc-if>
@@ -82,7 +87,7 @@
 
       <div style="display:flex;flex-direction:column;align-items:center;gap:2.4cqmin;max-width:98%">
         <div style="font-size:2.4cqmin;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:{{ t.eyebrow }}">{{ c.eyebrow }}</div>
-        <div style="font-size:{{ t.headSize }};line-height:1.04;font-weight:{{ t.headWeight }};font-family:{{ t.headFont }};letter-spacing:{{ t.headLS }};text-transform:{{ t.headCase }};text-wrap:balance">{{ c.headline }}</div>
+        <div style="font-size:{{ t.headSize }};line-height:1.04;font-weight:{{ t.headWeight }};font-family:{{ t.headFont }};letter-spacing:{{ t.headLS }};text-transform:{{ t.headCase }};color:{{ t.headColor }};text-wrap:balance">{{ c.headline }}</div>
         <div style="font-size:3cqmin;line-height:1.42;color:{{ t.sub }};font-weight:500;max-width:82%;text-wrap:pretty">{{ c.subcopy }}</div>
       </div>
 
@@ -109,7 +114,12 @@
       <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:2.6cqmin;text-align:left">
         <sc-if value="{{ showLogo }}" hint-placeholder-val="{{ true }}">
           <div style="display:flex;align-items:center;gap:2cqmin">
-            <div style="width:8.5cqmin;height:8.5cqmin;border-radius:{{ t.logoRad }};background:{{ t.accent }};color:{{ t.onAccent }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:3.4cqmin;font-family:{{ t.headFont }}">{{ c.initials }}</div>
+            <sc-if value="{{ hasLogoImg }}" hint-placeholder-val="{{ false }}">
+              <div style="width:8.5cqmin;height:8.5cqmin;border-radius:{{ t.logoRad }};background:#FFFFFF;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.18)"><img src="{{ c.logoUrl }}" style="width:86%;height:86%;object-fit:contain" alt=""></div>
+            </sc-if>
+            <sc-if value="{{ noLogoImg }}" hint-placeholder-val="{{ true }}">
+              <div style="width:8.5cqmin;height:8.5cqmin;border-radius:{{ t.logoRad }};background:{{ t.accent }};color:{{ t.onAccent }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:3.4cqmin;font-family:{{ t.headFont }}">{{ c.initials }}</div>
+            </sc-if>
             <div style="line-height:1.12"><div style="font-size:2.9cqmin;font-weight:700;font-family:{{ t.headFont }};letter-spacing:{{ t.brandLS }}">{{ c.brand }}</div><div style="font-size:2.1cqmin;color:{{ t.sub }};font-weight:500;text-transform:uppercase;letter-spacing:.12em">{{ c.category }}</div></div>
           </div>
         </sc-if>
@@ -118,7 +128,7 @@
             <span>star</span><span>star</span><span>star</span><span>star</span><span>star</span>
           </div>
         </sc-if>
-        <div style="font-size:{{ t.headSizeL }};line-height:1.04;font-weight:{{ t.headWeight }};font-family:{{ t.headFont }};letter-spacing:{{ t.headLS }};text-transform:{{ t.headCase }};text-wrap:balance">{{ c.headline }}</div>
+        <div style="font-size:{{ t.headSizeL }};line-height:1.04;font-weight:{{ t.headWeight }};font-family:{{ t.headFont }};letter-spacing:{{ t.headLS }};text-transform:{{ t.headCase }};color:{{ t.headColor }};text-wrap:balance">{{ c.headline }}</div>
         <div style="font-size:2.7cqmin;line-height:1.42;color:{{ t.sub }};font-weight:500;max-width:92%">{{ c.subcopy }}</div>
         <div style="display:flex;align-items:center;gap:1.4cqmin;background:{{ t.ctaBg }};color:{{ t.ctaInk }};padding:2cqmin 3.6cqmin;border-radius:{{ t.ctaRad }};font-weight:700;font-size:2.7cqmin;font-family:{{ t.headFont }};align-self:flex-start;text-transform:{{ t.ctaCase }};letter-spacing:{{ t.ctaLS }}">
           <span style="font-family:'Material Symbols Rounded';font-size:3.4cqmin;line-height:1">photo_camera</span>{{ c.cta }}
@@ -148,7 +158,7 @@ class Component extends DCLogic {
     return React.createElement('svg',{viewBox:'0 0 25 25',width:'100%',height:'100%','aria-hidden':true},rects);
   }
   renderVals(){
-    const t=this.props.t||{};
+    const t=Object.assign({headColor:'inherit'}, this.props.t||{});
     const c=this.props.c||{};
     const orient=this.props.orient||'portrait';
     const landscape=orient==='landscape';
@@ -160,6 +170,7 @@ class Component extends DCLogic {
       isLuxo:style==='luxo', isTech:style==='tech', isAuto:style==='auto', isCorp:style==='corp', isVibr:style==='vibr',
       isEditorial:style==='editorial', isRetro:style==='retro', isGradient:style==='gradient',
       hasArt:!!t.bgImage,
+      hasLogoImg:!!c.logoUrl, noLogoImg:!c.logoUrl,
       qr:this.qrEl(t.qrSeed||7, t.qrModule||'#202124'),
     };
   }

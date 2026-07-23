@@ -170,6 +170,53 @@
           </div>
         </div>
 
+        <!-- logo e tipografia -->
+        <div style="background:#fff;border:1px solid #DADCE0;border-radius:12px;padding:22px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#1A73E8">brush</span><span style="font-size:16px;font-weight:600">Logo e tipografia</span></div>
+          <div style="font-size:12.5px;color:#80868B;margin-bottom:16px">Suba o logo real do cliente e ajuste a fonte do título.</div>
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
+            <sc-if value="{{ temLogo }}" hint-placeholder-val="{{ false }}">
+              <div style="width:56px;height:56px;border-radius:12px;background:#fff;border:1px solid #DADCE0;display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="{{ logoPreview }}" style="width:84%;height:84%;object-fit:contain" alt="logo"></div>
+            </sc-if>
+            <sc-if value="{{ semLogo }}" hint-placeholder-val="{{ true }}">
+              <div style="width:56px;height:56px;border-radius:12px;background:#F1F3F4;display:flex;align-items:center;justify-content:center;color:#80868B"><span style="font-family:'Material Symbols Rounded';font-size:26px;line-height:1">image</span></div>
+            </sc-if>
+            <label style="display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:8px;background:#1A73E8;color:#fff;font-size:13px;font-weight:600;cursor:pointer">
+              <span style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1">upload</span>Subir logo
+              <input type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" onChange="{{ onLogoFile }}" style="display:none">
+            </label>
+            <sc-if value="{{ temLogo }}" hint-placeholder-val="{{ false }}">
+              <div onClick="{{ removerLogo }}" style="display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px;border-radius:8px;border:1px solid #DADCE0;color:#5F6368;font-size:13px;font-weight:600;cursor:pointer"><span style="font-family:'Material Symbols Rounded';font-size:17px;line-height:1">delete</span>Remover</div>
+            </sc-if>
+          </div>
+          <div style="border-top:1px solid #F1F3F4;padding-top:16px">
+            <div style="font-size:12.5px;font-weight:600;color:#5F6368;margin-bottom:8px">Fonte do título</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+              <sc-for list="{{ fontChips }}" as="fc" hint-placeholder-count="6">
+                <div onClick="{{ fc.onClick }}" style="padding:7px 13px;border-radius:999px;border:1px solid {{ fc.bd }};background:{{ fc.bg }};color:{{ fc.color }};font-size:12.5px;font-weight:600;cursor:pointer;font-family:{{ fc.font }}">{{ fc.label }}</div>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:22px;flex-wrap:wrap">
+              <div>
+                <div style="font-size:12.5px;font-weight:600;color:#5F6368;margin-bottom:8px">Tamanho do título</div>
+                <div style="display:flex;gap:6px">
+                  <sc-for list="{{ sizeChips }}" as="sz" hint-placeholder-count="4">
+                    <div onClick="{{ sz.onClick }}" style="padding:7px 13px;border-radius:999px;border:1px solid {{ sz.bd }};background:{{ sz.bg }};color:{{ sz.color }};font-size:12.5px;font-weight:600;cursor:pointer">{{ sz.label }}</div>
+                  </sc-for>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:12.5px;font-weight:600;color:#5F6368;margin-bottom:8px">Cor do título</div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                  <sc-for list="{{ fontColorChips }}" as="cc" hint-placeholder-count="8">
+                    <div onClick="{{ cc.onClick }}" title="{{ cc.label }}" style="width:30px;height:30px;border-radius:999px;background:{{ cc.hex }};border:1px solid #DADCE0;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff,0 0 0 {{ cc.ring }} #1A73E8"><span style="font-family:'Material Symbols Rounded';font-size:16px;line-height:1;color:{{ cc.checkColor }}">{{ cc.check }}</span></div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- options -->
         <div style="background:#fff;border:1px solid #DADCE0;border-radius:12px;padding:22px">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#1A73E8">tune</span><span style="font-size:16px;font-weight:600">Opções</span></div>
@@ -303,6 +350,7 @@ class Component extends DCLogic {
     this.state={
       tpl:0, fmt:0, copyIdx:0, filter:'all', segFilter:'all', accent:null, showStars:true, showLogo:true, snackbar:null, snackIcon:'check_circle',
       arts:[], artSel:null, artFilter:'all',
+      logoUrl:null, fontSel:null, fontScale:1, fontColor:null,
       content:{ brand:'CSA Casa da Segurança Eletrônica', category:'Segurança Eletrônica', initials:'CSA', eyebrow:'Avaliação no Google', headline:this.COPY[0].t, subcopy:this.COPY[0].s, cta:'Avaliar no Google', url:'g.page/csa', hint:'Aponte a câmera do celular para o QR Code' },
     };
     fetch('./biblioteca/catalog.json').then(r=>r.ok?r.json():null).then(c=>{ if(c&&c.bases) this.setState({arts:c.bases}); }).catch(()=>{});
@@ -329,6 +377,19 @@ class Component extends DCLogic {
       const A=base.accent;
       for(const k in activeT){ const v=activeT[k]; if(typeof v==='string' && v.indexOf(A)>=0) activeT[k]=v.split(A).join(s.accent); }
     }
+    // tipografia: fonte, escala e cor do título (override sobre o tema)
+    const FONTS=[['Tema',null],['Inter',"'Inter',sans-serif"],['Playfair',"'Playfair Display',serif"],['Oswald',"'Oswald',sans-serif"],['Sora',"'Sora',sans-serif"],['Space Grotesk',"'Space Grotesk',sans-serif"]];
+    const fontChips=FONTS.map(([label,fam])=>{const on=s.fontSel===fam;return{label,font:fam||'inherit',onClick:()=>this.setState({fontSel:fam}),bg:on?'#E8F0FE':'#fff',color:on?'#0B57D0':'#5F6368',bd:on?'#0B57D0':'#DADCE0'};});
+    const SIZES=[['P',.85],['M',1],['G',1.15],['GG',1.3]];
+    const sizeChips=SIZES.map(([label,k])=>{const on=s.fontScale===k;return{label,onClick:()=>this.setState({fontScale:k}),bg:on?'#E8F0FE':'#fff',color:on?'#0B57D0':'#5F6368',bd:on?'#0B57D0':'#DADCE0'};});
+    const FCOLORS=[[null,'Tema'],['#FFFFFF','Branco'],['#202124','Preto'],['#C9A24B','Dourado'],['#1A73E8','Azul'],['#E1352E','Vermelho'],['#12A46B','Verde'],['#E23C8A','Rosa']];
+    const fontColorChips=FCOLORS.map(([hex,label])=>{const on=s.fontColor===hex;return{hex:hex||'#F1F3F4',label,onClick:()=>this.setState({fontColor:hex}),ring:on?'2px':'0px',check:on?'check':(hex?'':'format_color_reset'),checkColor:hex==='#FFFFFF'||!hex?'#5F6368':'#fff'};});
+    if(s.fontSel) activeT={...activeT, headFont:s.fontSel};
+    if(s.fontScale!==1){
+      const esc=v=>typeof v==='string'?v.replace(/^([\d.]+)/,n=>(parseFloat(n)*s.fontScale).toFixed(2)):v;
+      activeT={...activeT, headSize:esc(activeT.headSize), headSizeL:esc(activeT.headSizeL)};
+    }
+    if(s.fontColor) activeT={...activeT, headColor:s.fontColor};
     // arte de fundo da biblioteca: aplica sobre o tema ativo com scrim central p/ contraste
     const artSegOf=(seg)=>this.ART2SEG[seg]||seg;
     const artsAll=s.arts||[];
@@ -356,7 +417,11 @@ class Component extends DCLogic {
       clearArt:()=>this.setState({artSel:null}), noArtRing:s.artSel?'#DADCE0':'#1A73E8',
       activeTags:(this.SEG[this.TEMPLATES[s.tpl].name]||[]).map(id=>{const e=this.SEGMENTS.find(x=>x[0]===id);return e?e[1]:id;}).join(' · '), templateCount:this.TEMPLATES.length, shownCount:templates.length,
       activeTemplate:activeT, activeName:this.TEMPLATES[s.tpl].name, activeFormat:f, accentSwatches,
-      content:s.content, showStars:s.showStars, showLogo:s.showLogo,
+      content:{...s.content, logoUrl:s.logoUrl}, showStars:s.showStars, showLogo:s.showLogo,
+      fontChips, sizeChips, fontColorChips,
+      temLogo:!!s.logoUrl, semLogo:!s.logoUrl, logoPreview:s.logoUrl||'',
+      onLogoFile:(e)=>{ const f=e.target&&e.target.files&&e.target.files[0]; if(!f) return; const rd=new FileReader(); rd.onload=(ev)=>{ this.setState({logoUrl:ev.target.result}); this.toast('Logo aplicado no cartão'); }; rd.readAsDataURL(f); },
+      removerLogo:()=>{ this.setState({logoUrl:null}); this.toast('Logo removido — voltou para as iniciais'); },
       previewW:pxW+'px', previewH:pxH+'px',
       starsTrack:s.showStars?'#1A73E8':'#DADCE0', starsKnob:s.showStars?'21px':'3px', toggleStars:()=>this.setState(st=>({showStars:!st.showStars})),
       logoTrack:s.showLogo?'#1A73E8':'#DADCE0', logoKnob:s.showLogo?'21px':'3px', toggleLogo:()=>this.setState(st=>({showLogo:!st.showLogo})),
