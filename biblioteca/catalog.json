@@ -1,0 +1,25 @@
+{
+  "versao": "0.1-piloto",
+  "gerado_em": "2026-07-23",
+  "formato_mestre": "1024x1536 (2:3 retrato)",
+  "recolor": "duotone — sombra = cor escura da marca, luz = cor clara da marca",
+  "bases": [
+    {
+      "id": "joalheria-escuro-01",
+      "segmento": "joalheria",
+      "estilo": "premium-escuro",
+      "tags": ["aneis", "ouro", "gemas", "brilho", "vinheta"],
+      "tom_base": "preto-dourado",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "joalheria/escuro-01.png"
+    }
+  ],
+  "pendentes_piloto": [
+    {"segmento": "tecnologia-internet", "estilo": "premium-escuro", "status": "gerada no ChatGPT, aguardando download"},
+    {"segmento": "automotivo", "estilo": "premium-escuro", "status": "gerada no ChatGPT, aguardando download"},
+    {"segmento": "seguranca-eletronica", "estilo": "premium-escuro", "status": "prompt preparado, aguardando envio"},
+    {"segmento": "celular-assistencia", "estilo": "premium-escuro", "status": "prompt preparado, aguardando envio"},
+    {"segmento": "distribuidora-corporativo", "estilo": "clean-claro", "status": "prompt preparado, aguardando envio"}
+  ]
+}
