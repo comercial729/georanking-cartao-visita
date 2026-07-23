@@ -1,8 +1,9 @@
 {
-  "versao": "0.1-piloto",
+  "versao": "1.0-fase1",
   "gerado_em": "2026-07-23",
   "formato_mestre": "1024x1536 (2:3 retrato)",
   "recolor": "duotone — sombra = cor escura da marca, luz = cor clara da marca",
+  "regras": "centro livre para conteúdo; QR sempre real sobreposto; marca d'água pin GeoRanking obrigatória na arte final",
   "bases": [
     {
       "id": "joalheria-escuro-01",
@@ -13,13 +14,62 @@
       "recolor": "duotone",
       "centro_livre": true,
       "arquivo": "joalheria/escuro-01.png"
+    },
+    {
+      "id": "tecnologia-internet-escuro-01",
+      "segmento": "tecnologia-internet",
+      "estilo": "premium-escuro",
+      "tags": ["fibra-optica", "ondas-de-luz", "azul", "brilho-ciano"],
+      "tom_base": "azul-marinho",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "tecnologia-internet/escuro-01.png"
+    },
+    {
+      "id": "automotivo-escuro-01",
+      "segmento": "automotivo",
+      "estilo": "premium-escuro",
+      "tags": ["fibra-de-carbono", "disco-de-freio", "pistao", "chave", "metal"],
+      "tom_base": "grafite",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "automotivo/escuro-01.png"
+    },
+    {
+      "id": "seguranca-eletronica-escuro-01",
+      "segmento": "seguranca-eletronica",
+      "estilo": "premium-escuro",
+      "tags": ["cameras-dome", "feixes-de-luz", "escudo", "lente"],
+      "tom_base": "azul-petroleo",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "seguranca-eletronica/escuro-01.png"
+    },
+    {
+      "id": "celular-assistencia-escuro-01",
+      "segmento": "celular-assistencia",
+      "estilo": "premium-escuro",
+      "tags": ["smartphones", "chips", "circuito", "usb-c", "sim"],
+      "tom_base": "azul-meia-noite",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "celular-assistencia/escuro-01.png"
+    },
+    {
+      "id": "distribuidora-corporativo-claro-01",
+      "segmento": "distribuidora-corporativo",
+      "estilo": "clean-claro",
+      "tags": ["swoosh-vermelho", "impressora", "papel", "outline", "branco"],
+      "tom_base": "branco-vermelho",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "distribuidora-corporativo/claro-01.png"
     }
   ],
-  "pendentes_piloto": [
-    {"segmento": "tecnologia-internet", "estilo": "premium-escuro", "status": "gerada no ChatGPT, aguardando download"},
-    {"segmento": "automotivo", "estilo": "premium-escuro", "status": "gerada no ChatGPT, aguardando download"},
-    {"segmento": "seguranca-eletronica", "estilo": "premium-escuro", "status": "prompt preparado, aguardando envio"},
-    {"segmento": "celular-assistencia", "estilo": "premium-escuro", "status": "prompt preparado, aguardando envio"},
-    {"segmento": "distribuidora-corporativo", "estilo": "clean-claro", "status": "prompt preparado, aguardando envio"}
-  ]
+  "proximas_fases": {
+    "fase1_expandir": "mais 2 estilos por segmento (clean-claro e vibrante) + 1 variação extra por estilo",
+    "fase2_segmentos": ["food", "beleza-estetica", "saude-clinicas", "casa-construcao", "pet", "moda-varejo"],
+    "pack_universal": "12 bases neutras (gradientes, texturas, geometrico, luxo escuro, clean claro)",
+    "sazonais": ["natal", "black-friday", "dia-das-maes", "dia-dos-pais"]
+  }
 }
