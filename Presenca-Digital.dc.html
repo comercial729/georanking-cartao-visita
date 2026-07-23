@@ -472,15 +472,18 @@ a{color:inherit;text-decoration:none;}
 .rc-brand .rcb-cat{font-size:9px;opacity:.82;letter-spacing:.3px;}
 .rc-stars{font-size:18px;letter-spacing:3px;margin-bottom:10px;line-height:1;}
 .rc-headline{font-size:27px;font-weight:800;line-height:1.05;letter-spacing:-.5px;margin-bottom:9px;}
-.rc-sub{font-size:11.5px;line-height:1.45;opacity:.9;margin-bottom:15px;max-width:210px;}
-.rc-qr{width:120px;height:120px;background:#fff;border-radius:12px;padding:8px;display:grid;place-items:center;margin-bottom:13px;}
+.rc-sub{font-size:11.5px;line-height:1.45;opacity:.9;margin-bottom:12px;max-width:210px;}
+.rc-qr{width:114px;height:114px;background:#fff;border-radius:12px;padding:8px;display:grid;place-items:center;margin-bottom:11px;}
 .rc-qr svg{display:block;width:100%;height:100%;}
 .rc-cta{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:9px 18px;border-radius:99px;margin-bottom:9px;box-shadow:0 3px 10px rgba(0,0,0,.18);}
 .rc-foot{font-size:8.5px;line-height:1.5;opacity:.8;}
 .rc-foot b{display:block;font-size:9.5px;opacity:1;margin-top:2px;letter-spacing:.3px;}
+/* marca d'água GeoRanking — só o pin, discreto, assina toda arte */
+.rc-mark{margin-top:6px;display:flex;align-items:center;justify-content:center;opacity:.5;}
+.rc-mark svg{width:11px;height:11px;display:block;}
 
 /* ---- ESTILO: Elegante / Luxo ---- */
-.style-elegante .rc-headline{font-family:"Playfair Display",serif;font-weight:700;font-size:30px;letter-spacing:0;}
+.style-elegante .rc-headline{font-family:"Playfair Display",serif;font-weight:700;font-size:28px;letter-spacing:0;}
 .style-elegante .rcb-name{font-family:"Playfair Display",serif;}
 .style-elegante .rc-sub{letter-spacing:.2px;}
 .style-elegante .rc-qr{box-shadow:0 0 0 3px var(--acc),0 6px 16px rgba(0,0,0,.45);}
@@ -517,7 +520,8 @@ a{color:inherit;text-decoration:none;}
 /* ---- ESTILO: Corporativo Clean ---- */
 .style-clean .rc-headline{font-weight:800;}
 .style-clean .rc-headline .g{color:var(--acc);}
-.style-clean .rc-body{justify-content:center;padding-top:40px;}
+.style-clean .rc-body{justify-content:center;padding:30px 22px 15px;}
+.style-clean .rc-headline{font-size:25px;}
 .style-clean .rc-qr{box-shadow:0 0 0 2px var(--acc),0 6px 14px rgba(0,0,0,.12);}
 .style-clean .rc-swoosh{position:absolute;top:0;left:0;width:100%;height:92px;display:block;}
 .style-clean .rc-deco::after{content:"";position:absolute;bottom:0;left:0;right:0;height:7px;background:var(--acc);}
@@ -2076,6 +2080,7 @@ function renderReviewCard(){
       <div class="rc-qr">${qrSVG(9,104)}</div>
       <div class="rc-cta" style="background:${t.btnBg};color:${t.btnInk}"><span class="material-symbols-rounded" style="font-size:14px">photo_camera</span>${tx.cta||''}</div>
       <div class="rc-foot">Aponte a câmera do celular para o QR Code<b>g.page/csa</b></div>
+      <div class="rc-mark" title="GeoRanking"><svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c-3.87 0-7 3.13-7 7 0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z"/></svg></div>
     </div>` + rcFrame(t);
 }
 let aiLogoReady=false;

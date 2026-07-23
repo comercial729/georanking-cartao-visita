@@ -15,6 +15,9 @@ Protótipo navegável de alta fidelidade (arquivo único) da feature **Presença
 - **Compartilhar** — link, WhatsApp, QR (baixar/testar) e **Cartão NFC** (gravação real via Web NFC no Chrome/Android).
 - **Desempenho** — métricas 7/30/90 dias (UI).
 
+## 📌 Brief ativo para o Claude Design
+Ver **[BRIEF_BIBLIOTECA_ARTES.md](BRIEF_BIBLIOTECA_ARTES.md)** — especificação completa da biblioteca de artes por segmento (regras das bases, prompt kit, recolorização duotone, marca d'água com o pin GeoRanking, catálogo JSON e checklist de aceite).
+
 ## O que gostaríamos de aprimorar (foco visual)
 Buscamos um acabamento **nível time de design profissional, moderno e premium**, mantendo **simplicidade de uso**:
 1. Hierarquia visual, espaçamento e tipografia dos editores e da Visão geral.
