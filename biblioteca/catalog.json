@@ -1,75 +1,352 @@
 {
-  "versao": "1.0-fase1",
+  "versao": "2.0-fase1-completa",
   "gerado_em": "2026-07-23",
   "formato_mestre": "1024x1536 (2:3 retrato)",
   "recolor": "duotone — sombra = cor escura da marca, luz = cor clara da marca",
-  "regras": "centro livre para conteúdo; QR sempre real sobreposto; marca d'água pin GeoRanking obrigatória na arte final",
+  "regras": "centro livre para conteudo; QR sempre real sobreposto; marca dagua pin GeoRanking obrigatoria na arte final",
+  "total_bases": 36,
+  "estilos_por_segmento": "premium-escuro (x2), clean-claro, vibrante, minimalista, cor-alternativa",
   "bases": [
     {
-      "id": "joalheria-escuro-01",
-      "segmento": "joalheria",
-      "estilo": "premium-escuro",
-      "tags": ["aneis", "ouro", "gemas", "brilho", "vinheta"],
-      "tom_base": "preto-dourado",
+      "id": "automotivo-alt-01",
+      "segmento": "automotivo",
+      "estilo": "cor-alternativa",
+      "tom_base": "grafite-vermelho",
       "recolor": "duotone",
       "centro_livre": true,
-      "arquivo": "joalheria/escuro-01.png"
+      "arquivo": "automotivo/alt-01.png"
     },
     {
-      "id": "tecnologia-internet-escuro-01",
-      "segmento": "tecnologia-internet",
-      "estilo": "premium-escuro",
-      "tags": ["fibra-optica", "ondas-de-luz", "azul", "brilho-ciano"],
-      "tom_base": "azul-marinho",
+      "id": "automotivo-claro-01",
+      "segmento": "automotivo",
+      "estilo": "clean-claro",
+      "tom_base": "grafite-vermelho",
       "recolor": "duotone",
       "centro_livre": true,
-      "arquivo": "tecnologia-internet/escuro-01.png"
+      "arquivo": "automotivo/claro-01.png"
     },
     {
       "id": "automotivo-escuro-01",
       "segmento": "automotivo",
       "estilo": "premium-escuro",
-      "tags": ["fibra-de-carbono", "disco-de-freio", "pistao", "chave", "metal"],
-      "tom_base": "grafite",
+      "tom_base": "grafite-vermelho",
       "recolor": "duotone",
       "centro_livre": true,
       "arquivo": "automotivo/escuro-01.png"
     },
     {
+      "id": "automotivo-escuro-02",
+      "segmento": "automotivo",
+      "estilo": "premium-escuro",
+      "tom_base": "grafite-vermelho",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "automotivo/escuro-02.png"
+    },
+    {
+      "id": "automotivo-minimal-01",
+      "segmento": "automotivo",
+      "estilo": "minimalista",
+      "tom_base": "grafite-vermelho",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "automotivo/minimal-01.png"
+    },
+    {
+      "id": "automotivo-vibrante-01",
+      "segmento": "automotivo",
+      "estilo": "vibrante",
+      "tom_base": "grafite-vermelho",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "automotivo/vibrante-01.png"
+    },
+    {
+      "id": "celular-assistencia-alt-01",
+      "segmento": "celular-assistencia",
+      "estilo": "cor-alternativa",
+      "tom_base": "azul",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "celular-assistencia/alt-01.png"
+    },
+    {
+      "id": "celular-assistencia-claro-01",
+      "segmento": "celular-assistencia",
+      "estilo": "clean-claro",
+      "tom_base": "azul",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "celular-assistencia/claro-01.png"
+    },
+    {
+      "id": "celular-assistencia-escuro-01",
+      "segmento": "celular-assistencia",
+      "estilo": "premium-escuro",
+      "tom_base": "azul",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "celular-assistencia/escuro-01.png"
+    },
+    {
+      "id": "celular-assistencia-escuro-02",
+      "segmento": "celular-assistencia",
+      "estilo": "premium-escuro",
+      "tom_base": "azul",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "celular-assistencia/escuro-02.png"
+    },
+    {
+      "id": "celular-assistencia-minimal-01",
+      "segmento": "celular-assistencia",
+      "estilo": "minimalista",
+      "tom_base": "azul",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "celular-assistencia/minimal-01.png"
+    },
+    {
+      "id": "celular-assistencia-vibrante-01",
+      "segmento": "celular-assistencia",
+      "estilo": "vibrante",
+      "tom_base": "azul",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "celular-assistencia/vibrante-01.png"
+    },
+    {
+      "id": "distribuidora-corporativo-claro-01",
+      "segmento": "distribuidora-corporativo",
+      "estilo": "clean-claro",
+      "tom_base": "vermelho-branco",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "distribuidora-corporativo/claro-01.png"
+    },
+    {
+      "id": "distribuidora-corporativo-claro-02",
+      "segmento": "distribuidora-corporativo",
+      "estilo": "clean-claro",
+      "tom_base": "vermelho-branco",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "distribuidora-corporativo/claro-02.png"
+    },
+    {
+      "id": "distribuidora-corporativo-claro-03",
+      "segmento": "distribuidora-corporativo",
+      "estilo": "clean-claro",
+      "tom_base": "vermelho-branco",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "distribuidora-corporativo/claro-03.png"
+    },
+    {
+      "id": "distribuidora-corporativo-escuro-01",
+      "segmento": "distribuidora-corporativo",
+      "estilo": "premium-escuro",
+      "tom_base": "vermelho-branco",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "distribuidora-corporativo/escuro-01.png"
+    },
+    {
+      "id": "distribuidora-corporativo-minimal-01",
+      "segmento": "distribuidora-corporativo",
+      "estilo": "minimalista",
+      "tom_base": "vermelho-branco",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "distribuidora-corporativo/minimal-01.png"
+    },
+    {
+      "id": "distribuidora-corporativo-vibrante-01",
+      "segmento": "distribuidora-corporativo",
+      "estilo": "vibrante",
+      "tom_base": "vermelho-branco",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "distribuidora-corporativo/vibrante-01.png"
+    },
+    {
+      "id": "joalheria-alt-01",
+      "segmento": "joalheria",
+      "estilo": "cor-alternativa",
+      "tom_base": "dourado",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "joalheria/alt-01.png"
+    },
+    {
+      "id": "joalheria-claro-01",
+      "segmento": "joalheria",
+      "estilo": "clean-claro",
+      "tom_base": "dourado",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "joalheria/claro-01.png"
+    },
+    {
+      "id": "joalheria-escuro-01",
+      "segmento": "joalheria",
+      "estilo": "premium-escuro",
+      "tom_base": "dourado",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "joalheria/escuro-01.png"
+    },
+    {
+      "id": "joalheria-escuro-02",
+      "segmento": "joalheria",
+      "estilo": "premium-escuro",
+      "tom_base": "dourado",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "joalheria/escuro-02.png"
+    },
+    {
+      "id": "joalheria-minimal-01",
+      "segmento": "joalheria",
+      "estilo": "minimalista",
+      "tom_base": "dourado",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "joalheria/minimal-01.png"
+    },
+    {
+      "id": "joalheria-vibrante-01",
+      "segmento": "joalheria",
+      "estilo": "vibrante",
+      "tom_base": "dourado",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "joalheria/vibrante-01.png"
+    },
+    {
+      "id": "seguranca-eletronica-alt-01",
+      "segmento": "seguranca-eletronica",
+      "estilo": "cor-alternativa",
+      "tom_base": "azul-petroleo",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "seguranca-eletronica/alt-01.png"
+    },
+    {
+      "id": "seguranca-eletronica-claro-01",
+      "segmento": "seguranca-eletronica",
+      "estilo": "clean-claro",
+      "tom_base": "azul-petroleo",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "seguranca-eletronica/claro-01.png"
+    },
+    {
       "id": "seguranca-eletronica-escuro-01",
       "segmento": "seguranca-eletronica",
       "estilo": "premium-escuro",
-      "tags": ["cameras-dome", "feixes-de-luz", "escudo", "lente"],
       "tom_base": "azul-petroleo",
       "recolor": "duotone",
       "centro_livre": true,
       "arquivo": "seguranca-eletronica/escuro-01.png"
     },
     {
-      "id": "celular-assistencia-escuro-01",
-      "segmento": "celular-assistencia",
+      "id": "seguranca-eletronica-escuro-02",
+      "segmento": "seguranca-eletronica",
       "estilo": "premium-escuro",
-      "tags": ["smartphones", "chips", "circuito", "usb-c", "sim"],
-      "tom_base": "azul-meia-noite",
+      "tom_base": "azul-petroleo",
       "recolor": "duotone",
       "centro_livre": true,
-      "arquivo": "celular-assistencia/escuro-01.png"
+      "arquivo": "seguranca-eletronica/escuro-02.png"
     },
     {
-      "id": "distribuidora-corporativo-claro-01",
-      "segmento": "distribuidora-corporativo",
-      "estilo": "clean-claro",
-      "tags": ["swoosh-vermelho", "impressora", "papel", "outline", "branco"],
-      "tom_base": "branco-vermelho",
+      "id": "seguranca-eletronica-minimal-01",
+      "segmento": "seguranca-eletronica",
+      "estilo": "minimalista",
+      "tom_base": "azul-petroleo",
       "recolor": "duotone",
       "centro_livre": true,
-      "arquivo": "distribuidora-corporativo/claro-01.png"
+      "arquivo": "seguranca-eletronica/minimal-01.png"
+    },
+    {
+      "id": "seguranca-eletronica-vibrante-01",
+      "segmento": "seguranca-eletronica",
+      "estilo": "vibrante",
+      "tom_base": "azul-petroleo",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "seguranca-eletronica/vibrante-01.png"
+    },
+    {
+      "id": "tecnologia-internet-alt-01",
+      "segmento": "tecnologia-internet",
+      "estilo": "cor-alternativa",
+      "tom_base": "azul",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "tecnologia-internet/alt-01.png"
+    },
+    {
+      "id": "tecnologia-internet-claro-01",
+      "segmento": "tecnologia-internet",
+      "estilo": "clean-claro",
+      "tom_base": "azul",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "tecnologia-internet/claro-01.png"
+    },
+    {
+      "id": "tecnologia-internet-escuro-01",
+      "segmento": "tecnologia-internet",
+      "estilo": "premium-escuro",
+      "tom_base": "azul",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "tecnologia-internet/escuro-01.png"
+    },
+    {
+      "id": "tecnologia-internet-escuro-02",
+      "segmento": "tecnologia-internet",
+      "estilo": "premium-escuro",
+      "tom_base": "azul",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "tecnologia-internet/escuro-02.png"
+    },
+    {
+      "id": "tecnologia-internet-minimal-01",
+      "segmento": "tecnologia-internet",
+      "estilo": "minimalista",
+      "tom_base": "azul",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "tecnologia-internet/minimal-01.png"
+    },
+    {
+      "id": "tecnologia-internet-vibrante-01",
+      "segmento": "tecnologia-internet",
+      "estilo": "vibrante",
+      "tom_base": "azul",
+      "recolor": "duotone",
+      "centro_livre": true,
+      "arquivo": "tecnologia-internet/vibrante-01.png"
     }
   ],
   "proximas_fases": {
-    "fase1_expandir": "mais 2 estilos por segmento (clean-claro e vibrante) + 1 variação extra por estilo",
-    "fase2_segmentos": ["food", "beleza-estetica", "saude-clinicas", "casa-construcao", "pet", "moda-varejo"],
+    "fase2_segmentos": [
+      "food",
+      "beleza-estetica",
+      "saude-clinicas",
+      "casa-construcao",
+      "pet",
+      "moda-varejo"
+    ],
     "pack_universal": "12 bases neutras (gradientes, texturas, geometrico, luxo escuro, clean claro)",
-    "sazonais": ["natal", "black-friday", "dia-das-maes", "dia-dos-pais"]
+    "sazonais": [
+      "natal",
+      "black-friday",
+      "dia-das-maes",
+      "dia-dos-pais"
+    ]
   }
 }
