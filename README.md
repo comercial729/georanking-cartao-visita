@@ -5,6 +5,8 @@ Protótipo navegável de alta fidelidade (arquivo único) da feature **Presença
 **Abrir:** `index.html` (mesmo conteúdo de `Presenca-Digital.dc.html`). HTML/CSS/JS puro, sem build. Fontes e ícones via Google Fonts (precisa de internet).
 **Navegar:** botão flutuante **"Telas do protótipo"** (canto inferior direito) leva a todas as telas e estados. As sub-abas no topo também navegam.
 
+**Modo embed:** abra com `?embed=1` (ex.: `index.html?embed=1`) para ver **só a feature**, sem o cabeçalho azul "Gerenciar Perfil", a navegação global e o rodapé — que são o chrome do **modal real** do GeoRanking. É assim que a Presença Digital entra no sistema.
+
 ## Módulos
 - **Visão geral** + primeiro acesso (nunca abre vazio; já vem pré-preenchido pelo Perfil).
 - **Cartão Digital** — editor (edição à esquerda, preview mobile ao vivo à direita) + página pública.
