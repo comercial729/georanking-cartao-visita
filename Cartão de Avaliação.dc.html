@@ -55,20 +55,40 @@
       <!-- ===== LEFT ===== -->
       <div style="flex:1;min-width:min(100%,440px);display:flex;flex-direction:column;gap:20px">
 
-        <!-- brand IA panel -->
-        <div style="background:linear-gradient(135deg,#0B57D0,#1A73E8);color:#fff;border-radius:12px;padding:22px;display:flex;gap:16px;align-items:center;flex-wrap:wrap">
-          <div style="width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-family:'Material Symbols Rounded';font-size:24px;line-height:1">auto_awesome</span></div>
-          <div style="flex:1;min-width:200px"><div style="font-size:15px;font-weight:600">Design a partir da marca</div><div style="font-size:12.5px;opacity:.9;line-height:18px;margin-top:2px">Suba seu logo — a IA lê as cores, sugere o estilo ideal e ajusta o logo para o cartão.</div></div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button onClick="{{ aiGenerate }}" style="height:40px;padding:0 15px;border-radius:8px;border:none;background:#fff;color:#0B57D0;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px"><span style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1">upload</span>Gerar design da marca</button>
-            <button onClick="{{ aiLogo }}" style="height:40px;padding:0 15px;border-radius:8px;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">Melhorar logo</button>
+        <!-- PASSO 1 · Sua marca (logo primeiro) -->
+        <div style="background:#fff;border:1px solid #DADCE0;border-radius:12px;padding:22px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><div style="width:24px;height:24px;border-radius:999px;background:#1A73E8;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div><span style="font-size:16px;font-weight:600">Sua marca</span></div>
+          <div style="font-size:12.5px;color:#80868B;margin-bottom:16px">Comece pelo logo — ele aparece no topo do cartão. Nome e categoria vêm do Perfil.</div>
+          <div style="display:flex;align-items:center;gap:14px">
+            <sc-if value="{{ temLogo }}" hint-placeholder-val="{{ false }}">
+              <div style="width:64px;height:64px;border-radius:14px;background:#fff;border:1px solid #DADCE0;display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="{{ logoPreview }}" style="width:84%;height:84%;object-fit:contain" alt="logo"></div>
+            </sc-if>
+            <sc-if value="{{ semLogo }}" hint-placeholder-val="{{ true }}">
+              <div style="width:64px;height:64px;border-radius:14px;background:#F1F3F4;border:1.5px dashed #BDC1C6;display:flex;align-items:center;justify-content:center;color:#80868B"><span style="font-family:'Material Symbols Rounded';font-size:28px;line-height:1">add_photo_alternate</span></div>
+            </sc-if>
+            <div style="flex:1;min-width:0">
+              <label style="display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px;border-radius:8px;background:#1A73E8;color:#fff;font-size:14px;font-weight:600;cursor:pointer">
+                <span style="font-family:'Material Symbols Rounded';font-size:19px;line-height:1">upload</span>Subir logo
+                <input type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" onChange="{{ onLogoFile }}" style="display:none">
+              </label>
+              <sc-if value="{{ temLogo }}" hint-placeholder-val="{{ false }}">
+                <div onClick="{{ removerLogo }}" style="display:inline-flex;align-items:center;gap:6px;height:42px;padding:0 14px;margin-left:8px;border-radius:8px;border:1px solid #DADCE0;color:#5F6368;font-size:13px;font-weight:600;cursor:pointer;vertical-align:top"><span style="font-family:'Material Symbols Rounded';font-size:17px;line-height:1">delete</span>Remover</div>
+              </sc-if>
+              <div style="font-size:11.5px;color:#9AA0A6;margin-top:6px">PNG, JPG ou SVG · sem logo, usamos as iniciais {{ content.initials }}</div>
+            </div>
+          </div>
+          <div style="margin-top:16px;background:linear-gradient(135deg,#0B57D0,#1A73E8);color:#fff;border-radius:10px;padding:14px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+            <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;flex-shrink:0">auto_awesome</span>
+            <div style="flex:1;min-width:180px;font-size:12.5px;line-height:17px">Com o logo enviado, a IA lê as cores da marca e sugere o design ideal.</div>
+            <button onClick="{{ aiGenerate }}" style="height:36px;padding:0 14px;border-radius:8px;border:none;background:#fff;color:#0B57D0;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit">Gerar design da marca</button>
+            <button onClick="{{ aiLogo }}" style="height:36px;padding:0 12px;border-radius:8px;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit">Melhorar logo</button>
           </div>
         </div>
 
         <!-- templates -->
         <div style="background:#fff;border:1px solid #DADCE0;border-radius:12px;padding:22px">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div style="display:flex;align-items:center;gap:10px"><span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#1A73E8">style</span><span style="font-size:16px;font-weight:600">Modelos</span></div><span style="font-size:12px;color:#80868B">{{ shownCount }} de {{ templateCount }}</span></div>
-          <div style="font-size:12.5px;color:#80868B;margin-bottom:14px">8 motores de design premium. Filtre por estilo do seu negócio.</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div style="display:flex;align-items:center;gap:10px"><div style="width:24px;height:24px;border-radius:999px;background:#1A73E8;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div><span style="font-size:16px;font-weight:600">Escolha o visual</span></div><span style="font-size:12px;color:#80868B">{{ shownCount }} modelos</span></div>
+          <div style="font-size:12.5px;color:#80868B;margin-bottom:14px">Filtre pelo seu segmento, escolha um modelo e (se quiser) uma arte de fundo.</div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px">
             <sc-for list="{{ styleChips }}" as="sc" hint-placeholder-count="6"><div onClick="{{ sc.onClick }}" style="padding:8px 14px;border-radius:999px;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;background:{{ sc.bg }};color:{{ sc.color }};border:1px solid {{ sc.bd }}">{{ sc.label }}</div></sc-for>
           </div>
@@ -105,60 +125,30 @@
               </sc-for>
             </div>
           </div>
-        </div>
-
-        <!-- biblioteca de artes -->
-        <div style="background:#fff;border:1px solid #DADCE0;border-radius:12px;padding:22px">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-            <div style="display:flex;align-items:center;gap:10px"><span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#1A73E8">wallpaper</span><span style="font-size:16px;font-weight:600">Arte de fundo · Biblioteca</span></div>
-            <span style="font-size:12px;color:#80868B">{{ artShown }} de {{ artTotal }}</span>
-          </div>
-          <div style="font-size:12.5px;color:#80868B;margin-bottom:14px">Bases fotográficas premium por segmento. Conteúdo, QR e pin ficam por cima, com contraste garantido pelo próprio tema.</div>
-          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
-            <sc-for list="{{ artChips }}" as="ch" hint-placeholder-count="6">
-              <div onClick="{{ ch.onClick }}" style="padding:6px 12px;border-radius:999px;border:1px solid {{ ch.bd }};background:{{ ch.bg }};color:{{ ch.color }};font-size:12px;font-weight:600;cursor:pointer">{{ ch.label }}</div>
-            </sc-for>
-          </div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:10px">
-            <div onClick="{{ clearArt }}" style="aspect-ratio:2/3;border-radius:10px;border:2px solid {{ noArtRing }};background:#F8FAFD;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#5F6368">
-              <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1">block</span><span style="font-size:11px;font-weight:600">Sem arte</span>
+          <div style="margin-top:18px;padding-top:16px;border-top:1px solid #F1F3F4">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><span style="font-size:13px;font-weight:600;color:#5F6368">Arte de fundo (opcional)</span><span style="font-size:11.5px;color:#9AA0A6">{{ artShown }} artes do seu segmento</span></div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:10px">
+              <div onClick="{{ clearArt }}" style="aspect-ratio:2/3;border-radius:10px;border:2px solid {{ noArtRing }};background:#F8FAFD;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#5F6368">
+                <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1">block</span><span style="font-size:11px;font-weight:600">Sem arte</span>
+              </div>
+              <sc-for list="{{ artItems }}" as="ar" hint-placeholder-count="7">
+                <div onClick="{{ ar.onClick }}" title="{{ ar.id }}" style="aspect-ratio:2/3;border-radius:10px;border:2px solid {{ ar.ring }};background-image:url({{ ar.url }});background-size:cover;background-position:center;cursor:pointer;position:relative;overflow:hidden">
+                  <div style="position:absolute;left:0;right:0;bottom:0;padding:4px 6px;background:linear-gradient(transparent,rgba(0,0,0,.55));color:#fff;font-size:9.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ar.label }}</div>
+                </div>
+              </sc-for>
             </div>
-            <sc-for list="{{ artItems }}" as="ar" hint-placeholder-count="11">
-              <div onClick="{{ ar.onClick }}" title="{{ ar.id }}" style="aspect-ratio:2/3;border-radius:10px;border:2px solid {{ ar.ring }};background-image:url({{ ar.url }});background-size:cover;background-position:center;cursor:pointer;position:relative;overflow:hidden">
-                <div style="position:absolute;left:0;right:0;bottom:0;padding:4px 6px;background:linear-gradient(transparent,rgba(0,0,0,.55));color:#fff;font-size:9.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ar.label }}</div>
-              </div>
-            </sc-for>
           </div>
         </div>
 
-        <!-- format -->
+        <!-- PASSO 3 · Texto e fonte -->
         <div style="background:#fff;border:1px solid #DADCE0;border-radius:12px;padding:22px">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#1A73E8">crop</span><span style="font-size:16px;font-weight:600">Formato e dimensões</span></div>
-          <div style="font-size:12.5px;color:#80868B;margin-bottom:16px">Tamanhos ideais para diferentes tipos de negócio.</div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px">
-            <sc-for list="{{ formats }}" as="f" hint-placeholder-count="8">
-              <div onClick="{{ f.onClick }}" style="display:flex;align-items:center;gap:11px;padding:12px;border-radius:10px;border:2px solid {{ f.bd }};background:{{ f.bg }};cursor:pointer">
-                <div style="width:26px;height:26px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:{{ f.iconColor }}"><div style="border:2px solid currentColor;border-radius:3px;width:{{ f.glyphW }};height:{{ f.glyphH }}"></div></div>
-                <div style="min-width:0"><div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ f.name }}</div><div style="font-size:11px;color:#80868B">{{ f.dim }}</div></div>
-              </div>
-            </sc-for>
-          </div>
-        </div>
-
-        <!-- message presets -->
-        <div style="background:#fff;border:1px solid #DADCE0;border-radius:12px;padding:22px">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#1A73E8">chat_bubble</span><span style="font-size:16px;font-weight:600">Mensagem</span></div>
-          <div style="font-size:12.5px;color:#80868B;margin-bottom:16px">Frases prontas — clique para aplicar ou edite abaixo.</div>
-          <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><div style="width:24px;height:24px;border-radius:999px;background:#1A73E8;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div><span style="font-size:16px;font-weight:600">Texto e fonte</span></div>
+          <div style="font-size:12.5px;color:#80868B;margin-bottom:14px">Use uma frase pronta ou escreva a sua. Ajuste fonte, tamanho e cor do título.</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
             <sc-for list="{{ copyPresets }}" as="p" hint-placeholder-count="6">
-              <div onClick="{{ p.onClick }}" style="padding:12px 14px;border-radius:10px;border:1.5px solid {{ p.bd }};background:{{ p.bg }};cursor:pointer"><div style="font-size:13.5px;font-weight:600">{{ p.t }}</div><div style="font-size:12px;color:#5F6368;margin-top:2px">{{ p.s }}</div></div>
+              <div onClick="{{ p.onClick }}" title="{{ p.s }}" style="padding:7px 13px;border-radius:999px;border:1px solid {{ p.bd }};background:{{ p.bg }};font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap">{{ p.t }}</div>
             </sc-for>
           </div>
-        </div>
-
-        <!-- content -->
-        <div style="background:#fff;border:1px solid #DADCE0;border-radius:12px;padding:22px">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#1A73E8">edit</span><span style="font-size:16px;font-weight:600">Conteúdo</span></div>
           <div style="display:flex;flex-direction:column;gap:16px">
             <div><div style="font-size:12.5px;font-weight:600;color:#5F6368;margin-bottom:6px">Título</div><input value="{{ content.headline }}" onInput="{{ onHeadline }}" style="width:100%;height:44px;padding:0 14px;border-radius:8px;border:1px solid #DADCE0;font-size:14px;color:#202124"></div>
             <div><div style="font-size:12.5px;font-weight:600;color:#5F6368;margin-bottom:6px">Subtítulo</div><textarea value="{{ content.subcopy }}" onInput="{{ onSub }}" style="width:100%;min-height:64px;padding:10px 14px;border-radius:8px;border:1px solid #DADCE0;font-size:14px;color:#202124;resize:vertical"></textarea></div>
@@ -168,28 +158,7 @@
             </div>
             <div style="display:flex;align-items:center;gap:8px;padding:11px 13px;border-radius:8px;background:#F8FAFD;border:1px solid #E8EAED;font-size:12.5px;color:#5F6368"><span style="font-family:'Material Symbols Rounded';font-size:17px;line-height:1;color:#1A73E8">sync</span>Nome e logo vêm do Perfil · <span style="color:#1A73E8;font-weight:600;cursor:pointer">Editar no Perfil</span></div>
           </div>
-        </div>
-
-        <!-- logo e tipografia -->
-        <div style="background:#fff;border:1px solid #DADCE0;border-radius:12px;padding:22px">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#1A73E8">brush</span><span style="font-size:16px;font-weight:600">Logo e tipografia</span></div>
-          <div style="font-size:12.5px;color:#80868B;margin-bottom:16px">Suba o logo real do cliente e ajuste a fonte do título.</div>
-          <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
-            <sc-if value="{{ temLogo }}" hint-placeholder-val="{{ false }}">
-              <div style="width:56px;height:56px;border-radius:12px;background:#fff;border:1px solid #DADCE0;display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="{{ logoPreview }}" style="width:84%;height:84%;object-fit:contain" alt="logo"></div>
-            </sc-if>
-            <sc-if value="{{ semLogo }}" hint-placeholder-val="{{ true }}">
-              <div style="width:56px;height:56px;border-radius:12px;background:#F1F3F4;display:flex;align-items:center;justify-content:center;color:#80868B"><span style="font-family:'Material Symbols Rounded';font-size:26px;line-height:1">image</span></div>
-            </sc-if>
-            <label style="display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:8px;background:#1A73E8;color:#fff;font-size:13px;font-weight:600;cursor:pointer">
-              <span style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1">upload</span>Subir logo
-              <input type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" onChange="{{ onLogoFile }}" style="display:none">
-            </label>
-            <sc-if value="{{ temLogo }}" hint-placeholder-val="{{ false }}">
-              <div onClick="{{ removerLogo }}" style="display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px;border-radius:8px;border:1px solid #DADCE0;color:#5F6368;font-size:13px;font-weight:600;cursor:pointer"><span style="font-family:'Material Symbols Rounded';font-size:17px;line-height:1">delete</span>Remover</div>
-            </sc-if>
-          </div>
-          <div style="border-top:1px solid #F1F3F4;padding-top:16px">
+          <div style="margin-top:16px;padding-top:16px;border-top:1px solid #F1F3F4">
             <div style="font-size:12.5px;font-weight:600;color:#5F6368;margin-bottom:8px">Fonte do título</div>
             <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
               <sc-for list="{{ fontChips }}" as="fc" hint-placeholder-count="6">
@@ -217,9 +186,18 @@
           </div>
         </div>
 
-        <!-- options -->
+        <!-- PASSO 4 · Formato e acabamento -->
         <div style="background:#fff;border:1px solid #DADCE0;border-radius:12px;padding:22px">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#1A73E8">tune</span><span style="font-size:16px;font-weight:600">Opções</span></div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><div style="width:24px;height:24px;border-radius:999px;background:#1A73E8;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">4</div><span style="font-size:16px;font-weight:600">Formato e acabamento</span></div>
+          <div style="font-size:12.5px;color:#80868B;margin-bottom:16px">Escolha o tamanho de impressão e os detalhes finais.</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:8px">
+            <sc-for list="{{ formats }}" as="f" hint-placeholder-count="8">
+              <div onClick="{{ f.onClick }}" style="display:flex;align-items:center;gap:11px;padding:12px;border-radius:10px;border:2px solid {{ f.bd }};background:{{ f.bg }};cursor:pointer">
+                <div style="width:26px;height:26px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:{{ f.iconColor }}"><div style="border:2px solid currentColor;border-radius:3px;width:{{ f.glyphW }};height:{{ f.glyphH }}"></div></div>
+                <div style="min-width:0"><div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ f.name }}</div><div style="font-size:11px;color:#80868B">{{ f.dim }}</div></div>
+              </div>
+            </sc-for>
+          </div>
           <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0"><div><div style="font-size:14px;font-weight:500">Mostrar 5 estrelas</div><div style="font-size:12px;color:#80868B">Reforça o pedido de avaliação</div></div><div onClick="{{ toggleStars }}" style="width:44px;height:26px;border-radius:999px;background:{{ starsTrack }};position:relative;cursor:pointer"><div style="width:20px;height:20px;border-radius:999px;background:#fff;position:absolute;top:3px;left:{{ starsKnob }};box-shadow:0 1px 2px rgba(60,64,67,.3);transition:left .18s"></div></div></div>
           <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid #F1F3F4"><div><div style="font-size:14px;font-weight:500">Mostrar logo e nome</div><div style="font-size:12px;color:#80868B">Identidade da empresa no cartão</div></div><div onClick="{{ toggleLogo }}" style="width:44px;height:26px;border-radius:999px;background:{{ logoTrack }};position:relative;cursor:pointer"><div style="width:20px;height:20px;border-radius:999px;background:#fff;position:absolute;top:3px;left:{{ logoKnob }};box-shadow:0 1px 2px rgba(60,64,67,.3);transition:left .18s"></div></div></div>
         </div>
@@ -391,11 +369,11 @@ class Component extends DCLogic {
     }
     if(s.fontColor) activeT={...activeT, headColor:s.fontColor};
     // arte de fundo da biblioteca: aplica sobre o tema ativo com scrim central p/ contraste
+    // arte segue o MESMO filtro de segmento dos modelos (um filtro só, fluxo mais simples)
     const artSegOf=(seg)=>this.ART2SEG[seg]||seg;
     const artsAll=s.arts||[];
-    const artFiltered=artsAll.filter(a=>s.artFilter==='all'||artSegOf(a.segmento)===s.artFilter);
+    const artFiltered=artsAll.filter(a=>s.segFilter==='all'||artSegOf(a.segmento)===s.segFilter);
     const artItems=artFiltered.map(a=>({id:a.id,label:a.estilo,url:'biblioteca/'+a.arquivo,ring:(s.artSel&&s.artSel.id===a.id)?'#1A73E8':'transparent',onClick:()=>this.setState({artSel:a})}));
-    const artChips=this.SEGMENTS.map(([id,label])=>{const on=s.artFilter===id;return{label:id==='all'?'Todos':label,onClick:()=>this.setState({artFilter:id}),bg:on?'#E8F0FE':'#fff',color:on?'#0B57D0':'#80868B',bd:on?'#0B57D0':'#E8EAED'};});
     if(s.artSel){
       const hex=(typeof activeT.bg==='string'&&activeT.bg.charAt(0)==='#'&&activeT.bg.length===7)?activeT.bg:null;
       const scrim=hex
@@ -413,7 +391,7 @@ class Component extends DCLogic {
     else { pxH=540; pxW=Math.round(pxH*f.w/f.h); if(pxW>580){pxW=580;pxH=Math.round(pxW*f.h/f.w);} }
     return {
       styleChips, segChips, templates, formats, copyPresets,
-      artChips, artItems, artShown:artItems.length, artTotal:artsAll.length,
+      artItems, artShown:artItems.length, artTotal:artsAll.length,
       clearArt:()=>this.setState({artSel:null}), noArtRing:s.artSel?'#DADCE0':'#1A73E8',
       activeTags:(this.SEG[this.TEMPLATES[s.tpl].name]||[]).map(id=>{const e=this.SEGMENTS.find(x=>x[0]===id);return e?e[1]:id;}).join(' · '), templateCount:this.TEMPLATES.length, shownCount:templates.length,
       activeTemplate:activeT, activeName:this.TEMPLATES[s.tpl].name, activeFormat:f, accentSwatches,
