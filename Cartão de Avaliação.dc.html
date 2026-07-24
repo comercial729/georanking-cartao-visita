@@ -111,6 +111,7 @@
                 <div style="aspect-ratio:105/148;border-radius:10px;overflow:hidden;border:2.5px solid {{ tp.ring }};box-shadow:0 1px 3px rgba(60,64,67,.14);position:relative;background:{{ tp.bg }};display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:13px 9px">
                   <sc-if value="{{ tp.showBar }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:0;left:0;right:0;height:8px;background:{{ tp.accent }}"></div></sc-if>
                   <sc-if value="{{ tp.showFrame }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;inset:6px;border:1px solid {{ tp.accent }};opacity:.6"></div></sc-if>
+                  <sc-if value="{{ tp.blank }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;inset:5px;border:1.5px dashed #BDC1C6;border-radius:7px"></div></sc-if>
                   <div style="display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;margin-top:{{ tp.headTop }}">
                     <div style="font-family:{{ tp.headFont }};font-size:9px;font-weight:700;color:{{ tp.ink }}">{{ tp.initials }}</div>
                     <div style="display:flex;gap:1px;color:{{ tp.star }};font-size:10px;line-height:1;letter-spacing:1px">★★★★★</div>
@@ -189,9 +190,21 @@
               </div>
               <div>
                 <div style="font-size:12.5px;font-weight:600;color:#5F6368;margin-bottom:8px">Cor do título</div>
-                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
                   <sc-for list="{{ fontColorChips }}" as="cc" hint-placeholder-count="8">
                     <div onClick="{{ cc.onClick }}" title="{{ cc.label }}" style="width:30px;height:30px;border-radius:999px;background:{{ cc.hex }};border:1px solid #DADCE0;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff,0 0 0 {{ cc.ring }} #1A73E8"><span style="font-family:'Material Symbols Rounded';font-size:16px;line-height:1;color:{{ cc.checkColor }}">{{ cc.check }}</span></div>
+                  </sc-for>
+                  <label title="Cor personalizada" style="width:30px;height:30px;border-radius:999px;border:1px solid #DADCE0;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;box-shadow:0 0 0 2px #fff,0 0 0 {{ customRing }} #1A73E8;background:conic-gradient(#F5852B,#E1352E,#E23C8A,#8A6BFF,#1A73E8,#12A46B,#F5B301,#F5852B)">
+                    <span style="font-family:'Material Symbols Rounded';font-size:15px;line-height:1;color:#fff;text-shadow:0 0 2px rgba(0,0,0,.5)">colorize</span>
+                    <input type="color" value="{{ fontColorCustom }}" onInput="{{ onFontColorCustom }}" style="position:absolute;inset:0;opacity:0;cursor:pointer">
+                  </label>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:12.5px;font-weight:600;color:#5F6368;margin-bottom:8px">Sombra do texto</div>
+                <div style="display:flex;gap:6px">
+                  <sc-for list="{{ shadowChips }}" as="sh" hint-placeholder-count="3">
+                    <div onClick="{{ sh.onClick }}" style="padding:7px 13px;border-radius:999px;border:1px solid {{ sh.bd }};background:{{ sh.bg }};color:{{ sh.color }};font-size:12.5px;font-weight:600;cursor:pointer">{{ sh.label }}</div>
                   </sc-for>
                 </div>
               </div>
@@ -304,6 +317,8 @@ class Component extends DCLogic {
       {name:'Pôr do Sol', style:'gradient', t:mk('gradient',{bg:'linear-gradient(150deg,#FF6A88,#FF9A44)',ink:'#FFFFFF',sub:'rgba(255,255,255,.85)',faint:'rgba(255,255,255,.62)',accent:'#FFFFFF',acc2:'#FFD36A',onAccent:'#C23A4E',star:'#FFF1B8',qrBg:'#FFFFFF',qrModule:'#B83A4E',ctaBg:'#FFFFFF',ctaInk:'#C23A4E',eyebrow:'#FFE6D6',qrSeed:163})},
       {name:'Menta Fresh', style:'gradient', t:mk('gradient',{bg:'linear-gradient(150deg,#12C29A,#0E8A9E)',ink:'#FFFFFF',sub:'rgba(255,255,255,.85)',faint:'rgba(255,255,255,.62)',accent:'#FFFFFF',acc2:'#8CF0D2',onAccent:'#0E7A6E',star:'#FFF1B8',qrBg:'#FFFFFF',qrModule:'#0A5A54',ctaBg:'#FFFFFF',ctaInk:'#0E7A6E',eyebrow:'#CFF7EC',qrSeed:167})},
       {name:'Meia-noite', style:'gradient', t:mk('gradient',{bg:'linear-gradient(150deg,#2B3A67,#141B33)',ink:'#EAF0FF',sub:'rgba(234,240,255,.78)',faint:'rgba(234,240,255,.55)',accent:'#8AB4F8',acc2:'#3A4A80',onAccent:'#141B33',star:'#FFD34E',qrBg:'#FFFFFF',qrModule:'#141B33',ctaBg:'#8AB4F8',ctaInk:'#141B33',eyebrow:'#8AB4F8',qrSeed:173})},
+      // EM BRANCO — base neutra p/ montar do zero com cor/fonte/sombra manuais
+      {name:'Em branco', style:'corp', blank:true, t:mk('corp',{bg:'#FFFFFF',ink:'#202124',sub:'#5F6368',faint:'#9AA0A6',accent:'#4B5563',acc2:'#202124',bg2:'#F1F3F4',star:'#FBBC04',qrModule:'#202124',ctaBg:'#4B5563',ctaInk:'#FFFFFF',eyebrow:'#4B5563',qrSeed:97})},
     ];
     this.STYLES=[['all','Todos'],['luxo','Elegante'],['tech','Tech'],['auto','Automotivo'],['corp','Corporativo'],['vibr','Vibrante'],['editorial','Editorial'],['retro','Retrô'],['gradient','Gradiente']];
     this.SEGMENTS=[['all','Todos os segmentos'],['joalheria','Joalheria'],['tech','Tech & Internet'],['celular','Celular'],['automotivo','Automotivo'],['seguranca','Segurança Eletrônica'],['distribuicao','Distribuição'],['food','Food'],['beleza','Beleza'],['saude','Saúde'],['construcao','Construção'],['pet','Pet'],['moda','Moda']];
@@ -341,7 +356,7 @@ class Component extends DCLogic {
     this.state={
       tpl:0, fmt:0, copyIdx:0, filter:'all', segFilter:'all', accent:null, showStars:true, showLogo:true, snackbar:null, snackIcon:'check_circle',
       arts:[], artSel:null, artFilter:'all',
-      logoUrl:null, logoScale:1, fontSel:null, fontScale:1, fontColor:null,
+      logoUrl:null, logoScale:1, fontSel:null, fontScale:1, fontColor:null, textShadow:'none',
       content:{ brand:'CSA Casa da Segurança Eletrônica', category:'Segurança Eletrônica', initials:'CSA', eyebrow:'Avaliação no Google', headline:this.COPY[0].t, subcopy:this.COPY[0].s, cta:'Avaliar no Google', url:'g.page/csa', hint:'Aponte a câmera do celular para o QR Code' },
     };
     fetch('./biblioteca/catalog.json').then(r=>r.ok?r.json():null).then(c=>{ if(c&&c.bases) this.setState({arts:c.bases}); }).catch(()=>{});
@@ -351,11 +366,11 @@ class Component extends DCLogic {
     const s=this.state;
     const styleChips=this.STYLES.map(([id,label])=>{const on=s.filter===id;return{label,onClick:()=>this.setState({filter:id}),bg:on?'#1A73E8':'#fff',color:on?'#fff':'#5F6368',bd:on?'#1A73E8':'#DADCE0'};});
     const segChips=this.SEGMENTS.map(([id,label])=>{const on=s.segFilter===id;return{label,onClick:()=>this.setState({segFilter:id}),bg:on?'#E8F0FE':'#fff',color:on?'#0B57D0':'#80868B',bd:on?'#0B57D0':'#E8EAED'};});
-    const templates=this.TEMPLATES.map((tp,i)=>({tp,i})).filter(({tp})=>(s.filter==='all'||tp.style===s.filter)&&(s.segFilter==='all'||(this.SEG[tp.name]||[]).includes(s.segFilter))).map(({tp,i})=>({
+    const templates=this.TEMPLATES.map((tp,i)=>({tp,i})).filter(({tp})=>tp.blank||((s.filter==='all'||tp.style===s.filter)&&(s.segFilter==='all'||(this.SEG[tp.name]||[]).includes(s.segFilter)))).map(({tp,i})=>({
       name:tp.name, selected:s.tpl===i, ring:s.tpl===i?'#1A73E8':'transparent', labelColor:s.tpl===i?'#1A73E8':'#5F6368',
       onClick:()=>this.setState({tpl:i,accent:null}),
       bg:tp.t.bg, ink:tp.t.ink, sub:tp.t.sub, star:tp.t.star, qrBg:tp.t.qrBg, qrModule:tp.t.qrModule, ctaBg:tp.t.ctaBg, ctaInk:tp.t.ctaInk, accent:tp.t.accent, headFont:tp.t.headFont, initials:s.content.initials,
-      showBar:tp.style==='corp', showFrame:tp.style==='luxo'||tp.style==='retro'||tp.style==='editorial', headTop:tp.style==='corp'?'6px':'0px',
+      blank:!!tp.blank, showBar:tp.style==='corp'&&!tp.blank, showFrame:tp.style==='luxo'||tp.style==='retro'||tp.style==='editorial', headTop:tp.style==='corp'?'6px':'0px',
       pillRad:tp.style==='auto'?'3px':'999px', qrThumbBorder:tp.style==='corp'?'1px solid #E8EAED':'none',
     }));
     const formats=this.FORMATS.map((f,i)=>{const on=s.fmt===i;return{...f, bd:on?'#1A73E8':'#DADCE0', bg:on?'#E8F0FE':'#fff', iconColor:on?'#1A73E8':'#80868B', glyphW:f.glyph[0]+'px', glyphH:f.glyph[1]+'px', onClick:()=>this.setState({fmt:i})};});
@@ -394,12 +409,21 @@ class Component extends DCLogic {
     const sizeChips=SIZES.map(([label,k])=>{const on=s.fontScale===k;return{label,onClick:()=>this.setState({fontScale:k}),bg:on?'#E8F0FE':'#fff',color:on?'#0B57D0':'#5F6368',bd:on?'#0B57D0':'#DADCE0'};});
     const FCOLORS=[[null,'Tema'],['#FFFFFF','Branco'],['#202124','Preto'],['#C9A24B','Dourado'],['#1A73E8','Azul'],['#E1352E','Vermelho'],['#12A46B','Verde'],['#E23C8A','Rosa']];
     const fontColorChips=FCOLORS.map(([hex,label])=>{const on=s.fontColor===hex;return{hex:hex||'#F1F3F4',label,onClick:()=>this.setState({fontColor:hex}),ring:on?'2px':'0px',check:on?'check':(hex?'':'format_color_reset'),checkColor:hex==='#FFFFFF'||!hex?'#5F6368':'#fff'};});
+    const isCustomColor=!!s.fontColor && !FCOLORS.some(c=>c[0]===s.fontColor);
+    const fontColorCustom=isCustomColor?s.fontColor:'#000000';
+    const onFontColorCustom=(e)=>this.setState({fontColor:e.target.value});
+    const customRing=isCustomColor?'2px':'0px';
+    // sombra do texto (sombreamento manual)
+    const SHADOWS=[['none','Nenhuma'],['soft','Suave'],['strong','Forte']];
+    const SHADOWCSS={none:'none',soft:'0 1px 3px rgba(0,0,0,.4)',strong:'0 2px 9px rgba(0,0,0,.6)'};
+    const shadowChips=SHADOWS.map(([k,label])=>{const on=(s.textShadow||'none')===k;return{label,onClick:()=>this.setState({textShadow:k}),bg:on?'#E8F0FE':'#fff',color:on?'#0B57D0':'#5F6368',bd:on?'#0B57D0':'#DADCE0'};});
     if(s.fontSel) activeT={...activeT, headFont:s.fontSel};
     if(s.fontScale!==1){
       const esc=v=>typeof v==='string'?v.replace(/^([\d.]+)/,n=>(parseFloat(n)*s.fontScale).toFixed(2)):v;
       activeT={...activeT, headSize:esc(activeT.headSize), headSizeL:esc(activeT.headSizeL)};
     }
     if(s.fontColor) activeT={...activeT, headColor:s.fontColor};
+    if(s.textShadow && s.textShadow!=='none') activeT={...activeT, headShadow:SHADOWCSS[s.textShadow], subShadow:SHADOWCSS[s.textShadow]};
     // arte de fundo da biblioteca: aplica sobre o tema ativo com scrim central p/ contraste
     // arte segue o MESMO filtro de segmento dos modelos (um filtro só, fluxo mais simples)
     const artSegOf=(seg)=>this.ART2SEG[seg]||seg;
@@ -433,7 +457,7 @@ class Component extends DCLogic {
         onEditCta:(e)=>{const v=(e.currentTarget.innerText||'').replace(/\s+/g,' ').trim(); this.setState(st=>({content:{...st.content,cta:v||st.content.cta}}));},
         onEditKey:(e)=>{if(e.key==='Enter'){e.preventDefault();e.currentTarget.blur();}},
       }, showStars:s.showStars, showLogo:s.showLogo,
-      fontOptions, fontValue, onFont, sizeChips, fontColorChips,
+      fontOptions, fontValue, onFont, sizeChips, fontColorChips, fontColorCustom, onFontColorCustom, customRing, shadowChips,
       temLogo:!!s.logoUrl, semLogo:!s.logoUrl, logoPreview:s.logoUrl||'',
       logoPct:Math.round((s.logoScale||1)*100),
       onLogoSize:(e)=>this.setState({logoScale:(+e.target.value)/100}),
