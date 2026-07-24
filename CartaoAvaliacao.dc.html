@@ -71,10 +71,10 @@
         <sc-if value="{{ showLogo }}" hint-placeholder-val="{{ true }}">
           <div style="display:flex;align-items:center;gap:2cqmin">
             <sc-if value="{{ hasLogoImg }}" hint-placeholder-val="{{ false }}">
-              <div style="width:10cqmin;height:10cqmin;border-radius:{{ t.logoRad }};background:#FFFFFF;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.18)"><img src="{{ c.logoUrl }}" style="width:86%;height:86%;object-fit:contain" alt=""></div>
+              <div style="width:{{ logoWP }};height:{{ logoWP }};border-radius:{{ t.logoRad }};background:#FFFFFF;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.18)"><img src="{{ c.logoUrl }}" style="width:86%;height:86%;object-fit:contain" alt=""></div>
             </sc-if>
             <sc-if value="{{ noLogoImg }}" hint-placeholder-val="{{ true }}">
-              <div style="width:10cqmin;height:10cqmin;border-radius:{{ t.logoRad }};background:{{ t.accent }};color:{{ t.onAccent }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:4cqmin;font-family:{{ t.headFont }}">{{ c.initials }}</div>
+              <div style="width:{{ logoWP }};height:{{ logoWP }};border-radius:{{ t.logoRad }};background:{{ t.accent }};color:{{ t.onAccent }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:4cqmin;font-family:{{ t.headFont }}">{{ c.initials }}</div>
             </sc-if>
             <div style="text-align:left;line-height:1.12"><div style="font-size:3.3cqmin;font-weight:700;font-family:{{ t.headFont }};letter-spacing:{{ t.brandLS }}">{{ c.brand }}</div><div style="font-size:2.4cqmin;color:{{ t.sub }};font-weight:500;text-transform:uppercase;letter-spacing:.12em">{{ c.category }}</div></div>
           </div>
@@ -87,7 +87,7 @@
       </div>
 
       <div style="display:flex;flex-direction:column;align-items:center;gap:2.4cqmin;max-width:98%">
-        <div style="font-size:2.4cqmin;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:{{ t.eyebrow }}">{{ c.eyebrow }}</div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:1.6cqmin">{{ gEyebrow }}<span style="font-size:2.4cqmin;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:{{ t.eyebrow }}">{{ c.eyebrow }}</span></div>
         <div contenteditable="true" data-edit="1" title="Clique para editar" onblur="{{ c.onEditHeadline }}" onkeydown="{{ c.onEditKey }}" style="font-size:{{ t.headSize }};line-height:1.04;font-weight:{{ t.headWeight }};font-family:{{ t.headFont }};letter-spacing:{{ t.headLS }};text-transform:{{ t.headCase }};color:{{ t.headColor }};text-wrap:balance">{{ c.headline }}</div>
         <div contenteditable="true" data-edit="1" title="Clique para editar" onblur="{{ c.onEditSub }}" style="font-size:3cqmin;line-height:1.42;color:{{ t.sub }};font-weight:500;max-width:82%;text-wrap:pretty">{{ c.subcopy }}</div>
       </div>
@@ -97,7 +97,7 @@
           <div style="width:25cqmin;height:25cqmin">{{ qr }}</div>
         </div>
         <div style="display:flex;align-items:center;gap:1.6cqmin;background:{{ t.ctaBg }};color:{{ t.ctaInk }};padding:2.4cqmin 4.2cqmin;border-radius:{{ t.ctaRad }};font-weight:700;font-size:3cqmin;font-family:{{ t.headFont }};text-transform:{{ t.ctaCase }};letter-spacing:{{ t.ctaLS }}">
-          <span style="font-family:'Material Symbols Rounded';font-size:3.8cqmin;line-height:1">photo_camera</span>{{ c.cta }}
+          <span style="width:4.6cqmin;height:4.6cqmin;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 1px 2px rgba(0,0,0,.18)">{{ gCta }}</span>{{ c.cta }}
         </div>
       </div>
 
@@ -116,10 +116,10 @@
         <sc-if value="{{ showLogo }}" hint-placeholder-val="{{ true }}">
           <div style="display:flex;align-items:center;gap:2cqmin">
             <sc-if value="{{ hasLogoImg }}" hint-placeholder-val="{{ false }}">
-              <div style="width:8.5cqmin;height:8.5cqmin;border-radius:{{ t.logoRad }};background:#FFFFFF;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.18)"><img src="{{ c.logoUrl }}" style="width:86%;height:86%;object-fit:contain" alt=""></div>
+              <div style="width:{{ logoWL }};height:{{ logoWL }};border-radius:{{ t.logoRad }};background:#FFFFFF;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.18)"><img src="{{ c.logoUrl }}" style="width:86%;height:86%;object-fit:contain" alt=""></div>
             </sc-if>
             <sc-if value="{{ noLogoImg }}" hint-placeholder-val="{{ true }}">
-              <div style="width:8.5cqmin;height:8.5cqmin;border-radius:{{ t.logoRad }};background:{{ t.accent }};color:{{ t.onAccent }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:3.4cqmin;font-family:{{ t.headFont }}">{{ c.initials }}</div>
+              <div style="width:{{ logoWL }};height:{{ logoWL }};border-radius:{{ t.logoRad }};background:{{ t.accent }};color:{{ t.onAccent }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:3.4cqmin;font-family:{{ t.headFont }}">{{ c.initials }}</div>
             </sc-if>
             <div style="line-height:1.12"><div style="font-size:2.9cqmin;font-weight:700;font-family:{{ t.headFont }};letter-spacing:{{ t.brandLS }}">{{ c.brand }}</div><div style="font-size:2.1cqmin;color:{{ t.sub }};font-weight:500;text-transform:uppercase;letter-spacing:.12em">{{ c.category }}</div></div>
           </div>
@@ -129,10 +129,11 @@
             <span>star</span><span>star</span><span>star</span><span>star</span><span>star</span>
           </div>
         </sc-if>
+        <div style="display:flex;align-items:center;gap:1.4cqmin">{{ gEyebrowL }}<span style="font-size:2.2cqmin;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:{{ t.eyebrow }}">{{ c.eyebrow }}</span></div>
         <div contenteditable="true" data-edit="1" title="Clique para editar" onblur="{{ c.onEditHeadline }}" onkeydown="{{ c.onEditKey }}" style="font-size:{{ t.headSizeL }};line-height:1.04;font-weight:{{ t.headWeight }};font-family:{{ t.headFont }};letter-spacing:{{ t.headLS }};text-transform:{{ t.headCase }};color:{{ t.headColor }};text-wrap:balance">{{ c.headline }}</div>
         <div contenteditable="true" data-edit="1" title="Clique para editar" onblur="{{ c.onEditSub }}" style="font-size:2.7cqmin;line-height:1.42;color:{{ t.sub }};font-weight:500;max-width:92%">{{ c.subcopy }}</div>
         <div style="display:flex;align-items:center;gap:1.4cqmin;background:{{ t.ctaBg }};color:{{ t.ctaInk }};padding:2cqmin 3.6cqmin;border-radius:{{ t.ctaRad }};font-weight:700;font-size:2.7cqmin;font-family:{{ t.headFont }};align-self:flex-start;text-transform:{{ t.ctaCase }};letter-spacing:{{ t.ctaLS }}">
-          <span style="font-family:'Material Symbols Rounded';font-size:3.4cqmin;line-height:1">photo_camera</span>{{ c.cta }}
+          <span style="width:4.2cqmin;height:4.2cqmin;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 1px 2px rgba(0,0,0,.18)">{{ gCtaL }}</span>{{ c.cta }}
         </div>
       </div>
       <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.8cqmin">
@@ -158,12 +159,22 @@ class Component extends DCLogic {
     const rects=[]; for(let y=0;y<n;y++)for(let x=0;x<n;x++)if(g[y][x])rects.push(React.createElement('rect',{key:x+'-'+y,x,y,width:1.04,height:1.04,fill:color,rx:.25}));
     return React.createElement('svg',{viewBox:'0 0 25 25',width:'100%',height:'100%','aria-hidden':true},rects);
   }
+  gLogo(sz){
+    const p=(fill,d)=>React.createElement('path',{fill,d,key:fill});
+    return React.createElement('svg',{viewBox:'0 0 48 48',style:{width:sz,height:sz,flexShrink:0,display:'block'},'aria-label':'Google'},
+      p('#4285F4','M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z'),
+      p('#34A853','M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z'),
+      p('#FBBC05','M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z'),
+      p('#EA4335','M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z')
+    );
+  }
   renderVals(){
     const t=Object.assign({headColor:'inherit'}, this.props.t||{});
     const c=this.props.c||{};
     const orient=this.props.orient||'portrait';
     const landscape=orient==='landscape';
     const style=t.style||'corp';
+    const scale=Math.max(.5,Math.min(2.2,+(c.logoScale||1)));
     return {
       t, c, landscape, portrait:!landscape,
       showLogo:this.props.showLogo!==false,
@@ -172,6 +183,10 @@ class Component extends DCLogic {
       isEditorial:style==='editorial', isRetro:style==='retro', isGradient:style==='gradient',
       hasArt:!!t.bgImage,
       hasLogoImg:!!c.logoUrl, noLogoImg:!c.logoUrl,
+      logoWP:(10*scale).toFixed(2)+'cqmin',
+      logoWL:(8.5*scale).toFixed(2)+'cqmin',
+      gEyebrow:this.gLogo('3.7cqmin'), gEyebrowL:this.gLogo('3.3cqmin'),
+      gCta:this.gLogo('3cqmin'), gCtaL:this.gLogo('2.8cqmin'),
       qr:this.qrEl(t.qrSeed||7, t.qrModule||'#202124'),
     };
   }

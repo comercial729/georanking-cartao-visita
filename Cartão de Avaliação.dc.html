@@ -77,6 +77,16 @@
               <div style="font-size:11.5px;color:#9AA0A6;margin-top:6px">PNG, JPG ou SVG · sem logo, usamos as iniciais {{ content.initials }}</div>
             </div>
           </div>
+          <sc-if value="{{ temLogo }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:16px;padding-top:16px;border-top:1px solid #EEF0F2">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+                <span style="font-size:13px;font-weight:600;color:#3C4043">Tamanho da logo no cartão</span>
+                <span style="font-size:12px;font-weight:700;color:#1A73E8">{{ logoPct }}%</span>
+              </div>
+              <input type="range" min="60" max="200" step="5" value="{{ logoPct }}" onInput="{{ onLogoSize }}" style="width:100%;accent-color:#1A73E8;cursor:pointer">
+              <div style="display:flex;justify-content:space-between;font-size:10.5px;color:#9AA0A6;margin-top:2px"><span>Menor</span><span>Maior</span></div>
+            </div>
+          </sc-if>
           <div style="margin-top:16px;background:linear-gradient(135deg,#0B57D0,#1A73E8);color:#fff;border-radius:10px;padding:14px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
             <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;flex-shrink:0">auto_awesome</span>
             <div style="flex:1;min-width:180px;font-size:12.5px;line-height:17px">Com o logo enviado, a IA lê as cores da marca e sugere o design ideal.</div>
@@ -331,7 +341,7 @@ class Component extends DCLogic {
     this.state={
       tpl:0, fmt:0, copyIdx:0, filter:'all', segFilter:'all', accent:null, showStars:true, showLogo:true, snackbar:null, snackIcon:'check_circle',
       arts:[], artSel:null, artFilter:'all',
-      logoUrl:null, fontSel:null, fontScale:1, fontColor:null,
+      logoUrl:null, logoScale:1, fontSel:null, fontScale:1, fontColor:null,
       content:{ brand:'CSA Casa da Segurança Eletrônica', category:'Segurança Eletrônica', initials:'CSA', eyebrow:'Avaliação no Google', headline:this.COPY[0].t, subcopy:this.COPY[0].s, cta:'Avaliar no Google', url:'g.page/csa', hint:'Aponte a câmera do celular para o QR Code' },
     };
     fetch('./biblioteca/catalog.json').then(r=>r.ok?r.json():null).then(c=>{ if(c&&c.bases) this.setState({arts:c.bases}); }).catch(()=>{});
@@ -417,7 +427,7 @@ class Component extends DCLogic {
       clearArt:()=>this.setState({artSel:null}), noArtRing:s.artSel?'#DADCE0':'#1A73E8',
       activeTags:(this.SEG[this.TEMPLATES[s.tpl].name]||[]).map(id=>{const e=this.SEGMENTS.find(x=>x[0]===id);return e?e[1]:id;}).join(' · '), templateCount:this.TEMPLATES.length, shownCount:templates.length,
       activeTemplate:activeT, activeName:this.TEMPLATES[s.tpl].name, activeFormat:f, accentSwatches,
-      content:{...s.content, logoUrl:s.logoUrl,
+      content:{...s.content, logoUrl:s.logoUrl, logoScale:s.logoScale,
         onEditHeadline:(e)=>{const v=(e.currentTarget.innerText||'').replace(/\s+/g,' ').trim(); this.setState(st=>({content:{...st.content,headline:v||st.content.headline}}));},
         onEditSub:(e)=>{const v=(e.currentTarget.innerText||'').replace(/\s+/g,' ').trim(); this.setState(st=>({content:{...st.content,subcopy:v||st.content.subcopy}}));},
         onEditCta:(e)=>{const v=(e.currentTarget.innerText||'').replace(/\s+/g,' ').trim(); this.setState(st=>({content:{...st.content,cta:v||st.content.cta}}));},
@@ -425,8 +435,10 @@ class Component extends DCLogic {
       }, showStars:s.showStars, showLogo:s.showLogo,
       fontOptions, fontValue, onFont, sizeChips, fontColorChips,
       temLogo:!!s.logoUrl, semLogo:!s.logoUrl, logoPreview:s.logoUrl||'',
+      logoPct:Math.round((s.logoScale||1)*100),
+      onLogoSize:(e)=>this.setState({logoScale:(+e.target.value)/100}),
       onLogoFile:(e)=>{ const f=e.target&&e.target.files&&e.target.files[0]; if(!f) return; const rd=new FileReader(); rd.onload=(ev)=>{ this.setState({logoUrl:ev.target.result}); this.toast('Logo aplicado no cartão'); }; rd.readAsDataURL(f); },
-      removerLogo:()=>{ this.setState({logoUrl:null}); this.toast('Logo removido — voltou para as iniciais'); },
+      removerLogo:()=>{ this.setState({logoUrl:null, logoScale:1}); this.toast('Logo removido — voltou para as iniciais'); },
       previewW:pxW+'px', previewH:pxH+'px',
       starsTrack:s.showStars?'#1A73E8':'#DADCE0', starsKnob:s.showStars?'21px':'3px', toggleStars:()=>this.setState(st=>({showStars:!st.showStars})),
       logoTrack:s.showLogo?'#1A73E8':'#DADCE0', logoKnob:s.showLogo?'21px':'3px', toggleLogo:()=>this.setState(st=>({showLogo:!st.showLogo})),
