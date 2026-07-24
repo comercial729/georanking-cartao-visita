@@ -413,9 +413,13 @@ class Component extends DCLogic {
     const fontColorCustom=isCustomColor?s.fontColor:'#000000';
     const onFontColorCustom=(e)=>this.setState({fontColor:e.target.value});
     const customRing=isCustomColor?'2px':'0px';
-    // sombra do texto (sombreamento manual)
+    // sombra do texto (sombreamento manual) — adaptativa: texto escuro ganha halo claro, texto claro ganha sombra escura
+    const lum=(col)=>{ if(!col) return .5; let r,g,b; const hx=String(col).match(/#([0-9a-fA-F]{6})/); if(hx){const n=parseInt(hx[1],16); r=(n>>16)&255; g=(n>>8)&255; b=n&255;} else { const rm=String(col).match(/rgba?\(([^)]+)\)/); if(!rm) return .5; const p=rm[1].split(',').map(x=>parseFloat(x)); r=p[0]; g=p[1]; b=p[2]; } return (0.299*r+0.587*g+0.114*b)/255; };
+    const effHead=s.fontColor||activeT.ink;
+    const darkText=lum(effHead)<0.5;
+    const shRGB=darkText?'255,255,255':'0,0,0';
     const SHADOWS=[['none','Nenhuma'],['soft','Suave'],['strong','Forte']];
-    const SHADOWCSS={none:'none',soft:'0 1px 3px rgba(0,0,0,.4)',strong:'0 2px 9px rgba(0,0,0,.6)'};
+    const SHADOWCSS={none:'none',soft:'0 1px 3px rgba('+shRGB+','+(darkText?'.7':'.4')+')',strong:'0 2px 9px rgba('+shRGB+','+(darkText?'.9':'.6')+')'};
     const shadowChips=SHADOWS.map(([k,label])=>{const on=(s.textShadow||'none')===k;return{label,onClick:()=>this.setState({textShadow:k}),bg:on?'#E8F0FE':'#fff',color:on?'#0B57D0':'#5F6368',bd:on?'#0B57D0':'#DADCE0'};});
     if(s.fontSel) activeT={...activeT, headFont:s.fontSel};
     if(s.fontScale!==1){
