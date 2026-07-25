@@ -14,6 +14,9 @@
 </helmet>
 <div data-card-root="1" style="width:100%;height:100%;position:relative;overflow:hidden;background:{{ t.bg }};color:{{ t.ink }};font-family:{{ t.bodyFont }};container-type:size">
 
+  <sc-if value="{{ gFrameFull }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;inset:0;border:1.5cqmin solid transparent;border-image:linear-gradient(120deg,#4285F4,#EA4335,#FBBC05,#34A853) 1;pointer-events:none;z-index:26"></div></sc-if>
+  <sc-if value="{{ gFrameHeader }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:0;left:0;right:0;height:1.7cqmin;background:linear-gradient(90deg,#4285F4 25%,#EA4335 25% 50%,#FBBC05 50% 75%,#34A853 75%);pointer-events:none;z-index:26"></div></sc-if>
+  <sc-if value="{{ gFrameFooter }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;bottom:0;left:0;right:0;height:1.7cqmin;background:linear-gradient(90deg,#4285F4 25%,#EA4335 25% 50%,#FBBC05 50% 75%,#34A853 75%);pointer-events:none;z-index:26"></div></sc-if>
   <sc-if value="{{ guideV }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:50%;top:0;bottom:0;width:1px;background:#1A73E8;transform:translateX(-.5px);z-index:30;pointer-events:none;box-shadow:0 0 0 .5px rgba(26,115,232,.35)"></div></sc-if>
   <sc-if value="{{ guideH }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:50%;left:0;right:0;height:1px;background:#1A73E8;transform:translateY(-.5px);z-index:30;pointer-events:none;box-shadow:0 0 0 .5px rgba(26,115,232,.35)"></div></sc-if>
 
@@ -73,14 +76,14 @@
     <div style="position:relative;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:space-between;padding:8.5cqmin 7.5cqmin">
       <div style="display:flex;flex-direction:column;align-items:center;gap:3.2cqmin;width:100%">
         <sc-if value="{{ showLogo }}" hint-placeholder-val="{{ true }}">
-          <div onpointerdown="{{ c.onElemDown }}" data-drag="brand" title="Arraste para mover" style="display:flex;align-items:center;gap:2cqmin;{{ posStyles.brand }}">
+          <div style="display:flex;align-items:center;gap:2cqmin">
             <sc-if value="{{ hasLogoImg }}" hint-placeholder-val="{{ false }}">
-              <div style="width:{{ logoWP }};height:{{ logoWP }};border-radius:{{ t.logoRad }};background:#FFFFFF;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.18)"><img src="{{ c.logoUrl }}" style="width:86%;height:86%;object-fit:contain" alt=""></div>
+              <div onpointerdown="{{ c.onElemDown }}" data-drag="logo" title="Arraste: mover a logo" style="width:{{ logoWP }};height:{{ logoWP }};border-radius:{{ t.logoRad }};background:#FFFFFF;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.18);{{ posStyles.logo }}"><img src="{{ c.logoUrl }}" style="width:86%;height:86%;object-fit:contain" alt=""></div>
             </sc-if>
             <sc-if value="{{ noLogoImg }}" hint-placeholder-val="{{ true }}">
-              <div style="width:{{ logoWP }};height:{{ logoWP }};border-radius:{{ t.logoRad }};background:{{ t.accent }};color:{{ t.onAccent }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:4cqmin;font-family:{{ t.headFont }}">{{ c.initials }}</div>
+              <div onpointerdown="{{ c.onElemDown }}" data-drag="logo" title="Arraste: mover" style="width:{{ logoWP }};height:{{ logoWP }};border-radius:{{ t.logoRad }};background:{{ t.accent }};color:{{ t.onAccent }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:4cqmin;font-family:{{ t.headFont }};{{ posStyles.logo }}">{{ c.initials }}</div>
             </sc-if>
-            <div onclick="{{ c.onPickBrand }}" data-pick="1" title="Clique para mudar a cor" style="text-align:left;line-height:1.12"><div style="font-size:3.3cqmin;font-weight:700;font-family:{{ t.headFont }};letter-spacing:{{ t.brandLS }};color:{{ t.brandColor }}">{{ c.brand }}</div><div style="font-size:2.4cqmin;color:{{ t.catColor }};font-weight:500;text-transform:uppercase;letter-spacing:.12em">{{ c.category }}</div></div>
+            <div onclick="{{ c.onPickBrand }}" onpointerdown="{{ c.onElemDown }}" data-drag="brand" data-pick="1" title="Clique: cor · Arraste: mover" style="text-align:left;line-height:1.12;{{ posStyles.brand }}"><div style="font-size:3.3cqmin;font-weight:700;font-family:{{ t.headFont }};letter-spacing:{{ t.brandLS }};color:{{ t.brandColor }}">{{ c.brand }}</div><div style="font-size:2.4cqmin;color:{{ t.catColor }};font-weight:500;text-transform:uppercase;letter-spacing:.12em">{{ c.category }}</div></div>
           </div>
         </sc-if>
         <sc-if value="{{ showStars }}" hint-placeholder-val="{{ true }}">
@@ -118,14 +121,14 @@
     <div style="position:relative;width:100%;height:100%;display:flex;align-items:stretch;padding:7cqmin;gap:6cqmin">
       <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:2.6cqmin;text-align:left">
         <sc-if value="{{ showLogo }}" hint-placeholder-val="{{ true }}">
-          <div onpointerdown="{{ c.onElemDown }}" data-drag="brand" title="Arraste para mover" style="display:flex;align-items:center;gap:2cqmin;{{ posStyles.brand }}">
+          <div style="display:flex;align-items:center;gap:2cqmin">
             <sc-if value="{{ hasLogoImg }}" hint-placeholder-val="{{ false }}">
-              <div style="width:{{ logoWL }};height:{{ logoWL }};border-radius:{{ t.logoRad }};background:#FFFFFF;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.18)"><img src="{{ c.logoUrl }}" style="width:86%;height:86%;object-fit:contain" alt=""></div>
+              <div onpointerdown="{{ c.onElemDown }}" data-drag="logo" title="Arraste: mover a logo" style="width:{{ logoWL }};height:{{ logoWL }};border-radius:{{ t.logoRad }};background:#FFFFFF;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.18);{{ posStyles.logo }}"><img src="{{ c.logoUrl }}" style="width:86%;height:86%;object-fit:contain" alt=""></div>
             </sc-if>
             <sc-if value="{{ noLogoImg }}" hint-placeholder-val="{{ true }}">
-              <div style="width:{{ logoWL }};height:{{ logoWL }};border-radius:{{ t.logoRad }};background:{{ t.accent }};color:{{ t.onAccent }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:3.4cqmin;font-family:{{ t.headFont }}">{{ c.initials }}</div>
+              <div onpointerdown="{{ c.onElemDown }}" data-drag="logo" title="Arraste: mover" style="width:{{ logoWL }};height:{{ logoWL }};border-radius:{{ t.logoRad }};background:{{ t.accent }};color:{{ t.onAccent }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:3.4cqmin;font-family:{{ t.headFont }};{{ posStyles.logo }}">{{ c.initials }}</div>
             </sc-if>
-            <div onclick="{{ c.onPickBrand }}" data-pick="1" title="Clique para mudar a cor" style="line-height:1.12"><div style="font-size:2.9cqmin;font-weight:700;font-family:{{ t.headFont }};letter-spacing:{{ t.brandLS }};color:{{ t.brandColor }}">{{ c.brand }}</div><div style="font-size:2.1cqmin;color:{{ t.catColor }};font-weight:500;text-transform:uppercase;letter-spacing:.12em">{{ c.category }}</div></div>
+            <div onclick="{{ c.onPickBrand }}" onpointerdown="{{ c.onElemDown }}" data-drag="brand" data-pick="1" title="Clique: cor · Arraste: mover" style="line-height:1.12;{{ posStyles.brand }}"><div style="font-size:2.9cqmin;font-weight:700;font-family:{{ t.headFont }};letter-spacing:{{ t.brandLS }};color:{{ t.brandColor }}">{{ c.brand }}</div><div style="font-size:2.1cqmin;color:{{ t.catColor }};font-weight:500;text-transform:uppercase;letter-spacing:.12em">{{ c.category }}</div></div>
           </div>
         </sc-if>
         <sc-if value="{{ showStars }}" hint-placeholder-val="{{ true }}">
@@ -192,8 +195,9 @@ class Component extends DCLogic {
       hasLogoImg:!!c.logoUrl, noLogoImg:!c.logoUrl,
       logoWP:(10*scale).toFixed(2)+'cqmin',
       logoWL:(8.5*scale).toFixed(2)+'cqmin',
-      posStyles:(()=>{const p=t.pos||{};const mk=(f)=>{const q=p[f];return q?('position:absolute;left:'+q.x+'%;top:'+q.y+'%;transform:translate(-50%,-50%);z-index:9'):'';};return {brand:mk('brand'),stars:mk('stars'),eyebrow:mk('eyebrow'),head:mk('head'),sub:mk('sub'),qr:mk('qr'),cta:mk('cta'),foot:mk('foot')};})(),
+      posStyles:(()=>{const p=t.pos||{};const mk=(f)=>{const q=p[f];return q?('position:absolute;left:'+q.x+'%;top:'+q.y+'%;transform:translate(-50%,-50%);z-index:9'):'';};return {logo:mk('logo'),brand:mk('brand'),stars:mk('stars'),eyebrow:mk('eyebrow'),head:mk('head'),sub:mk('sub'),qr:mk('qr'),cta:mk('cta'),foot:mk('foot')};})(),
       guideV:!!t.guideV, guideH:!!t.guideH,
+      gFrameFull:t.gFrame==='full', gFrameHeader:t.gFrame==='header', gFrameFooter:t.gFrame==='footer',
       gEyebrow:this.gLogo('3.7cqmin'), gEyebrowL:this.gLogo('3.3cqmin'),
       gCta:this.gLogo('3cqmin'), gCtaL:this.gLogo('2.8cqmin'),
       qr:this.qrEl(t.qrSeed||7, t.qrModule||'#202124'),
