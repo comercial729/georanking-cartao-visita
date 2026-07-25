@@ -87,6 +87,12 @@
               <div style="display:flex;justify-content:space-between;font-size:10.5px;color:#9AA0A6;margin-top:2px"><span>Menor</span><span>Maior</span></div>
             </div>
           </sc-if>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap">
+            <div style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:#5F6368"><span style="font-family:'Material Symbols Rounded';font-size:16px;line-height:1;color:#1A73E8">open_with</span>Arraste a marca no cartão para reposicionar</div>
+            <sc-if value="{{ brandMoved }}" hint-placeholder-val="{{ false }}">
+              <div onClick="{{ resetBrandPos }}" style="display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 12px;border-radius:8px;border:1px solid #DADCE0;color:#5F6368;font-size:12px;font-weight:600;cursor:pointer"><span style="font-family:'Material Symbols Rounded';font-size:15px;line-height:1">restart_alt</span>Voltar ao topo</div>
+            </sc-if>
+          </div>
           <div style="margin-top:16px;background:linear-gradient(135deg,#0B57D0,#1A73E8);color:#fff;border-radius:10px;padding:14px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
             <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;flex-shrink:0">auto_awesome</span>
             <div style="flex:1;min-width:180px;font-size:12.5px;line-height:17px">Com o logo enviado, a IA lê as cores da marca e sugere o design ideal.</div>
@@ -400,13 +406,18 @@ class Component extends DCLogic {
       tpl:0, fmt:0, copyIdx:0, filter:'all', segFilter:'all', accent:null, showStars:true, showLogo:true, snackbar:null, snackIcon:'check_circle',
       arts:[], artSel:null, artFilter:'all', artFinish:'light',
       logoUrl:null, logoScale:1, fontSel:null, fontScale:1, fontColor:null, textShadow:'none',
-      colors:{}, selField:null, selRect:null,
+      colors:{}, selField:null, selRect:null, brandX:null, brandY:null,
       content:{ brand:'CSA Casa da Segurança Eletrônica', category:'Segurança Eletrônica', initials:'CSA', eyebrow:'Avaliação no Google', headline:this.COPY[0].t, subcopy:this.COPY[0].s, cta:'Avaliar no Google', url:'g.page/csa', hint:'Aponte a câmera do celular para o QR Code' },
     };
     fetch('./biblioteca/catalog.json').then(r=>r.ok?r.json():null).then(c=>{ if(c&&c.bases) this.setState({arts:c.bases}); }).catch(()=>{});
   }
   toast(m,ic){ this.setState({snackbar:m,snackIcon:ic||'check_circle'}); clearTimeout(this._t); this._t=setTimeout(()=>this.setState({snackbar:null}),2600); }
-  pickAt(field,e){ try{ const r=e.currentTarget.getBoundingClientRect(); this.setState({selField:field, selRect:{top:r.top,bottom:r.bottom,left:r.left,right:r.right,width:r.width}}); }catch(_){ this.setState({selField:field, selRect:null}); } }
+  pickAt(field,e){ if(field==='brand'&&this._suppressClick){ this._suppressClick=false; return; } try{ const r=e.currentTarget.getBoundingClientRect(); this.setState({selField:field, selRect:{top:r.top,bottom:r.bottom,left:r.left,right:r.right,width:r.width}}); }catch(_){ this.setState({selField:field, selRect:null}); } }
+  startBrandDrag(e){ try{ const root=e.currentTarget.closest('[data-card-root]'); if(!root) return; e.preventDefault(); const rect=root.getBoundingClientRect(); this._brandMoved=false; this._suppressClick=false;
+      const move=(ev)=>{ if(!(rect.width>0&&rect.height>0)) return; const x=Math.max(6,Math.min(94,((ev.clientX-rect.left)/rect.width)*100)); const y=Math.max(6,Math.min(94,((ev.clientY-rect.top)/rect.height)*100)); if(!isFinite(x)||!isFinite(y)) return; this._brandMoved=true; this.setState({brandX:+x.toFixed(1), brandY:+y.toFixed(1)}); };
+      const up=()=>{ document.removeEventListener('pointermove',move); document.removeEventListener('pointerup',up); if(this._brandMoved) this._suppressClick=true; };
+      document.addEventListener('pointermove',move); document.addEventListener('pointerup',up);
+    }catch(_){} }
   renderVals(){
     const s=this.state;
     const styleChips=this.STYLES.map(([id,label])=>{const on=s.filter===id;return{label,onClick:()=>this.setState({filter:id}),bg:on?'#1A73E8':'#fff',color:on?'#fff':'#5F6368',bd:on?'#1A73E8':'#DADCE0'};});
@@ -508,6 +519,7 @@ class Component extends DCLogic {
     if(colors.qrMod)   activeT={...activeT, qrModule:colors.qrMod};
     if(colors.qrBg)    activeT={...activeT, qrBg:colors.qrBg};
     if(colors.foot)    activeT={...activeT, footColor:colors.foot, urlColor:colors.foot};
+    activeT={...activeT, brandX:s.brandX, brandY:s.brandY};
     const setFieldColor=(key,hex)=>{ if(key==='headline'){ this.setState({fontColor:hex}); } else { this.setState(st=>({colors:{...(st.colors||{}), [key]:hex}})); } };
     const closeTb=()=>this.setState({selField:null});
     const curColor=(key)=> key==='headline'? s.fontColor : (colors[key]||null);
@@ -559,12 +571,14 @@ class Component extends DCLogic {
         onPickEyebrow:(e)=>this.pickAt('eyebrow',e), onPickHead:(e)=>this.pickAt('headline',e),
         onPickSub:(e)=>this.pickAt('sub',e), onPickStars:(e)=>this.pickAt('star',e), onPickCta:(e)=>this.pickAt('cta',e),
         onPickBrand:(e)=>this.pickAt('brand',e), onPickQr:(e)=>this.pickAt('qr',e), onPickFoot:(e)=>this.pickAt('foot',e),
+        onBrandDown:(e)=>this.startBrandDrag(e),
       }, showStars:s.showStars, showLogo:s.showLogo,
       fontOptions, fontValue, onFont, sizeChips, fontColorChips, fontColorCustom, onFontColorCustom, customRing, shadowChips, finishChips, hasArtSel,
       tbOpen, tbTitle, tbTwo, tbLabel1, tbLabel2, tbSwatches, tbSwatches2, tbCustom1, onTbCustom1, tbCustomRing1, tbCustom2, onTbCustom2, tbCustomRing2, tbTop, tbLeft, closeTb,
       temLogo:!!s.logoUrl, semLogo:!s.logoUrl, logoPreview:s.logoUrl||'',
       logoPct:Math.round((s.logoScale||1)*100),
       onLogoSize:(e)=>this.setState({logoScale:(+e.target.value)/100}),
+      brandMoved:(s.brandX!=null), resetBrandPos:()=>this.setState({brandX:null,brandY:null}),
       onLogoFile:(e)=>{ const f=e.target&&e.target.files&&e.target.files[0]; if(!f) return; const rd=new FileReader(); rd.onload=(ev)=>{ this.setState({logoUrl:ev.target.result}); this.toast('Logo aplicado no cartão'); }; rd.readAsDataURL(f); },
       removerLogo:()=>{ this.setState({logoUrl:null, logoScale:1}); this.toast('Logo removido — voltou para as iniciais'); },
       previewW:pxW+'px', previewH:pxH+'px',
