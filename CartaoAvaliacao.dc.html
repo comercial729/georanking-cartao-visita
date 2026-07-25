@@ -10,9 +10,12 @@
 <helmet>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Caveat:wght@600;700&family=Cormorant+Garamond:wght@600;700&family=Dancing+Script:wght@600;700&family=EB+Garamond:wght@600&family=Inter:wght@400;500;600;700&family=Lobster&family=Lora:wght@600;700&family=Merriweather:wght@700&family=Montserrat:wght@600;700&family=Nunito:wght@700&family=Open+Sans:wght@600;700&family=Oswald:wght@500;600;700&family=PT+Serif:wght@700&family=Pacifico&family=Playfair+Display:wght@500;600;700;800&family=Poppins:wght@600;700&family=Raleway:wght@600;700&family=Roboto+Mono:wght@600&family=Roboto:wght@500;700&family=Sora:wght@500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Work+Sans:wght@600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0..1,0&display=block" rel="stylesheet">
-<style>[data-edit]{cursor:text;transition:outline .12s ease;outline:1px dashed transparent;outline-offset:4px}[data-edit]:hover{outline-color:rgba(150,150,150,.55);border-radius:3px}[data-edit]:focus{outline:1.5px solid #1A73E8;outline-offset:4px;border-radius:3px}[data-pick]{cursor:pointer;transition:outline .12s ease;outline:1px dashed transparent;outline-offset:3px}[data-pick]:hover{outline-color:rgba(26,115,232,.6);border-radius:3px}</style>
+<style>[data-edit]{cursor:text;transition:outline .12s ease;outline:1px dashed transparent;outline-offset:4px}[data-edit]:hover{outline-color:rgba(150,150,150,.55);border-radius:3px}[data-edit]:focus{outline:1.5px solid #1A73E8;outline-offset:4px;border-radius:3px}[data-pick]{cursor:pointer;transition:outline .12s ease;outline:1px dashed transparent;outline-offset:3px}[data-pick]:hover{outline-color:rgba(26,115,232,.6);border-radius:3px}[data-drag]{touch-action:none}[data-drag]:hover{cursor:grab}[data-drag]:active{cursor:grabbing}</style>
 </helmet>
 <div data-card-root="1" style="width:100%;height:100%;position:relative;overflow:hidden;background:{{ t.bg }};color:{{ t.ink }};font-family:{{ t.bodyFont }};container-type:size">
+
+  <sc-if value="{{ guideV }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:50%;top:0;bottom:0;width:1px;background:#1A73E8;transform:translateX(-.5px);z-index:30;pointer-events:none;box-shadow:0 0 0 .5px rgba(26,115,232,.35)"></div></sc-if>
+  <sc-if value="{{ guideH }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:50%;left:0;right:0;height:1px;background:#1A73E8;transform:translateY(-.5px);z-index:30;pointer-events:none;box-shadow:0 0 0 .5px rgba(26,115,232,.35)"></div></sc-if>
 
   <!-- ===== ARTE DE FUNDO (biblioteca) + scrim de contraste ===== -->
   <sc-if value="{{ hasArt }}" hint-placeholder-val="{{ false }}">
@@ -70,7 +73,7 @@
     <div style="position:relative;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:space-between;padding:8.5cqmin 7.5cqmin">
       <div style="display:flex;flex-direction:column;align-items:center;gap:3.2cqmin;width:100%">
         <sc-if value="{{ showLogo }}" hint-placeholder-val="{{ true }}">
-          <div onpointerdown="{{ c.onBrandDown }}" data-brand="1" title="Arraste para mover" style="display:flex;align-items:center;gap:2cqmin;{{ brandPosStyle }}">
+          <div onpointerdown="{{ c.onElemDown }}" data-drag="brand" title="Arraste para mover" style="display:flex;align-items:center;gap:2cqmin;{{ posStyles.brand }}">
             <sc-if value="{{ hasLogoImg }}" hint-placeholder-val="{{ false }}">
               <div style="width:{{ logoWP }};height:{{ logoWP }};border-radius:{{ t.logoRad }};background:#FFFFFF;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.18)"><img src="{{ c.logoUrl }}" style="width:86%;height:86%;object-fit:contain" alt=""></div>
             </sc-if>
@@ -81,28 +84,28 @@
           </div>
         </sc-if>
         <sc-if value="{{ showStars }}" hint-placeholder-val="{{ true }}">
-          <div onclick="{{ c.onPickStars }}" data-pick="1" title="Clique para mudar a cor" style="display:flex;gap:1.1cqmin;color:{{ t.star }};font-family:'Material Symbols Rounded';font-variation-settings:'FILL' 1;font-size:6.4cqmin;line-height:1">
+          <div onclick="{{ c.onPickStars }}" onpointerdown="{{ c.onElemDown }}" data-drag="stars" data-pick="1" title="Clique: cor · Arraste: mover" style="display:flex;gap:1.1cqmin;color:{{ t.star }};font-family:'Material Symbols Rounded';font-variation-settings:'FILL' 1;font-size:6.4cqmin;line-height:1;{{ posStyles.stars }}">
             <span>star</span><span>star</span><span>star</span><span>star</span><span>star</span>
           </div>
         </sc-if>
       </div>
 
       <div style="display:flex;flex-direction:column;align-items:center;gap:2.4cqmin;max-width:98%">
-        <div onclick="{{ c.onPickEyebrow }}" data-pick="1" title="Clique para mudar a cor" style="display:flex;align-items:center;justify-content:center;gap:1.6cqmin">{{ gEyebrow }}<span style="font-size:2.4cqmin;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:{{ t.eyebrow }}">{{ c.eyebrow }}</span></div>
-        <div contenteditable="true" data-edit="1" title="Clique: editar texto · cor na barra" onclick="{{ c.onPickHead }}" onblur="{{ c.onEditHeadline }}" onkeydown="{{ c.onEditKey }}" style="font-size:{{ t.headSize }};line-height:1.04;font-weight:{{ t.headWeight }};font-family:{{ t.headFont }};letter-spacing:{{ t.headLS }};text-transform:{{ t.headCase }};color:{{ t.headColor }};text-shadow:{{ t.headShadow }};text-wrap:balance">{{ c.headline }}</div>
-        <div contenteditable="true" data-edit="1" title="Clique: editar texto · cor na barra" onclick="{{ c.onPickSub }}" onblur="{{ c.onEditSub }}" style="font-size:3cqmin;line-height:1.42;color:{{ t.sub }};font-weight:500;max-width:82%;text-shadow:{{ t.subShadow }};text-wrap:pretty">{{ c.subcopy }}</div>
+        <div onclick="{{ c.onPickEyebrow }}" onpointerdown="{{ c.onElemDown }}" data-drag="eyebrow" data-pick="1" title="Clique: cor · Arraste: mover" style="display:flex;align-items:center;justify-content:center;gap:1.6cqmin;{{ posStyles.eyebrow }}">{{ gEyebrow }}<span style="font-size:2.4cqmin;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:{{ t.eyebrow }}">{{ c.eyebrow }}</span></div>
+        <div contenteditable="true" data-edit="1" data-drag="head" title="Clique: editar · Arraste: mover" onpointerdown="{{ c.onElemDown }}" onclick="{{ c.onPickHead }}" onblur="{{ c.onEditHeadline }}" onkeydown="{{ c.onEditKey }}" style="font-size:{{ t.headSize }};line-height:1.04;font-weight:{{ t.headWeight }};font-family:{{ t.headFont }};letter-spacing:{{ t.headLS }};text-transform:{{ t.headCase }};color:{{ t.headColor }};text-shadow:{{ t.headShadow }};text-wrap:balance;{{ posStyles.head }}">{{ c.headline }}</div>
+        <div contenteditable="true" data-edit="1" data-drag="sub" title="Clique: editar · Arraste: mover" onpointerdown="{{ c.onElemDown }}" onclick="{{ c.onPickSub }}" onblur="{{ c.onEditSub }}" style="font-size:3cqmin;line-height:1.42;color:{{ t.sub }};font-weight:500;max-width:82%;text-shadow:{{ t.subShadow }};text-wrap:pretty;{{ posStyles.sub }}">{{ c.subcopy }}</div>
       </div>
 
       <div style="display:flex;flex-direction:column;align-items:center;gap:2.8cqmin">
-        <div onclick="{{ c.onPickQr }}" data-pick="1" title="Clique para mudar as cores do QR" style="background:{{ t.qrBg }};border:{{ t.qrBorder }};border-radius:3.2cqmin;padding:3.4cqmin;box-shadow:{{ t.qrShadow }}">
+        <div onclick="{{ c.onPickQr }}" onpointerdown="{{ c.onElemDown }}" data-drag="qr" data-pick="1" title="Clique: cor · Arraste: mover" style="background:{{ t.qrBg }};border:{{ t.qrBorder }};border-radius:3.2cqmin;padding:3.4cqmin;box-shadow:{{ t.qrShadow }};{{ posStyles.qr }}">
           <div style="width:25cqmin;height:25cqmin">{{ qr }}</div>
         </div>
-        <div onclick="{{ c.onPickCta }}" data-pick="1" title="Clique para mudar as cores" style="display:flex;align-items:center;gap:1.6cqmin;background:{{ t.ctaBg }};color:{{ t.ctaInk }};padding:2.4cqmin 4.2cqmin;border-radius:{{ t.ctaRad }};font-weight:700;font-size:3cqmin;font-family:{{ t.headFont }};text-transform:{{ t.ctaCase }};letter-spacing:{{ t.ctaLS }}">
+        <div onclick="{{ c.onPickCta }}" onpointerdown="{{ c.onElemDown }}" data-drag="cta" data-pick="1" title="Clique: cor · Arraste: mover" style="display:flex;align-items:center;gap:1.6cqmin;background:{{ t.ctaBg }};color:{{ t.ctaInk }};padding:2.4cqmin 4.2cqmin;border-radius:{{ t.ctaRad }};font-weight:700;font-size:3cqmin;font-family:{{ t.headFont }};text-transform:{{ t.ctaCase }};letter-spacing:{{ t.ctaLS }};{{ posStyles.cta }}">
           <span style="width:4.6cqmin;height:4.6cqmin;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 1px 2px rgba(0,0,0,.18)">{{ gCta }}</span>{{ c.cta }}
         </div>
       </div>
 
-      <div onclick="{{ c.onPickFoot }}" data-pick="1" title="Clique para mudar a cor" style="display:flex;flex-direction:column;align-items:center;gap:.6cqmin">
+      <div onclick="{{ c.onPickFoot }}" onpointerdown="{{ c.onElemDown }}" data-drag="foot" data-pick="1" title="Clique: cor · Arraste: mover" style="display:flex;flex-direction:column;align-items:center;gap:.6cqmin;{{ posStyles.foot }}">
         <div style="font-size:2.3cqmin;color:{{ t.footColor }};font-weight:500">{{ c.hint }}</div>
         <div style="font-size:2.3cqmin;color:{{ t.urlColor }};letter-spacing:.04em;font-weight:600">{{ c.url }}</div>
         <svg viewBox="0 0 24 24" style="width:4cqw;min-width:10px;margin-top:1.2cqmin;opacity:.5;display:block" aria-label="GeoRanking"><path fill="{{ t.ink }}" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"></path></svg>
@@ -115,7 +118,7 @@
     <div style="position:relative;width:100%;height:100%;display:flex;align-items:stretch;padding:7cqmin;gap:6cqmin">
       <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:2.6cqmin;text-align:left">
         <sc-if value="{{ showLogo }}" hint-placeholder-val="{{ true }}">
-          <div onpointerdown="{{ c.onBrandDown }}" data-brand="1" title="Arraste para mover" style="display:flex;align-items:center;gap:2cqmin;{{ brandPosStyle }}">
+          <div onpointerdown="{{ c.onElemDown }}" data-drag="brand" title="Arraste para mover" style="display:flex;align-items:center;gap:2cqmin;{{ posStyles.brand }}">
             <sc-if value="{{ hasLogoImg }}" hint-placeholder-val="{{ false }}">
               <div style="width:{{ logoWL }};height:{{ logoWL }};border-radius:{{ t.logoRad }};background:#FFFFFF;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.18)"><img src="{{ c.logoUrl }}" style="width:86%;height:86%;object-fit:contain" alt=""></div>
             </sc-if>
@@ -126,23 +129,25 @@
           </div>
         </sc-if>
         <sc-if value="{{ showStars }}" hint-placeholder-val="{{ true }}">
-          <div onclick="{{ c.onPickStars }}" data-pick="1" title="Clique para mudar a cor" style="display:flex;gap:.9cqmin;color:{{ t.star }};font-family:'Material Symbols Rounded';font-variation-settings:'FILL' 1;font-size:5cqmin;line-height:1">
+          <div onclick="{{ c.onPickStars }}" onpointerdown="{{ c.onElemDown }}" data-drag="stars" data-pick="1" title="Clique: cor · Arraste: mover" style="display:flex;gap:.9cqmin;color:{{ t.star }};font-family:'Material Symbols Rounded';font-variation-settings:'FILL' 1;font-size:5cqmin;line-height:1;{{ posStyles.stars }}">
             <span>star</span><span>star</span><span>star</span><span>star</span><span>star</span>
           </div>
         </sc-if>
-        <div onclick="{{ c.onPickEyebrow }}" data-pick="1" title="Clique para mudar a cor" style="display:flex;align-items:center;gap:1.4cqmin">{{ gEyebrowL }}<span style="font-size:2.2cqmin;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:{{ t.eyebrow }}">{{ c.eyebrow }}</span></div>
-        <div contenteditable="true" data-edit="1" title="Clique: editar texto · cor na barra" onclick="{{ c.onPickHead }}" onblur="{{ c.onEditHeadline }}" onkeydown="{{ c.onEditKey }}" style="font-size:{{ t.headSizeL }};line-height:1.04;font-weight:{{ t.headWeight }};font-family:{{ t.headFont }};letter-spacing:{{ t.headLS }};text-transform:{{ t.headCase }};color:{{ t.headColor }};text-shadow:{{ t.headShadow }};text-wrap:balance">{{ c.headline }}</div>
-        <div contenteditable="true" data-edit="1" title="Clique: editar texto · cor na barra" onclick="{{ c.onPickSub }}" onblur="{{ c.onEditSub }}" style="font-size:2.7cqmin;line-height:1.42;color:{{ t.sub }};font-weight:500;max-width:92%;text-shadow:{{ t.subShadow }}">{{ c.subcopy }}</div>
-        <div onclick="{{ c.onPickCta }}" data-pick="1" title="Clique para mudar as cores" style="display:flex;align-items:center;gap:1.4cqmin;background:{{ t.ctaBg }};color:{{ t.ctaInk }};padding:2cqmin 3.6cqmin;border-radius:{{ t.ctaRad }};font-weight:700;font-size:2.7cqmin;font-family:{{ t.headFont }};align-self:flex-start;text-transform:{{ t.ctaCase }};letter-spacing:{{ t.ctaLS }}">
+        <div onclick="{{ c.onPickEyebrow }}" onpointerdown="{{ c.onElemDown }}" data-drag="eyebrow" data-pick="1" title="Clique: cor · Arraste: mover" style="display:flex;align-items:center;gap:1.4cqmin;{{ posStyles.eyebrow }}">{{ gEyebrowL }}<span style="font-size:2.2cqmin;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:{{ t.eyebrow }}">{{ c.eyebrow }}</span></div>
+        <div contenteditable="true" data-edit="1" data-drag="head" title="Clique: editar · Arraste: mover" onpointerdown="{{ c.onElemDown }}" onclick="{{ c.onPickHead }}" onblur="{{ c.onEditHeadline }}" onkeydown="{{ c.onEditKey }}" style="font-size:{{ t.headSizeL }};line-height:1.04;font-weight:{{ t.headWeight }};font-family:{{ t.headFont }};letter-spacing:{{ t.headLS }};text-transform:{{ t.headCase }};color:{{ t.headColor }};text-shadow:{{ t.headShadow }};text-wrap:balance;{{ posStyles.head }}">{{ c.headline }}</div>
+        <div contenteditable="true" data-edit="1" data-drag="sub" title="Clique: editar · Arraste: mover" onpointerdown="{{ c.onElemDown }}" onclick="{{ c.onPickSub }}" onblur="{{ c.onEditSub }}" style="font-size:2.7cqmin;line-height:1.42;color:{{ t.sub }};font-weight:500;max-width:92%;text-shadow:{{ t.subShadow }};{{ posStyles.sub }}">{{ c.subcopy }}</div>
+        <div onclick="{{ c.onPickCta }}" onpointerdown="{{ c.onElemDown }}" data-drag="cta" data-pick="1" title="Clique: cor · Arraste: mover" style="display:flex;align-items:center;gap:1.4cqmin;background:{{ t.ctaBg }};color:{{ t.ctaInk }};padding:2cqmin 3.6cqmin;border-radius:{{ t.ctaRad }};font-weight:700;font-size:2.7cqmin;font-family:{{ t.headFont }};align-self:flex-start;text-transform:{{ t.ctaCase }};letter-spacing:{{ t.ctaLS }};{{ posStyles.cta }}">
           <span style="width:4.2cqmin;height:4.2cqmin;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 1px 2px rgba(0,0,0,.18)">{{ gCtaL }}</span>{{ c.cta }}
         </div>
       </div>
       <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.8cqmin">
-        <div onclick="{{ c.onPickQr }}" data-pick="1" title="Clique para mudar as cores do QR" style="background:{{ t.qrBg }};border:{{ t.qrBorder }};border-radius:2.8cqmin;padding:3cqmin;box-shadow:{{ t.qrShadow }}">
+        <div onclick="{{ c.onPickQr }}" onpointerdown="{{ c.onElemDown }}" data-drag="qr" data-pick="1" title="Clique: cor · Arraste: mover" style="background:{{ t.qrBg }};border:{{ t.qrBorder }};border-radius:2.8cqmin;padding:3cqmin;box-shadow:{{ t.qrShadow }};{{ posStyles.qr }}">
           <div style="width:28cqmin;height:28cqmin">{{ qr }}</div>
         </div>
-        <div onclick="{{ c.onPickFoot }}" data-pick="1" title="Clique para mudar a cor" style="font-size:2cqmin;color:{{ t.footColor }};font-weight:500;text-align:center;max-width:32cqmin">{{ c.hint }}</div>
-        <div onclick="{{ c.onPickFoot }}" data-pick="1" title="Clique para mudar a cor" style="font-size:2cqmin;color:{{ t.urlColor }};letter-spacing:.04em;font-weight:600">{{ c.url }}</div>
+        <div onclick="{{ c.onPickFoot }}" onpointerdown="{{ c.onElemDown }}" data-drag="foot" data-pick="1" title="Clique: cor · Arraste: mover" style="display:flex;flex-direction:column;align-items:center;gap:.6cqmin;{{ posStyles.foot }}">
+          <div style="font-size:2cqmin;color:{{ t.footColor }};font-weight:500;text-align:center;max-width:32cqmin">{{ c.hint }}</div>
+          <div style="font-size:2cqmin;color:{{ t.urlColor }};letter-spacing:.04em;font-weight:600">{{ c.url }}</div>
+        </div>
       </div>
       <svg viewBox="0 0 24 24" style="position:absolute;bottom:2.2cqmin;left:50%;transform:translateX(-50%);width:4cqw;min-width:10px;opacity:.5" aria-label="GeoRanking"><path fill="{{ t.ink }}" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"></path></svg>
     </div>
@@ -187,7 +192,8 @@ class Component extends DCLogic {
       hasLogoImg:!!c.logoUrl, noLogoImg:!c.logoUrl,
       logoWP:(10*scale).toFixed(2)+'cqmin',
       logoWL:(8.5*scale).toFixed(2)+'cqmin',
-      brandPosStyle:(t.brandX!=null&&t.brandY!=null)?('position:absolute;left:'+t.brandX+'%;top:'+t.brandY+'%;transform:translate(-50%,-50%);z-index:8;touch-action:none;cursor:grab'):'touch-action:none;cursor:grab',
+      posStyles:(()=>{const p=t.pos||{};const mk=(f)=>{const q=p[f];return q?('position:absolute;left:'+q.x+'%;top:'+q.y+'%;transform:translate(-50%,-50%);z-index:9'):'';};return {brand:mk('brand'),stars:mk('stars'),eyebrow:mk('eyebrow'),head:mk('head'),sub:mk('sub'),qr:mk('qr'),cta:mk('cta'),foot:mk('foot')};})(),
+      guideV:!!t.guideV, guideH:!!t.guideH,
       gEyebrow:this.gLogo('3.7cqmin'), gEyebrowL:this.gLogo('3.3cqmin'),
       gCta:this.gLogo('3cqmin'), gCtaL:this.gLogo('2.8cqmin'),
       qr:this.qrEl(t.qrSeed||7, t.qrModule||'#202124'),

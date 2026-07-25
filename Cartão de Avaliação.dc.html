@@ -88,9 +88,9 @@
             </div>
           </sc-if>
           <div style="display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap">
-            <div style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:#5F6368"><span style="font-family:'Material Symbols Rounded';font-size:16px;line-height:1;color:#1A73E8">open_with</span>Arraste a marca no cartão para reposicionar</div>
-            <sc-if value="{{ brandMoved }}" hint-placeholder-val="{{ false }}">
-              <div onClick="{{ resetBrandPos }}" style="display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 12px;border-radius:8px;border:1px solid #DADCE0;color:#5F6368;font-size:12px;font-weight:600;cursor:pointer"><span style="font-family:'Material Symbols Rounded';font-size:15px;line-height:1">restart_alt</span>Voltar ao topo</div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:#5F6368"><span style="font-family:'Material Symbols Rounded';font-size:16px;line-height:1;color:#1A73E8">open_with</span>Arraste qualquer elemento no cartão · imanta no centro</div>
+            <sc-if value="{{ layoutMoved }}" hint-placeholder-val="{{ false }}">
+              <div onClick="{{ resetLayout }}" style="display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 12px;border-radius:8px;border:1px solid #DADCE0;color:#5F6368;font-size:12px;font-weight:600;cursor:pointer"><span style="font-family:'Material Symbols Rounded';font-size:15px;line-height:1">restart_alt</span>Restaurar layout</div>
             </sc-if>
           </div>
           <div style="margin-top:16px;background:linear-gradient(135deg,#0B57D0,#1A73E8);color:#fff;border-radius:10px;padding:14px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
@@ -406,16 +406,21 @@ class Component extends DCLogic {
       tpl:0, fmt:0, copyIdx:0, filter:'all', segFilter:'all', accent:null, showStars:true, showLogo:true, snackbar:null, snackIcon:'check_circle',
       arts:[], artSel:null, artFilter:'all', artFinish:'light',
       logoUrl:null, logoScale:1, fontSel:null, fontScale:1, fontColor:null, textShadow:'none',
-      colors:{}, selField:null, selRect:null, brandX:null, brandY:null,
+      colors:{}, selField:null, selRect:null, pos:{}, guideV:false, guideH:false,
       content:{ brand:'CSA Casa da Segurança Eletrônica', category:'Segurança Eletrônica', initials:'CSA', eyebrow:'Avaliação no Google', headline:this.COPY[0].t, subcopy:this.COPY[0].s, cta:'Avaliar no Google', url:'g.page/csa', hint:'Aponte a câmera do celular para o QR Code' },
     };
     fetch('./biblioteca/catalog.json').then(r=>r.ok?r.json():null).then(c=>{ if(c&&c.bases) this.setState({arts:c.bases}); }).catch(()=>{});
   }
   toast(m,ic){ this.setState({snackbar:m,snackIcon:ic||'check_circle'}); clearTimeout(this._t); this._t=setTimeout(()=>this.setState({snackbar:null}),2600); }
-  pickAt(field,e){ if(field==='brand'&&this._suppressClick){ this._suppressClick=false; return; } try{ const r=e.currentTarget.getBoundingClientRect(); this.setState({selField:field, selRect:{top:r.top,bottom:r.bottom,left:r.left,right:r.right,width:r.width}}); }catch(_){ this.setState({selField:field, selRect:null}); } }
-  startBrandDrag(e){ try{ const root=e.currentTarget.closest('[data-card-root]'); if(!root) return; e.preventDefault(); const rect=root.getBoundingClientRect(); this._brandMoved=false; this._suppressClick=false;
-      const move=(ev)=>{ if(!(rect.width>0&&rect.height>0)) return; const x=Math.max(6,Math.min(94,((ev.clientX-rect.left)/rect.width)*100)); const y=Math.max(6,Math.min(94,((ev.clientY-rect.top)/rect.height)*100)); if(!isFinite(x)||!isFinite(y)) return; this._brandMoved=true; this.setState({brandX:+x.toFixed(1), brandY:+y.toFixed(1)}); };
-      const up=()=>{ document.removeEventListener('pointermove',move); document.removeEventListener('pointerup',up); if(this._brandMoved) this._suppressClick=true; };
+  pickAt(field,e){ if(this._suppressClick){ this._suppressClick=false; return; } try{ const r=e.currentTarget.getBoundingClientRect(); this.setState({selField:field, selRect:{top:r.top,bottom:r.bottom,left:r.left,right:r.right,width:r.width}}); }catch(_){ this.setState({selField:field, selRect:null}); } }
+  startDrag(e){ try{ const el=e.currentTarget; const field=el.getAttribute('data-drag'); if(!field) return; const root=el.closest('[data-card-root]'); if(!root) return;
+      const rect=root.getBoundingClientRect(); const sx=e.clientX, sy=e.clientY; let dragging=false; this._suppressClick=false;
+      const move=(ev)=>{ if(!dragging){ if(Math.abs(ev.clientX-sx)+Math.abs(ev.clientY-sy)<5) return; dragging=true; this._suppressClick=true; try{const sel=window.getSelection&&window.getSelection(); if(sel&&sel.removeAllRanges)sel.removeAllRanges();}catch(_){} }
+        ev.preventDefault(); if(!(rect.width>0&&rect.height>0)) return;
+        let x=Math.max(4,Math.min(96,((ev.clientX-rect.left)/rect.width)*100)); let y=Math.max(4,Math.min(96,((ev.clientY-rect.top)/rect.height)*100));
+        if(!isFinite(x)||!isFinite(y)) return; let gV=false,gH=false; if(Math.abs(x-50)<2.6){x=50;gV=true;} if(Math.abs(y-50)<2.6){y=50;gH=true;}
+        this.setState(st=>({pos:{...(st.pos||{}),[field]:{x:+x.toFixed(1),y:+y.toFixed(1)}}, guideV:gV, guideH:gH})); };
+      const up=()=>{ document.removeEventListener('pointermove',move); document.removeEventListener('pointerup',up); this.setState({guideV:false,guideH:false}); if(!dragging) this._suppressClick=false; };
       document.addEventListener('pointermove',move); document.addEventListener('pointerup',up);
     }catch(_){} }
   renderVals(){
@@ -519,7 +524,7 @@ class Component extends DCLogic {
     if(colors.qrMod)   activeT={...activeT, qrModule:colors.qrMod};
     if(colors.qrBg)    activeT={...activeT, qrBg:colors.qrBg};
     if(colors.foot)    activeT={...activeT, footColor:colors.foot, urlColor:colors.foot};
-    activeT={...activeT, brandX:s.brandX, brandY:s.brandY};
+    activeT={...activeT, pos:s.pos||{}, guideV:s.guideV, guideH:s.guideH};
     const setFieldColor=(key,hex)=>{ if(key==='headline'){ this.setState({fontColor:hex}); } else { this.setState(st=>({colors:{...(st.colors||{}), [key]:hex}})); } };
     const closeTb=()=>this.setState({selField:null});
     const curColor=(key)=> key==='headline'? s.fontColor : (colors[key]||null);
@@ -571,14 +576,14 @@ class Component extends DCLogic {
         onPickEyebrow:(e)=>this.pickAt('eyebrow',e), onPickHead:(e)=>this.pickAt('headline',e),
         onPickSub:(e)=>this.pickAt('sub',e), onPickStars:(e)=>this.pickAt('star',e), onPickCta:(e)=>this.pickAt('cta',e),
         onPickBrand:(e)=>this.pickAt('brand',e), onPickQr:(e)=>this.pickAt('qr',e), onPickFoot:(e)=>this.pickAt('foot',e),
-        onBrandDown:(e)=>this.startBrandDrag(e),
+        onElemDown:(e)=>this.startDrag(e),
       }, showStars:s.showStars, showLogo:s.showLogo,
       fontOptions, fontValue, onFont, sizeChips, fontColorChips, fontColorCustom, onFontColorCustom, customRing, shadowChips, finishChips, hasArtSel,
       tbOpen, tbTitle, tbTwo, tbLabel1, tbLabel2, tbSwatches, tbSwatches2, tbCustom1, onTbCustom1, tbCustomRing1, tbCustom2, onTbCustom2, tbCustomRing2, tbTop, tbLeft, closeTb,
       temLogo:!!s.logoUrl, semLogo:!s.logoUrl, logoPreview:s.logoUrl||'',
       logoPct:Math.round((s.logoScale||1)*100),
       onLogoSize:(e)=>this.setState({logoScale:(+e.target.value)/100}),
-      brandMoved:(s.brandX!=null), resetBrandPos:()=>this.setState({brandX:null,brandY:null}),
+      layoutMoved:(Object.keys(s.pos||{}).length>0), resetLayout:()=>this.setState({pos:{}}),
       onLogoFile:(e)=>{ const f=e.target&&e.target.files&&e.target.files[0]; if(!f) return; const rd=new FileReader(); rd.onload=(ev)=>{ this.setState({logoUrl:ev.target.result}); this.toast('Logo aplicado no cartão'); }; rd.readAsDataURL(f); },
       removerLogo:()=>{ this.setState({logoUrl:null, logoScale:1}); this.toast('Logo removido — voltou para as iniciais'); },
       previewW:pxW+'px', previewH:pxH+'px',
