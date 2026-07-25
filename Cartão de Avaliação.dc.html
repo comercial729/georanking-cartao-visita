@@ -271,7 +271,7 @@
         <span style="font-size:12px;font-weight:700;color:#202124">{{ tbTitle }}</span>
         <span onClick="{{ closeTb }}" title="Fechar" style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;color:#5F6368;cursor:pointer">close</span>
       </div>
-      <sc-if value="{{ tbIsCta }}" hint-placeholder-val="{{ false }}"><div style="font-size:10.5px;font-weight:600;color:#80868B;margin-bottom:6px">Cor do fundo</div></sc-if>
+      <sc-if value="{{ tbTwo }}" hint-placeholder-val="{{ false }}"><div style="font-size:10.5px;font-weight:600;color:#80868B;margin-bottom:6px">{{ tbLabel1 }}</div></sc-if>
       <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">
         <sc-for list="{{ tbSwatches }}" as="cc" hint-placeholder-count="8">
           <div onClick="{{ cc.onClick }}" title="{{ cc.label }}" style="width:26px;height:26px;border-radius:999px;background:{{ cc.hex }};border:1px solid #DADCE0;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff,0 0 0 {{ cc.ring }} #1A73E8"><span style="font-family:'Material Symbols Rounded';font-size:14px;line-height:1;color:{{ cc.checkColor }}">{{ cc.check }}</span></div>
@@ -281,8 +281,8 @@
           <input type="color" value="{{ tbCustom1 }}" onInput="{{ onTbCustom1 }}" style="position:absolute;inset:0;opacity:0;cursor:pointer">
         </label>
       </div>
-      <sc-if value="{{ tbIsCta }}" hint-placeholder-val="{{ false }}">
-        <div style="font-size:10.5px;font-weight:600;color:#80868B;margin:11px 0 6px">Cor do texto</div>
+      <sc-if value="{{ tbTwo }}" hint-placeholder-val="{{ false }}">
+        <div style="font-size:10.5px;font-weight:600;color:#80868B;margin:11px 0 6px">{{ tbLabel2 }}</div>
         <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">
           <sc-for list="{{ tbSwatches2 }}" as="cc" hint-placeholder-count="8">
             <div onClick="{{ cc.onClick }}" title="{{ cc.label }}" style="width:26px;height:26px;border-radius:999px;background:{{ cc.hex }};border:1px solid #DADCE0;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff,0 0 0 {{ cc.ring }} #1A73E8"><span style="font-family:'Material Symbols Rounded';font-size:14px;line-height:1;color:{{ cc.checkColor }}">{{ cc.check }}</span></div>
@@ -504,23 +504,37 @@ class Component extends DCLogic {
     if(colors.star)    activeT={...activeT, star:colors.star};
     if(colors.ctaBg)   activeT={...activeT, ctaBg:colors.ctaBg};
     if(colors.ctaInk)  activeT={...activeT, ctaInk:colors.ctaInk};
+    if(colors.brand)   activeT={...activeT, brandColor:colors.brand, catColor:colors.brand};
+    if(colors.qrMod)   activeT={...activeT, qrModule:colors.qrMod};
+    if(colors.qrBg)    activeT={...activeT, qrBg:colors.qrBg};
+    if(colors.foot)    activeT={...activeT, footColor:colors.foot, urlColor:colors.foot};
     const setFieldColor=(key,hex)=>{ if(key==='headline'){ this.setState({fontColor:hex}); } else { this.setState(st=>({colors:{...(st.colors||{}), [key]:hex}})); } };
     const closeTb=()=>this.setState({selField:null});
     const curColor=(key)=> key==='headline'? s.fontColor : (colors[key]||null);
     const swatchesFor=(key)=>FCOLORS.map(([hex,label])=>{const on=curColor(key)===hex;return{hex:hex||'#F1F3F4',label,onClick:()=>setFieldColor(key,hex),ring:on?'2px':'0px',check:on?'check':(hex?'':'format_color_reset'),checkColor:hex==='#FFFFFF'||!hex?'#5F6368':'#fff'};});
-    const FIELD_META={eyebrow:{title:'Selo · Avaliação no Google',key:'eyebrow'},headline:{title:'Título',key:'headline'},sub:{title:'Subtítulo',key:'sub'},star:{title:'Estrelas',key:'star'},cta:{title:'Botão · Avaliar no Google',key:'ctaBg'}};
+    const FIELD_META={
+      eyebrow:{title:'Selo · Avaliação no Google',key:'eyebrow'},
+      headline:{title:'Título',key:'headline'},
+      sub:{title:'Subtítulo',key:'sub'},
+      star:{title:'Estrelas',key:'star'},
+      brand:{title:'Marca · nome e categoria',key:'brand'},
+      foot:{title:'Rodapé · instruções e link',key:'foot'},
+      cta:{title:'Botão · Avaliar no Google',key:'ctaBg',key2:'ctaInk',label1:'Cor do fundo',label2:'Cor do texto'},
+      qr:{title:'QR Code',key:'qrMod',key2:'qrBg',label1:'Cor do código',label2:'Fundo do QR'}
+    };
     const meta=FIELD_META[s.selField];
-    const tbOpen=!!meta, tbTitle=meta?meta.title:'', tbIsCta=s.selField==='cta';
+    const tbOpen=!!meta, tbTitle=meta?meta.title:'', tbTwo=!!(meta&&meta.key2);
+    const tbLabel1=meta&&meta.label1?meta.label1:'', tbLabel2=meta&&meta.label2?meta.label2:'';
     const tbSwatches=meta?swatchesFor(meta.key):[];
-    const tbSwatches2=tbIsCta?swatchesFor('ctaInk'):[];
+    const tbSwatches2=tbTwo?swatchesFor(meta.key2):[];
     const tbCustom1=(meta&&curColor(meta.key)&&!FCOLORS.some(c=>c[0]===curColor(meta.key)))?curColor(meta.key):'#000000';
     const onTbCustom1=(e)=>{ if(meta) setFieldColor(meta.key,e.target.value); };
     const tbCustomRing1=(meta&&curColor(meta.key)&&!FCOLORS.some(c=>c[0]===curColor(meta.key)))?'2px':'0px';
-    const tbCustom2=(tbIsCta&&curColor('ctaInk')&&!FCOLORS.some(c=>c[0]===curColor('ctaInk')))?curColor('ctaInk'):'#FFFFFF';
-    const onTbCustom2=(e)=>setFieldColor('ctaInk',e.target.value);
-    const tbCustomRing2=(tbIsCta&&curColor('ctaInk')&&!FCOLORS.some(c=>c[0]===curColor('ctaInk')))?'2px':'0px';
+    const tbCustom2=(tbTwo&&curColor(meta.key2)&&!FCOLORS.some(c=>c[0]===curColor(meta.key2)))?curColor(meta.key2):'#FFFFFF';
+    const onTbCustom2=(e)=>{ if(tbTwo) setFieldColor(meta.key2,e.target.value); };
+    const tbCustomRing2=(tbTwo&&curColor(meta.key2)&&!FCOLORS.some(c=>c[0]===curColor(meta.key2)))?'2px':'0px';
     const R=s.selRect||{}; const vw=(typeof window!=='undefined')?window.innerWidth:1200; const vh=(typeof window!=='undefined')?window.innerHeight:800;
-    const tbH=tbIsCta?196:120; let tTop=(R.bottom||0)+8; if(tTop+tbH>vh) tTop=Math.max(8,(R.top||0)-tbH-8);
+    const tbH=tbTwo?196:120; let tTop=(R.bottom||0)+8; if(tTop+tbH>vh) tTop=Math.max(8,(R.top||0)-tbH-8);
     let tLeft=Math.max(8, Math.min((R.left||0), vw-268));
     const tbTop=tTop+'px', tbLeft=tLeft+'px';
     const PALETTE=['#C9A24B','#1A73E8','#0B57D0','#12A46B','#E1352E','#F5852B','#8A6BFF','#E23C8A','#22B8CE','#B4552F','#5F6368','#202124'];
@@ -544,9 +558,10 @@ class Component extends DCLogic {
         onEditKey:(e)=>{if(e.key==='Enter'){e.preventDefault();e.currentTarget.blur();}},
         onPickEyebrow:(e)=>this.pickAt('eyebrow',e), onPickHead:(e)=>this.pickAt('headline',e),
         onPickSub:(e)=>this.pickAt('sub',e), onPickStars:(e)=>this.pickAt('star',e), onPickCta:(e)=>this.pickAt('cta',e),
+        onPickBrand:(e)=>this.pickAt('brand',e), onPickQr:(e)=>this.pickAt('qr',e), onPickFoot:(e)=>this.pickAt('foot',e),
       }, showStars:s.showStars, showLogo:s.showLogo,
       fontOptions, fontValue, onFont, sizeChips, fontColorChips, fontColorCustom, onFontColorCustom, customRing, shadowChips, finishChips, hasArtSel,
-      tbOpen, tbTitle, tbIsCta, tbSwatches, tbSwatches2, tbCustom1, onTbCustom1, tbCustomRing1, tbCustom2, onTbCustom2, tbCustomRing2, tbTop, tbLeft, closeTb,
+      tbOpen, tbTitle, tbTwo, tbLabel1, tbLabel2, tbSwatches, tbSwatches2, tbCustom1, onTbCustom1, tbCustomRing1, tbCustom2, onTbCustom2, tbCustomRing2, tbTop, tbLeft, closeTb,
       temLogo:!!s.logoUrl, semLogo:!s.logoUrl, logoPreview:s.logoUrl||'',
       logoPct:Math.round((s.logoScale||1)*100),
       onLogoSize:(e)=>this.setState({logoScale:(+e.target.value)/100}),

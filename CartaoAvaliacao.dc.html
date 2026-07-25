@@ -77,7 +77,7 @@
             <sc-if value="{{ noLogoImg }}" hint-placeholder-val="{{ true }}">
               <div style="width:{{ logoWP }};height:{{ logoWP }};border-radius:{{ t.logoRad }};background:{{ t.accent }};color:{{ t.onAccent }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:4cqmin;font-family:{{ t.headFont }}">{{ c.initials }}</div>
             </sc-if>
-            <div style="text-align:left;line-height:1.12"><div style="font-size:3.3cqmin;font-weight:700;font-family:{{ t.headFont }};letter-spacing:{{ t.brandLS }}">{{ c.brand }}</div><div style="font-size:2.4cqmin;color:{{ t.sub }};font-weight:500;text-transform:uppercase;letter-spacing:.12em">{{ c.category }}</div></div>
+            <div onclick="{{ c.onPickBrand }}" data-pick="1" title="Clique para mudar a cor" style="text-align:left;line-height:1.12"><div style="font-size:3.3cqmin;font-weight:700;font-family:{{ t.headFont }};letter-spacing:{{ t.brandLS }};color:{{ t.brandColor }}">{{ c.brand }}</div><div style="font-size:2.4cqmin;color:{{ t.catColor }};font-weight:500;text-transform:uppercase;letter-spacing:.12em">{{ c.category }}</div></div>
           </div>
         </sc-if>
         <sc-if value="{{ showStars }}" hint-placeholder-val="{{ true }}">
@@ -94,7 +94,7 @@
       </div>
 
       <div style="display:flex;flex-direction:column;align-items:center;gap:2.8cqmin">
-        <div style="background:{{ t.qrBg }};border:{{ t.qrBorder }};border-radius:3.2cqmin;padding:3.4cqmin;box-shadow:{{ t.qrShadow }}">
+        <div onclick="{{ c.onPickQr }}" data-pick="1" title="Clique para mudar as cores do QR" style="background:{{ t.qrBg }};border:{{ t.qrBorder }};border-radius:3.2cqmin;padding:3.4cqmin;box-shadow:{{ t.qrShadow }}">
           <div style="width:25cqmin;height:25cqmin">{{ qr }}</div>
         </div>
         <div onclick="{{ c.onPickCta }}" data-pick="1" title="Clique para mudar as cores" style="display:flex;align-items:center;gap:1.6cqmin;background:{{ t.ctaBg }};color:{{ t.ctaInk }};padding:2.4cqmin 4.2cqmin;border-radius:{{ t.ctaRad }};font-weight:700;font-size:3cqmin;font-family:{{ t.headFont }};text-transform:{{ t.ctaCase }};letter-spacing:{{ t.ctaLS }}">
@@ -102,9 +102,9 @@
         </div>
       </div>
 
-      <div style="display:flex;flex-direction:column;align-items:center;gap:.6cqmin">
-        <div style="font-size:2.3cqmin;color:{{ t.sub }};font-weight:500">{{ c.hint }}</div>
-        <div style="font-size:2.3cqmin;color:{{ t.faint }};letter-spacing:.04em;font-weight:600">{{ c.url }}</div>
+      <div onclick="{{ c.onPickFoot }}" data-pick="1" title="Clique para mudar a cor" style="display:flex;flex-direction:column;align-items:center;gap:.6cqmin">
+        <div style="font-size:2.3cqmin;color:{{ t.footColor }};font-weight:500">{{ c.hint }}</div>
+        <div style="font-size:2.3cqmin;color:{{ t.urlColor }};letter-spacing:.04em;font-weight:600">{{ c.url }}</div>
         <svg viewBox="0 0 24 24" style="width:4cqw;min-width:10px;margin-top:1.2cqmin;opacity:.5;display:block" aria-label="GeoRanking"><path fill="{{ t.ink }}" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"></path></svg>
       </div>
     </div>
@@ -122,7 +122,7 @@
             <sc-if value="{{ noLogoImg }}" hint-placeholder-val="{{ true }}">
               <div style="width:{{ logoWL }};height:{{ logoWL }};border-radius:{{ t.logoRad }};background:{{ t.accent }};color:{{ t.onAccent }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:3.4cqmin;font-family:{{ t.headFont }}">{{ c.initials }}</div>
             </sc-if>
-            <div style="line-height:1.12"><div style="font-size:2.9cqmin;font-weight:700;font-family:{{ t.headFont }};letter-spacing:{{ t.brandLS }}">{{ c.brand }}</div><div style="font-size:2.1cqmin;color:{{ t.sub }};font-weight:500;text-transform:uppercase;letter-spacing:.12em">{{ c.category }}</div></div>
+            <div onclick="{{ c.onPickBrand }}" data-pick="1" title="Clique para mudar a cor" style="line-height:1.12"><div style="font-size:2.9cqmin;font-weight:700;font-family:{{ t.headFont }};letter-spacing:{{ t.brandLS }};color:{{ t.brandColor }}">{{ c.brand }}</div><div style="font-size:2.1cqmin;color:{{ t.catColor }};font-weight:500;text-transform:uppercase;letter-spacing:.12em">{{ c.category }}</div></div>
           </div>
         </sc-if>
         <sc-if value="{{ showStars }}" hint-placeholder-val="{{ true }}">
@@ -138,11 +138,11 @@
         </div>
       </div>
       <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.8cqmin">
-        <div style="background:{{ t.qrBg }};border:{{ t.qrBorder }};border-radius:2.8cqmin;padding:3cqmin;box-shadow:{{ t.qrShadow }}">
+        <div onclick="{{ c.onPickQr }}" data-pick="1" title="Clique para mudar as cores do QR" style="background:{{ t.qrBg }};border:{{ t.qrBorder }};border-radius:2.8cqmin;padding:3cqmin;box-shadow:{{ t.qrShadow }}">
           <div style="width:28cqmin;height:28cqmin">{{ qr }}</div>
         </div>
-        <div style="font-size:2cqmin;color:{{ t.sub }};font-weight:500;text-align:center;max-width:32cqmin">{{ c.hint }}</div>
-        <div style="font-size:2cqmin;color:{{ t.faint }};letter-spacing:.04em;font-weight:600">{{ c.url }}</div>
+        <div onclick="{{ c.onPickFoot }}" data-pick="1" title="Clique para mudar a cor" style="font-size:2cqmin;color:{{ t.footColor }};font-weight:500;text-align:center;max-width:32cqmin">{{ c.hint }}</div>
+        <div onclick="{{ c.onPickFoot }}" data-pick="1" title="Clique para mudar a cor" style="font-size:2cqmin;color:{{ t.urlColor }};letter-spacing:.04em;font-weight:600">{{ c.url }}</div>
       </div>
       <svg viewBox="0 0 24 24" style="position:absolute;bottom:2.2cqmin;left:50%;transform:translateX(-50%);width:4cqw;min-width:10px;opacity:.5" aria-label="GeoRanking"><path fill="{{ t.ink }}" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"></path></svg>
     </div>
@@ -170,7 +170,8 @@ class Component extends DCLogic {
     );
   }
   renderVals(){
-    const t=Object.assign({headColor:'inherit', headShadow:'none', subShadow:'none'}, this.props.t||{});
+    const t=Object.assign({headColor:'inherit', headShadow:'none', subShadow:'none', brandColor:'inherit'}, this.props.t||{});
+    t.catColor=t.catColor||t.sub; t.footColor=t.footColor||t.sub; t.urlColor=t.urlColor||t.faint;
     const c=this.props.c||{};
     const orient=this.props.orient||'portrait';
     const landscape=orient==='landscape';
