@@ -96,7 +96,7 @@
           <div style="margin-top:16px;background:linear-gradient(135deg,#0B57D0,#1A73E8);color:#fff;border-radius:10px;padding:14px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
             <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;flex-shrink:0">auto_awesome</span>
             <div style="flex:1;min-width:180px;font-size:12.5px;line-height:17px">Com o logo enviado, a IA lê as cores da marca e sugere o design ideal.</div>
-            <button onClick="{{ aiGenerate }}" style="height:36px;padding:0 14px;border-radius:8px;border:none;background:#fff;color:#0B57D0;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit">Gerar design da marca</button>
+            <button onClick="{{ aiGenerate }}" disabled="{{ aiBusy }}" style="height:36px;padding:0 14px;border-radius:8px;border:none;background:#fff;color:#0B57D0;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;opacity:{{ aiBtnOpacity }}">{{ aiLabel }}</button>
             <button onClick="{{ aiLogo }}" style="height:36px;padding:0 12px;border-radius:8px;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit">Melhorar logo</button>
           </div>
         </div>
@@ -283,7 +283,7 @@
         </div>
         <div style="background:radial-gradient(circle at 50% 30%,#EEF1F6,#E3E7ED);border:1px solid #DADCE0;border-radius:16px;padding:40px;display:flex;align-items:center;justify-content:center;min-height:600px">
           <div style="width:{{ previewW }};height:{{ previewH }};border-radius:14px;overflow:hidden;box-shadow:0 18px 50px rgba(32,33,36,.24);animation:gr-fade .2s ease;display:grid">
-            <dc-import name="CartaoAvaliacao" t="{{ activeTemplate }}" c="{{ content }}" orient="{{ activeFormat.orient }}" show-logo="{{ showLogo }}" show-stars="{{ showStars }}" style="width:100%;height:100%" hint-size="100%,100%"></dc-import>
+            <dc-import name="CartaoAvaliacao" t="{{ activeTemplate }}" c="{{ content }}" orient="{{ activeFormat.orient }}" show-logo="{{ showLogo }}" show-stars="{{ showStars }}" show-eyebrow="{{ showEyebrow }}" style="width:100%;height:100%" hint-size="100%,100%"></dc-import>
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;justify-content:center;font-size:12px;color:#80868B"><span style="font-family:'Material Symbols Rounded';font-size:16px;line-height:1">info</span>Impressão em alta resolução com sangria 3 mm e área de segurança. QR abre a avaliação via Place ID.</div>
@@ -610,7 +610,7 @@ class Component extends DCLogic {
         onPickSub:(e)=>this.pickAt('sub',e), onPickStars:(e)=>this.pickAt('star',e), onPickCta:(e)=>this.pickAt('cta',e),
         onPickBrand:(e)=>this.pickAt('brand',e), onPickQr:(e)=>this.pickAt('qr',e), onPickFoot:(e)=>this.pickAt('foot',e),
         onElemDown:(e)=>this.startDrag(e),
-      }, showStars:s.showStars, showLogo:s.showLogo,
+      }, showStars:s.showStars&&!(s.artSel&&s.artSel.isMoldura), showEyebrow:!(s.artSel&&s.artSel.isMoldura), showLogo:s.showLogo,
       fontOptions, fontValue, onFont, sizeChips, fontColorChips, fontColorCustom, onFontColorCustom, customRing, shadowChips, finishChips, hasArtSel,
       tbOpen, tbTitle, tbTwo, tbLabel1, tbLabel2, tbSwatches, tbSwatches2, tbCustom1, onTbCustom1, tbCustomRing1, tbCustom2, onTbCustom2, tbCustomRing2, tbTop, tbLeft, closeTb,
       temLogo:!!s.logoUrl, semLogo:!s.logoUrl, logoPreview:s.logoUrl||'',
@@ -633,8 +633,15 @@ class Component extends DCLogic {
       downloadPng:()=>this.toast('Imagem PNG baixada'),
       print:()=>this.toast('Enviando para impressão…','print'),
       shareQR:()=>this.toast('QR de avaliação copiado'),
-      aiGenerate:()=>this.toast('IA analisando a marca e aplicando o design…','auto_awesome'),
-      aiLogo:()=>this.toast('Ajustando e redimensionando o logo…','auto_awesome'),
+      aiBusy:!!s.aiLoading, aiLabel:s.aiLoading?'Gerando…':'Gerar design da marca', aiBtnOpacity:s.aiLoading?'.6':'1',
+      aiGenerate:()=>{ if(this.state.aiLoading) return; this.setState({aiLoading:true}); this.toast('IA gerando o design da marca… (~15s)','auto_awesome');
+        const c=this.state.content||{}; const body=JSON.stringify({segmento:c.category||'',marca:c.brand||''});
+        fetch((this.AI_URL||'http://127.0.0.1:8788')+'/gerar-fundo',{method:'POST',headers:{'Content-Type':'application/json'},body})
+          .then(r=>r.json())
+          .then(d=>{ if(d&&d.image){ this.setState({artSel:{id:'ai-'+Date.now(),src:d.image,isAI:true}, artFinish:'light', aiLoading:false}); this.toast('Design gerado e aplicado no fundo!','check_circle'); }
+            else { this.setState({aiLoading:false}); this.toast(d&&d.error?('IA: '+String(d.error).slice(0,90)):'Falha ao gerar','error'); } })
+          .catch(()=>{ this.setState({aiLoading:false}); this.toast('Backend da IA offline — rode ai-backend/server.py','error'); }); },
+      aiLogo:()=>this.toast('Melhorar logo com IA: em breve (precisa do backend de edição de imagem).','auto_awesome'),
     };
   }
 }
