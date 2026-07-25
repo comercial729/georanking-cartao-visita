@@ -143,17 +143,33 @@
             </div>
           </div>
           <div style="margin-top:18px;padding-top:16px;border-top:1px solid #F1F3F4">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><span style="font-size:13px;font-weight:600;color:#5F6368">Arte de fundo (opcional)</span><span style="font-size:11.5px;color:#9AA0A6">{{ artShown }} artes do seu segmento</span></div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:10px">
-              <div onClick="{{ clearArt }}" style="aspect-ratio:2/3;border-radius:10px;border:2px solid {{ noArtRing }};background:#F8FAFD;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#5F6368">
-                <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1">block</span><span style="font-size:11px;font-weight:600">Sem arte</span>
-              </div>
-              <sc-for list="{{ artItems }}" as="ar" hint-placeholder-count="7">
-                <div onClick="{{ ar.onClick }}" title="{{ ar.id }}" style="aspect-ratio:2/3;border-radius:10px;border:2px solid {{ ar.ring }};background-image:url({{ ar.url }});background-size:cover;background-position:center;cursor:pointer;position:relative;overflow:hidden">
-                  <div style="position:absolute;left:0;right:0;bottom:0;padding:4px 6px;background:linear-gradient(transparent,rgba(0,0,0,.55));color:#fff;font-size:9.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ar.label }}</div>
-                </div>
-              </sc-for>
+            <div style="font-size:13px;font-weight:600;color:#5F6368;margin-bottom:10px">Fundo do cartão (opcional)</div>
+            <div style="display:flex;gap:6px;margin-bottom:12px">
+              <sc-for list="{{ bgTabChips }}" as="bt" hint-placeholder-count="2"><div onClick="{{ bt.onClick }}" style="padding:8px 14px;border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;background:{{ bt.bg }};color:{{ bt.color }};border:1px solid {{ bt.bd }}">{{ bt.label }}</div></sc-for>
             </div>
+            <sc-if value="{{ showArtes }}" hint-placeholder-val="{{ true }}">
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:10px">
+                <div onClick="{{ clearArt }}" style="aspect-ratio:2/3;border-radius:10px;border:2px solid {{ noArtRing }};background:#F8FAFD;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#5F6368">
+                  <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1">block</span><span style="font-size:11px;font-weight:600">Sem fundo</span>
+                </div>
+                <sc-for list="{{ artItems }}" as="ar" hint-placeholder-count="7">
+                  <div onClick="{{ ar.onClick }}" title="{{ ar.id }}" style="aspect-ratio:2/3;border-radius:10px;border:2px solid {{ ar.ring }};background-image:url({{ ar.url }});background-size:cover;background-position:center;cursor:pointer;position:relative;overflow:hidden">
+                    <div style="position:absolute;left:0;right:0;bottom:0;padding:4px 6px;background:linear-gradient(transparent,rgba(0,0,0,.55));color:#fff;font-size:9.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ar.label }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ showMolduras }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size:11.5px;color:#9AA0A6;margin-bottom:10px">Molduras prontas no estilo Google — já trazem estrelas e cara oficial. Arraste o QR e a logo para os espaços vazios.</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px">
+                <div onClick="{{ clearArt }}" style="aspect-ratio:105/148;border-radius:10px;border:2px solid {{ noArtRing }};background:#F8FAFD;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#5F6368">
+                  <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1">block</span><span style="font-size:11px;font-weight:600">Sem fundo</span>
+                </div>
+                <sc-for list="{{ molduraItems }}" as="ml" hint-placeholder-count="10">
+                  <div onClick="{{ ml.onClick }}" title="{{ ml.label }}" style="aspect-ratio:105/148;border-radius:10px;border:2px solid {{ ml.ring }};background-image:url({{ ml.url }});background-size:cover;background-position:center;cursor:pointer;box-shadow:0 1px 3px rgba(60,64,67,.14)"></div>
+                </sc-for>
+              </div>
+            </sc-if>
             <sc-if value="{{ hasArtSel }}" hint-placeholder-val="{{ false }}">
               <div style="margin-top:14px">
                 <div style="font-size:12.5px;font-weight:600;color:#5F6368;margin-bottom:8px">Acabamento sobre a arte</div>
@@ -413,12 +429,13 @@ class Component extends DCLogic {
     this.ART2SEG={'tecnologia-internet':'tech','celular-assistencia':'celular','seguranca-eletronica':'seguranca','distribuidora-corporativo':'distribuicao','beleza-estetica':'beleza','saude-clinicas':'saude','casa-construcao':'construcao','moda-varejo':'moda'};
     this.state={
       tpl:0, fmt:0, copyIdx:0, filter:'all', segFilter:'all', accent:null, showStars:true, showLogo:true, snackbar:null, snackIcon:'check_circle',
-      arts:[], artSel:null, artFilter:'all', artFinish:'light',
+      arts:[], molduras:[], bgTab:'artes', artSel:null, artFilter:'all', artFinish:'light',
       logoUrl:null, logoScale:1, fontSel:null, fontScale:1, fontColor:null, textShadow:'none',
       colors:{}, selField:null, selRect:null, pos:{}, guideV:false, guideH:false, gFrame:'none',
       content:{ brand:'CSA Casa da Segurança Eletrônica', category:'Segurança Eletrônica', initials:'CSA', eyebrow:'Avaliação no Google', headline:this.COPY[0].t, subcopy:this.COPY[0].s, cta:'Avaliar no Google', url:'g.page/csa', hint:'Aponte a câmera do celular para o QR Code' },
     };
     fetch('./biblioteca/catalog.json').then(r=>r.ok?r.json():null).then(c=>{ if(c&&c.bases) this.setState({arts:c.bases}); }).catch(()=>{});
+    fetch('./molduras/catalog.json').then(r=>r.ok?r.json():null).then(c=>{ if(c&&c.molduras) this.setState({molduras:c.molduras}); }).catch(()=>{});
   }
   toast(m,ic){ this.setState({snackbar:m,snackIcon:ic||'check_circle'}); clearTimeout(this._t); this._t=setTimeout(()=>this.setState({snackbar:null}),2600); }
   pickAt(field,e){ if(this._suppressClick){ this._suppressClick=false; return; } try{ const r=e.currentTarget.getBoundingClientRect(); this.setState({selField:field, selRect:{top:r.top,bottom:r.bottom,left:r.left,right:r.right,width:r.width}}); }catch(_){ this.setState({selField:field, selRect:null}); } }
@@ -503,7 +520,10 @@ class Component extends DCLogic {
     const artSegOf=(seg)=>this.ART2SEG[seg]||seg;
     const artsAll=s.arts||[];
     const artFiltered=artsAll.filter(a=>s.segFilter==='all'||artSegOf(a.segmento)===s.segFilter);
-    const artItems=artFiltered.map(a=>({id:a.id,label:a.estilo,url:'biblioteca/'+a.arquivo,ring:(s.artSel&&s.artSel.id===a.id)?'#1A73E8':'transparent',onClick:()=>this.setState({artSel:a})}));
+    const artItems=artFiltered.map(a=>({id:a.id,label:a.estilo,url:'biblioteca/'+a.arquivo,ring:(s.artSel&&s.artSel.id===a.id)?'#1A73E8':'transparent',onClick:()=>this.setState({artSel:{id:a.id,src:'biblioteca/'+a.arquivo}})}));
+    const molduraItems=(s.molduras||[]).map(m=>({id:m.id,label:m.estilo,url:'molduras/'+m.arquivo,ring:(s.artSel&&s.artSel.id===m.id)?'#1A73E8':'transparent',onClick:()=>this.setState({artSel:{id:m.id,src:'molduras/'+m.arquivo,isMoldura:true}, artFinish:'none'})}));
+    const bgTabChips=[['artes','Artes de fundo'],['molduras','Molduras Google']].map(([k,label])=>{const on=(s.bgTab||'artes')===k;return{label,onClick:()=>this.setState({bgTab:k}),bg:on?'#1A73E8':'#fff',color:on?'#fff':'#5F6368',bd:on?'#1A73E8':'#DADCE0'};});
+    const showArtes=(s.bgTab||'artes')==='artes', showMolduras=(s.bgTab||'artes')==='molduras';
     if(s.artSel){
       const hex=(typeof activeT.bg==='string'&&activeT.bg.charAt(0)==='#'&&activeT.bg.length===7)?activeT.bg:null;
       const fin=s.artFinish||'light';
@@ -517,7 +537,8 @@ class Component extends DCLogic {
       } else if(fin==='panel'){
         panel=hex ? hex+'E6' : 'rgba(14,16,20,.88)';
       } // 'none' => sem véu, arte pura
-      activeT={...activeT, bgImage:'biblioteca/'+s.artSel.arquivo, artScrim:scrim, artPanel:panel};
+      const bgSrc=s.artSel.src?s.artSel.src:('biblioteca/'+s.artSel.arquivo);
+      activeT={...activeT, bgImage:bgSrc, artScrim:scrim, artPanel:panel};
     }
     const FINISHES=[['light','Leve'],['veil','Névoa'],['panel','Painel'],['none','Sem véu']];
     const finishChips=FINISHES.map(([k,label])=>{const on=(s.artFinish||'light')===k;return{label,onClick:()=>this.setState({artFinish:k}),bg:on?'#E8F0FE':'#fff',color:on?'#0B57D0':'#5F6368',bd:on?'#0B57D0':'#DADCE0'};});
@@ -576,6 +597,7 @@ class Component extends DCLogic {
     return {
       styleChips, segChips, templates, formats, copyPresets,
       artItems, artShown:artItems.length, artTotal:artsAll.length,
+      molduraItems, molduraShown:molduraItems.length, bgTabChips, showArtes, showMolduras,
       clearArt:()=>this.setState({artSel:null}), noArtRing:s.artSel?'#DADCE0':'#1A73E8',
       activeTags:(this.SEG[this.TEMPLATES[s.tpl].name]||[]).map(id=>{const e=this.SEGMENTS.find(x=>x[0]===id);return e?e[1]:id;}).join(' · '), templateCount:this.TEMPLATES.length, shownCount:templates.length,
       activeTemplate:activeT, activeName:this.TEMPLATES[s.tpl].name, activeFormat:f, accentSwatches,

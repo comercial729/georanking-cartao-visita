@@ -1,0 +1,17 @@
+{
+  "versao": "1.0",
+  "tipo": "molduras-google",
+  "descricao": "Molduras prontas no estilo avaliacao Google (1060x1484, A6 retrato). Centro livre para posicionar QR/logo/texto via arraste.",
+  "molduras": [
+    { "id": "mold-01", "arquivo": "moldura-01.png", "tema": "clara", "estilo": "Clean claro" },
+    { "id": "mold-02", "arquivo": "moldura-02.png", "tema": "clara", "estilo": "Clean claro" },
+    { "id": "mold-03", "arquivo": "moldura-03.png", "tema": "clara", "estilo": "Maps claro" },
+    { "id": "mold-04", "arquivo": "moldura-04.png", "tema": "clara", "estilo": "Maps claro" },
+    { "id": "mold-05", "arquivo": "moldura-05.png", "tema": "clara", "estilo": "Clean claro" },
+    { "id": "mold-06", "arquivo": "moldura-06.png", "tema": "clara", "estilo": "Neumorfo" },
+    { "id": "mold-07", "arquivo": "moldura-07.png", "tema": "clara", "estilo": "Neumorfo" },
+    { "id": "mold-08", "arquivo": "moldura-08.png", "tema": "clara", "estilo": "Neumorfo" },
+    { "id": "mold-09", "arquivo": "moldura-09.png", "tema": "escura", "estilo": "Escuro premium" },
+    { "id": "mold-10", "arquivo": "moldura-10.png", "tema": "clara", "estilo": "Maps claro" }
+  ]
+}
