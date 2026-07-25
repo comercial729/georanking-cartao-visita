@@ -17,7 +17,8 @@
   <!-- ===== ARTE DE FUNDO (biblioteca) + scrim de contraste ===== -->
   <sc-if value="{{ hasArt }}" hint-placeholder-val="{{ false }}">
     <div style="position:absolute;inset:0;background-image:url({{ t.bgImage }});background-size:cover;background-position:center;pointer-events:none"></div>
-    <div style="position:absolute;inset:0;background:{{ t.artScrim }};pointer-events:none"></div>
+    <sc-if value="{{ hasScrim }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;inset:0;background:{{ t.artScrim }};pointer-events:none"></div></sc-if>
+    <sc-if value="{{ hasPanel }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;inset:5cqmin;background:{{ t.artPanel }};backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);border-radius:6cqmin;border:1px solid rgba(255,255,255,.14);box-shadow:0 6cqmin 16cqmin rgba(0,0,0,.22);pointer-events:none"></div></sc-if>
   </sc-if>
 
   <!-- ===== ENGINE DECORATION ===== -->
@@ -179,9 +180,9 @@ class Component extends DCLogic {
       t, c, landscape, portrait:!landscape,
       showLogo:this.props.showLogo!==false,
       showStars:this.props.showStars!==false,
-      isLuxo:style==='luxo', isTech:style==='tech', isAuto:style==='auto', isCorp:style==='corp', isVibr:style==='vibr',
-      isEditorial:style==='editorial', isRetro:style==='retro', isGradient:style==='gradient',
-      hasArt:!!t.bgImage,
+      isLuxo:!t.bgImage&&style==='luxo', isTech:!t.bgImage&&style==='tech', isAuto:!t.bgImage&&style==='auto', isCorp:!t.bgImage&&style==='corp', isVibr:!t.bgImage&&style==='vibr',
+      isEditorial:!t.bgImage&&style==='editorial', isRetro:!t.bgImage&&style==='retro', isGradient:!t.bgImage&&style==='gradient',
+      hasArt:!!t.bgImage, hasScrim:!!t.artScrim, hasPanel:!!t.artPanel,
       hasLogoImg:!!c.logoUrl, noLogoImg:!c.logoUrl,
       logoWP:(10*scale).toFixed(2)+'cqmin',
       logoWL:(8.5*scale).toFixed(2)+'cqmin',

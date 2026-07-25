@@ -148,6 +148,17 @@
                 </div>
               </sc-for>
             </div>
+            <sc-if value="{{ hasArtSel }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:14px">
+                <div style="font-size:12.5px;font-weight:600;color:#5F6368;margin-bottom:8px">Acabamento sobre a arte</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap">
+                  <sc-for list="{{ finishChips }}" as="fc" hint-placeholder-count="4">
+                    <div onClick="{{ fc.onClick }}" style="padding:7px 13px;border-radius:999px;border:1px solid {{ fc.bd }};background:{{ fc.bg }};color:{{ fc.color }};font-size:12.5px;font-weight:600;cursor:pointer">{{ fc.label }}</div>
+                  </sc-for>
+                </div>
+                <div style="font-size:11px;color:#9AA0A6;margin-top:6px">Leve = clareia por igual · Névoa = destaque no centro · Painel = arte só na borda · Sem véu = arte pura</div>
+              </div>
+            </sc-if>
           </div>
         </div>
 
@@ -355,7 +366,7 @@ class Component extends DCLogic {
     this.ART2SEG={'tecnologia-internet':'tech','celular-assistencia':'celular','seguranca-eletronica':'seguranca','distribuidora-corporativo':'distribuicao','beleza-estetica':'beleza','saude-clinicas':'saude','casa-construcao':'construcao','moda-varejo':'moda'};
     this.state={
       tpl:0, fmt:0, copyIdx:0, filter:'all', segFilter:'all', accent:null, showStars:true, showLogo:true, snackbar:null, snackIcon:'check_circle',
-      arts:[], artSel:null, artFilter:'all',
+      arts:[], artSel:null, artFilter:'all', artFinish:'light',
       logoUrl:null, logoScale:1, fontSel:null, fontScale:1, fontColor:null, textShadow:'none',
       content:{ brand:'CSA Casa da Segurança Eletrônica', category:'Segurança Eletrônica', initials:'CSA', eyebrow:'Avaliação no Google', headline:this.COPY[0].t, subcopy:this.COPY[0].s, cta:'Avaliar no Google', url:'g.page/csa', hint:'Aponte a câmera do celular para o QR Code' },
     };
@@ -436,11 +447,22 @@ class Component extends DCLogic {
     const artItems=artFiltered.map(a=>({id:a.id,label:a.estilo,url:'biblioteca/'+a.arquivo,ring:(s.artSel&&s.artSel.id===a.id)?'#1A73E8':'transparent',onClick:()=>this.setState({artSel:a})}));
     if(s.artSel){
       const hex=(typeof activeT.bg==='string'&&activeT.bg.charAt(0)==='#'&&activeT.bg.length===7)?activeT.bg:null;
-      const scrim=hex
-        ? 'radial-gradient(95% 78% at 50% 46%, '+hex+'F5 0%, '+hex+'C0 55%, '+hex+'00 100%)'
-        : 'radial-gradient(95% 78% at 50% 46%, rgba(12,14,18,.92) 0%, rgba(12,14,18,.55) 55%, rgba(12,14,18,0) 100%)';
-      activeT={...activeT, bgImage:'biblioteca/'+s.artSel.arquivo, artScrim:scrim};
+      const fin=s.artFinish||'light';
+      let scrim='', panel='';
+      if(fin==='veil'){
+        scrim=hex
+          ? 'radial-gradient(95% 78% at 50% 46%, '+hex+'F5 0%, '+hex+'C0 55%, '+hex+'00 100%)'
+          : 'radial-gradient(95% 78% at 50% 46%, rgba(12,14,18,.92) 0%, rgba(12,14,18,.55) 55%, rgba(12,14,18,0) 100%)';
+      } else if(fin==='light'){
+        scrim=hex ? 'linear-gradient('+hex+'52,'+hex+'52)' : 'linear-gradient(rgba(10,12,16,.34),rgba(10,12,16,.34))';
+      } else if(fin==='panel'){
+        panel=hex ? hex+'E6' : 'rgba(14,16,20,.88)';
+      } // 'none' => sem véu, arte pura
+      activeT={...activeT, bgImage:'biblioteca/'+s.artSel.arquivo, artScrim:scrim, artPanel:panel};
     }
+    const FINISHES=[['light','Leve'],['veil','Névoa'],['panel','Painel'],['none','Sem véu']];
+    const finishChips=FINISHES.map(([k,label])=>{const on=(s.artFinish||'light')===k;return{label,onClick:()=>this.setState({artFinish:k}),bg:on?'#E8F0FE':'#fff',color:on?'#0B57D0':'#5F6368',bd:on?'#0B57D0':'#DADCE0'};});
+    const hasArtSel=!!s.artSel;
     const PALETTE=['#C9A24B','#1A73E8','#0B57D0','#12A46B','#E1352E','#F5852B','#8A6BFF','#E23C8A','#22B8CE','#B4552F','#5F6368','#202124'];
     const accentSwatches=[{hex:base.accent,label:'Original',on:!s.accent||s.accent===base.accent,onClick:()=>this.setState({accent:null})}]
       .concat(PALETTE.filter(h=>h!==base.accent).map(hex=>({hex,label:'',on:s.accent===hex,onClick:()=>this.setState({accent:hex})})))
@@ -461,7 +483,7 @@ class Component extends DCLogic {
         onEditCta:(e)=>{const v=(e.currentTarget.innerText||'').replace(/\s+/g,' ').trim(); this.setState(st=>({content:{...st.content,cta:v||st.content.cta}}));},
         onEditKey:(e)=>{if(e.key==='Enter'){e.preventDefault();e.currentTarget.blur();}},
       }, showStars:s.showStars, showLogo:s.showLogo,
-      fontOptions, fontValue, onFont, sizeChips, fontColorChips, fontColorCustom, onFontColorCustom, customRing, shadowChips,
+      fontOptions, fontValue, onFont, sizeChips, fontColorChips, fontColorCustom, onFontColorCustom, customRing, shadowChips, finishChips, hasArtSel,
       temLogo:!!s.logoUrl, semLogo:!s.logoUrl, logoPreview:s.logoUrl||'',
       logoPct:Math.round((s.logoScale||1)*100),
       onLogoSize:(e)=>this.setState({logoScale:(+e.target.value)/100}),
