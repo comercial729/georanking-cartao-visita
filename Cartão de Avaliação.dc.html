@@ -95,8 +95,8 @@
           </div>
           <div style="margin-top:16px;background:linear-gradient(135deg,#0B57D0,#1A73E8);color:#fff;border-radius:10px;padding:14px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
             <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;flex-shrink:0">auto_awesome</span>
-            <div style="flex:1;min-width:180px;font-size:12.5px;line-height:17px">Com o logo enviado, a IA lê as cores da marca e sugere o design ideal.</div>
-            <button onClick="{{ aiGenerate }}" disabled="{{ aiBusy }}" style="height:36px;padding:0 14px;border-radius:8px;border:none;background:#fff;color:#0B57D0;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;opacity:{{ aiBtnOpacity }}">{{ aiLabel }}</button>
+            <div style="flex:1;min-width:180px;font-size:12.5px;line-height:17px">Envie o logo e clique: lemos a paleta da marca e vestimos o cartão nas cores dela — na hora.</div>
+            <button onClick="{{ aiGenerate }}" style="height:36px;padding:0 14px;border-radius:8px;border:none;background:#fff;color:#0B57D0;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit">Vestir cartão na paleta da marca</button>
             <button onClick="{{ aiLogo }}" style="height:36px;padding:0 12px;border-radius:8px;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit">Melhorar logo</button>
           </div>
         </div>
@@ -141,6 +141,14 @@
                 <div onClick="{{ a.onClick }}" title="{{ a.label }}" style="width:34px;height:34px;border-radius:999px;background:{{ a.hex }};cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff,0 0 0 {{ a.ring }} {{ a.hex }}"><span style="font-family:'Material Symbols Rounded';font-size:19px;line-height:1;color:#fff">{{ a.check }}</span></div>
               </sc-for>
             </div>
+            <sc-if value="{{ hasBrandPalette }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:6px;margin:14px 0 8px"><span style="font-family:'Material Symbols Rounded';font-size:16px;line-height:1;color:#1A73E8">palette</span><span style="font-size:12px;font-weight:600;color:#3C4043">Cores lidas da sua logo</span></div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <sc-for list="{{ brandChips }}" as="bc" hint-placeholder-count="5">
+                  <div onClick="{{ bc.onClick }}" style="width:34px;height:34px;border-radius:999px;background:{{ bc.hex }};cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff,0 0 0 {{ bc.ring }} {{ bc.hex }}"><span style="font-family:'Material Symbols Rounded';font-size:19px;line-height:1;color:#fff">{{ bc.check }}</span></div>
+                </sc-for>
+              </div>
+            </sc-if>
           </div>
           <div style="margin-top:18px;padding-top:16px;border-top:1px solid #F1F3F4">
             <div style="font-size:13px;font-weight:600;color:#5F6368;margin-bottom:10px">Fundo do cartão (opcional)</div>
@@ -449,6 +457,18 @@ class Component extends DCLogic {
       const up=()=>{ document.removeEventListener('pointermove',move); document.removeEventListener('pointerup',up); this.setState({guideV:false,guideH:false}); if(!dragging) this._suppressClick=false; };
       document.addEventListener('pointermove',move); document.addEventListener('pointerup',up);
     }catch(_){} }
+  extractPalette(dataUrl, cb){ try{ const img=new Image(); img.onload=()=>{ try{
+        const N=56, cv=document.createElement('canvas'); cv.width=N; cv.height=N; const ctx=cv.getContext('2d'); ctx.drawImage(img,0,0,N,N);
+        const d=ctx.getImageData(0,0,N,N).data, b={};
+        for(let i=0;i<d.length;i+=4){ const r=d[i],g=d[i+1],bl=d[i+2],a=d[i+3]; if(a<128) continue; if(r>236&&g>236&&bl>236) continue;
+          const key=(r>>4)+'_'+(g>>4)+'_'+(bl>>4); const sat=Math.max(r,g,bl)-Math.min(r,g,bl);
+          if(!b[key]) b[key]={r:0,g:0,b:0,n:0,s:0}; const k=b[key]; k.r+=r;k.g+=g;k.b+=bl;k.n++;k.s+=sat; }
+        let arr=Object.values(b).map(k=>({r:Math.round(k.r/k.n),g:Math.round(k.g/k.n),b:Math.round(k.b/k.n),n:k.n,s:k.s/k.n})).filter(c=>c.n>=2);
+        arr.sort((x,y)=>(y.n*(1+2*y.s/255))-(x.n*(1+2*x.s/255)));
+        const hex=c=>'#'+[c.r,c.g,c.b].map(v=>Math.max(0,Math.min(255,v)).toString(16).padStart(2,'0')).join('');
+        const out=[]; for(const c of arr){ if(out.every(o=>Math.abs(o.r-c.r)+Math.abs(o.g-c.g)+Math.abs(o.b-c.b)>60)) out.push(c); if(out.length>=5) break; }
+        cb(out.map(hex));
+      }catch(e){ cb([]); } }; img.onerror=()=>cb([]); img.src=dataUrl; }catch(e){ cb([]); } }
   renderVals(){
     const s=this.state;
     const styleChips=this.STYLES.map(([id,label])=>{const on=s.filter===id;return{label,onClick:()=>this.setState({filter:id}),bg:on?'#1A73E8':'#fff',color:on?'#fff':'#5F6368',bd:on?'#1A73E8':'#DADCE0'};});
@@ -590,6 +610,9 @@ class Component extends DCLogic {
     const accentSwatches=[{hex:base.accent,label:'Original',on:!s.accent||s.accent===base.accent,onClick:()=>this.setState({accent:null})}]
       .concat(PALETTE.filter(h=>h!==base.accent).map(hex=>({hex,label:'',on:s.accent===hex,onClick:()=>this.setState({accent:hex})})))
       .map(a=>({...a,ring:a.on?'3px':'0px',check:a.on?'check':''}));
+    const brandPalette=s.brandPalette||[];
+    const brandChips=brandPalette.map(hex=>({hex,onClick:()=>this.setState({accent:hex}),ring:(s.accent===hex)?'3px':'0px',check:(s.accent===hex)?'check':''}));
+    const hasBrandPalette=brandPalette.length>0;
     const f=this.FORMATS[s.fmt];
     let pxW,pxH;
     if(f.orient==='landscape'){ pxW=600; pxH=Math.round(pxW*f.h/f.w); }
@@ -600,7 +623,7 @@ class Component extends DCLogic {
       molduraItems, molduraShown:molduraItems.length, bgTabChips, showArtes, showMolduras,
       clearArt:()=>this.setState({artSel:null}), noArtRing:s.artSel?'#DADCE0':'#1A73E8',
       activeTags:(this.SEG[this.TEMPLATES[s.tpl].name]||[]).map(id=>{const e=this.SEGMENTS.find(x=>x[0]===id);return e?e[1]:id;}).join(' · '), templateCount:this.TEMPLATES.length, shownCount:templates.length,
-      activeTemplate:activeT, activeName:this.TEMPLATES[s.tpl].name, activeFormat:f, accentSwatches,
+      activeTemplate:activeT, activeName:this.TEMPLATES[s.tpl].name, activeFormat:f, accentSwatches, brandChips, hasBrandPalette,
       content:{...s.content, logoUrl:s.logoUrl, logoScale:s.logoScale,
         onEditHeadline:(e)=>{const v=(e.currentTarget.innerText||'').replace(/\s+/g,' ').trim(); this.setState(st=>({content:{...st.content,headline:v||st.content.headline}}));},
         onEditSub:(e)=>{const v=(e.currentTarget.innerText||'').replace(/\s+/g,' ').trim(); this.setState(st=>({content:{...st.content,subcopy:v||st.content.subcopy}}));},
@@ -633,15 +656,11 @@ class Component extends DCLogic {
       downloadPng:()=>this.toast('Imagem PNG baixada'),
       print:()=>this.toast('Enviando para impressão…','print'),
       shareQR:()=>this.toast('QR de avaliação copiado'),
-      aiBusy:!!s.aiLoading, aiLabel:s.aiLoading?'Gerando…':'Gerar design da marca', aiBtnOpacity:s.aiLoading?'.6':'1',
-      aiGenerate:()=>{ if(this.state.aiLoading) return; this.setState({aiLoading:true}); this.toast('IA gerando o design da marca… (~15s)','auto_awesome');
-        const c=this.state.content||{}; const body=JSON.stringify({segmento:c.category||'',marca:c.brand||''});
-        fetch((this.AI_URL||'http://127.0.0.1:8788')+'/gerar-fundo',{method:'POST',headers:{'Content-Type':'application/json'},body})
-          .then(r=>r.json())
-          .then(d=>{ if(d&&d.image){ this.setState({artSel:{id:'ai-'+Date.now(),src:d.image,isAI:true}, artFinish:'light', aiLoading:false}); this.toast('Design gerado e aplicado no fundo!','check_circle'); }
-            else { this.setState({aiLoading:false}); this.toast(d&&d.error?('IA: '+String(d.error).slice(0,90)):'Falha ao gerar','error'); } })
-          .catch(()=>{ this.setState({aiLoading:false}); this.toast('Backend da IA offline — rode ai-backend/server.py','error'); }); },
-      aiLogo:()=>this.toast('Melhorar logo com IA: em breve (precisa do backend de edição de imagem).','auto_awesome'),
+      aiGenerate:()=>{ const logo=this.state.logoUrl; if(!logo){ this.toast('Envie a logo primeiro — o design lê as cores dela.','image'); return; }
+        this.toast('Lendo a paleta da sua marca…','palette');
+        this.extractPalette(logo,(pal)=>{ if(!pal||!pal.length){ this.toast('Não consegui ler as cores da logo (muito clara?).','error'); return; }
+          this.setState({brandPalette:pal, accent:pal[0], colors:{...(this.state.colors||{}), star:'#FBBC04'}}); this.toast('Cartão vestido na paleta da sua marca!','check_circle'); }); },
+      aiLogo:()=>this.toast('Melhorar logo (tirar fundo, endireitar, deixar pro) — em breve, via IA de imagem.','auto_awesome'),
     };
   }
 }
