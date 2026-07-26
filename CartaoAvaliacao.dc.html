@@ -168,10 +168,17 @@ class Component extends DCLogic {
     var n=q.getModuleCount(), rects=[];
     for(var y=0;y<n;y++) for(var x=0;x<n;x++) if(q.isDark(y,x)) rects.push(React.createElement('rect',{key:x+'-'+y,x:x,y:y,width:1.02,height:1.02,fill:color}));
     if(logo!==false){
-      var cx=n/2, patch=n*0.30, pr=patch/2;
-      rects.push(React.createElement('rect',{key:'lp',x:cx-pr,y:cx-pr,width:patch,height:patch,rx:patch*0.24,fill:'#FFFFFF'}));
-      var pin=n*0.185, ps=pin/24, off=cx-pin/2;
-      rects.push(React.createElement('path',{key:'pin',d:'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z',fill:(logoColor||color),transform:'translate('+off+' '+off+') scale('+ps+')'}));
+      var cx=n/2, patch=n*0.33, pr=patch/2;
+      rects.push(React.createElement('rect',{key:'lp',x:cx-pr,y:cx-pr,width:patch,height:patch,rx:patch*0.2,fill:'#FFFFFF'}));
+      var L=n*0.25, s=L/200, logoH=185*s, lx=cx-L/2, ly=cx-logoH/2;
+      var el=function(k,tag,a){ a.key=k; return React.createElement(tag,a); };
+      rects.push(React.createElement('g',{key:'gr',transform:'translate('+lx+' '+ly+') scale('+s+')'},[
+        el('b1','rect',{x:3,y:22,width:57,height:104,rx:9,fill:'#F5A623'}),
+        el('b2','rect',{x:70,y:2,width:60,height:124,rx:9,fill:'#18BE5C'}),
+        el('b3','rect',{x:140,y:40,width:57,height:86,rx:9,fill:'#E8443A'}),
+        el('bp','rect',{x:0,y:131,width:200,height:52,rx:26,fill:'#1667D6'}),
+        el('pin','path',{d:'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z',fill:'#FFFFFF',transform:'translate(78 134) scale(1.83)'})
+      ]));
     }
     return React.createElement('svg',{viewBox:'-2 -2 '+(n+4)+' '+(n+4),width:'100%',height:'100%',shapeRendering:'crispEdges','aria-label':'QR de avaliação no Google'},rects);
   }
