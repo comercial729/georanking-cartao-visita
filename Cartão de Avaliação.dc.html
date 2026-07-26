@@ -285,6 +285,9 @@
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
           <div><div style="font-size:15px;font-weight:600">{{ activeName }} · {{ activeFormat.name }}</div><div style="font-size:12.5px;color:#80868B">{{ activeFormat.dim }} · {{ activeTags }}</div></div>
           <div style="display:flex;gap:8px">
+            <button onClick="{{ onUndo }}" disabled="{{ undoDisabled }}" title="Desfazer (Ctrl+Z)" style="height:38px;width:38px;border-radius:8px;border:1px solid #DADCE0;background:#fff;color:{{ undoColor }};cursor:{{ undoCursor }};display:flex;align-items:center;justify-content:center;opacity:{{ undoOpacity }}"><span style="font-family:'Material Symbols Rounded';font-size:19px;line-height:1">undo</span></button>
+            <button onClick="{{ onRedo }}" disabled="{{ redoDisabled }}" title="Refazer (Ctrl+Y)" style="height:38px;width:38px;border-radius:8px;border:1px solid #DADCE0;background:#fff;color:{{ redoColor }};cursor:{{ redoCursor }};display:flex;align-items:center;justify-content:center;opacity:{{ redoOpacity }}"><span style="font-family:'Material Symbols Rounded';font-size:19px;line-height:1">redo</span></button>
+            <div style="width:1px;background:#E8EAED;margin:4px 2px"></div>
             <button onClick="{{ downloadPdf }}" style="height:38px;padding:0 13px;border-radius:8px;border:1px solid #DADCE0;background:#fff;color:#202124;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px"><span style="font-family:'Material Symbols Rounded';font-size:17px;line-height:1">picture_as_pdf</span>PDF</button>
             <button onClick="{{ downloadPng }}" style="height:38px;padding:0 13px;border-radius:8px;border:1px solid #DADCE0;background:#fff;color:#202124;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px"><span style="font-family:'Material Symbols Rounded';font-size:17px;line-height:1">image</span>PNG</button>
             <button onClick="{{ print }}" style="height:38px;padding:0 13px;border-radius:8px;border:1px solid #DADCE0;background:#fff;color:#202124;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px"><span style="font-family:'Material Symbols Rounded';font-size:17px;line-height:1">print</span>Imprimir</button>
@@ -470,8 +473,19 @@ class Component extends DCLogic {
         const out=[]; for(const c of arr){ if(out.every(o=>Math.abs(o.r-c.r)+Math.abs(o.g-c.g)+Math.abs(o.b-c.b)>60)) out.push(c); if(out.length>=5) break; }
         cb(out.map(hex));
       }catch(e){ cb([]); } }; img.onerror=()=>cb([]); img.src=dataUrl; }catch(e){ cb([]); } }
+  _designSnap(){ var s=this.state; return {tpl:s.tpl,fmt:s.fmt,accent:s.accent,colors:s.colors,pos:s.pos,brandPalette:s.brandPalette,fontSel:s.fontSel,fontScale:s.fontScale,fontColor:s.fontColor,textShadow:s.textShadow,artSel:s.artSel,artFinish:s.artFinish,bgTab:s.bgTab,gFrame:s.gFrame,logoUrl:s.logoUrl,logoScale:s.logoScale,showStars:s.showStars,showLogo:s.showLogo,content:s.content}; }
+  _recordHistory(){ var sig; try{ sig=JSON.stringify(this._designSnap()); }catch(e){ return; } if(this._applyingHistory||sig===this._lastSig) return; this._lastSig=sig; clearTimeout(this._histT); var self=this;
+    this._histT=setTimeout(function(){ var h=(self._hist||[]).slice(0,(self._histIdx==null?-1:self._histIdx)+1); h.push(JSON.parse(sig)); if(h.length>60) h=h.slice(h.length-60); self._hist=h; self._histIdx=h.length-1; self.setState({_hv:(self.state._hv||0)+1}); },320); }
+  _applyHistory(idx){ if(!this._hist||idx<0||idx>=this._hist.length) return; this._histIdx=idx; var snap=this._hist[idx]; this._applyingHistory=true; this._lastSig=JSON.stringify(snap); var self=this;
+    this.setState(JSON.parse(JSON.stringify(snap)), function(){ self._applyingHistory=false; }); }
+  undo(){ if(this._hist&&this._histIdx>0) this._applyHistory(this._histIdx-1); }
+  redo(){ if(this._hist&&this._histIdx<this._hist.length-1) this._applyHistory(this._histIdx+1); }
   renderVals(){
     const s=this.state;
+    this._recordHistory();
+    if(!this._kbSetup){ this._kbSetup=true; var self=this; document.addEventListener('keydown',function(e){ var t=e.target, tag=((t&&t.tagName)||'').toLowerCase(); if(tag==='input'||tag==='textarea'||(t&&t.isContentEditable)) return; if((e.ctrlKey||e.metaKey)&&!e.shiftKey&&(e.key==='z'||e.key==='Z')){ e.preventDefault(); self.undo(); } else if((e.ctrlKey||e.metaKey)&&((e.key==='y'||e.key==='Y')||(e.shiftKey&&(e.key==='z'||e.key==='Z')))){ e.preventDefault(); self.redo(); } }); }
+    const canUndo=!!(this._hist&&this._histIdx>0), canRedo=!!(this._hist&&this._histIdx<this._hist.length-1);
+    const onUndo=()=>this.undo(), onRedo=()=>this.redo();
     const styleChips=this.STYLES.map(([id,label])=>{const on=s.filter===id;return{label,onClick:()=>this.setState({filter:id}),bg:on?'#1A73E8':'#fff',color:on?'#fff':'#5F6368',bd:on?'#1A73E8':'#DADCE0'};});
     const segChips=this.SEGMENTS.map(([id,label])=>{const on=s.segFilter===id;return{label,onClick:()=>this.setState({segFilter:id}),bg:on?'#E8F0FE':'#fff',color:on?'#0B57D0':'#80868B',bd:on?'#0B57D0':'#E8EAED'};});
     const templates=this.TEMPLATES.map((tp,i)=>({tp,i})).filter(({tp})=>tp.blank||((s.filter==='all'||tp.style===s.filter)&&(s.segFilter==='all'||(this.SEG[tp.name]||[]).includes(s.segFilter)))).map(({tp,i})=>({
@@ -642,6 +656,10 @@ class Component extends DCLogic {
       onLogoSize:(e)=>this.setState({logoScale:(+e.target.value)/100}),
       layoutMoved:(Object.keys(s.pos||{}).length>0), resetLayout:()=>this.setState({pos:{}}),
       gframeChips,
+      onUndo, onRedo, undoDisabled:!canUndo, redoDisabled:!canRedo,
+      undoColor:canUndo?'#202124':'#BDC1C6', redoColor:canRedo?'#202124':'#BDC1C6',
+      undoCursor:canUndo?'pointer':'default', redoCursor:canRedo?'pointer':'default',
+      undoOpacity:canUndo?'1':'.55', redoOpacity:canRedo?'1':'.55',
       onLogoFile:(e)=>{ const f=e.target&&e.target.files&&e.target.files[0]; if(!f) return; const rd=new FileReader(); rd.onload=(ev)=>{ this.setState({logoUrl:ev.target.result}); this.toast('Logo aplicado no cartão'); }; rd.readAsDataURL(f); },
       removerLogo:()=>{ this.setState({logoUrl:null, logoScale:1}); this.toast('Logo removido — voltou para as iniciais'); },
       previewW:pxW+'px', previewH:pxH+'px',
