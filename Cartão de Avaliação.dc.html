@@ -687,7 +687,9 @@ class Component extends DCLogic {
           const bgLight=(typeof base.bg==='string'&&base.bg.charAt(0)==='#')?lum(base.bg)>0.5:false;
           const readable=(h)=>{ if(!h) return null; const L=lum(h); return bgLight?(L<0.62?h:null):(L>0.4?h:null); };
           let eyebrow=readable(secondary)||readable(primary)||(bgLight?'#3C4043':'#EAEAEA');
-          const newColors={...(st.colors||{}), ctaBg:primary, ctaInk:ink(primary), eyebrow:eyebrow, star:'#FBBC04'};
+          const mix=(h,w,tt)=>{const a=parseInt(h.slice(1),16),bb=parseInt(w.slice(1),16);const r=Math.round(((a>>16)&255)*(1-tt)+((bb>>16)&255)*tt),g=Math.round(((a>>8)&255)*(1-tt)+((bb>>8)&255)*tt),bl=Math.round((a&255)*(1-tt)+(bb&255)*tt);return '#'+[r,g,bl].map(v=>v.toString(16).padStart(2,'0')).join('');};
+          const qrTint=mix(primary,'#FFFFFF',0.86); // 14% da cor da marca sobre branco: leve, mantem contraste p/ leitura
+          const newColors={...(st.colors||{}), ctaBg:primary, ctaInk:ink(primary), eyebrow:eyebrow, star:'#FBBC04', qrBg:qrTint};
           this.setState({brandPalette:pal, accent:primary, colors:newColors});
           this.toast(secondary?'Cartão vestido na paleta (2 tons) da marca!':'Cartão vestido na cor da marca!','check_circle'); }); },
       aiLogo:()=>this.toast('Melhorar logo (tirar fundo, endireitar, deixar pro) — em breve, via IA de imagem.','auto_awesome'),
