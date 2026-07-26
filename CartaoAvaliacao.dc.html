@@ -159,14 +159,14 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:420,&quot;height&quot;:560}}">
 class Component extends DCLogic {
-  qrEl(seed, color){
-    const n=25; let st=(seed*2654435761)>>>0;
-    const rnd=()=>{st=(st*1664525+1013904223)>>>0;return st/4294967296;};
-    const g=[]; for(let y=0;y<n;y++){const r=[];for(let x=0;x<n;x++)r.push(rnd()>0.5);g.push(r);}
-    const f=(ox,oy)=>{for(let y=-1;y<8;y++)for(let x=-1;x<8;x++){const gy=oy+y,gx=ox+x;if(gy<0||gx<0||gy>=n||gx>=n)continue;const on=(x>=0&&x<=6&&y>=0&&y<=6)&&((x===0||x===6||y===0||y===6)||(x>=2&&x<=4&&y>=2&&y<=4));g[gy][gx]=on;}};
-    f(0,0);f(n-7,0);f(0,n-7);
-    const rects=[]; for(let y=0;y<n;y++)for(let x=0;x<n;x++)if(g[y][x])rects.push(React.createElement('rect',{key:x+'-'+y,x,y,width:1.04,height:1.04,fill:color,rx:.25}));
-    return React.createElement('svg',{viewBox:'0 0 25 25',width:'100%',height:'100%','aria-hidden':true},rects);
+  qrEl(text, color){
+    var url=String(text||'g.page'); if(!/^[a-z][a-z0-9+.\-]*:\/\//i.test(url)) url='https://'+url;
+    var Q=(typeof qrcode!=='undefined')?qrcode:((typeof window!=='undefined')?window.qrcode:null);
+    var q=null; try{ if(Q){ q=Q(0,'M'); q.addData(url); q.make(); } }catch(e){ q=null; }
+    if(!q){ return React.createElement('svg',{viewBox:'0 0 25 25',width:'100%',height:'100%'}); }
+    var n=q.getModuleCount(), rects=[];
+    for(var y=0;y<n;y++) for(var x=0;x<n;x++) if(q.isDark(y,x)) rects.push(React.createElement('rect',{key:x+'-'+y,x:x,y:y,width:1.02,height:1.02,fill:color}));
+    return React.createElement('svg',{viewBox:'-2 -2 '+(n+4)+' '+(n+4),width:'100%',height:'100%',shapeRendering:'crispEdges','aria-label':'QR de avaliação no Google'},rects);
   }
   gLogo(sz){
     const p=(fill,d)=>React.createElement('path',{fill,d,key:fill});
@@ -201,7 +201,7 @@ class Component extends DCLogic {
       gFrameFull:t.gFrame==='full', gFrameHeader:t.gFrame==='header', gFrameFooter:t.gFrame==='footer',
       gEyebrow:this.gLogo('3.7cqmin'), gEyebrowL:this.gLogo('3.3cqmin'),
       gCta:this.gLogo('3cqmin'), gCtaL:this.gLogo('2.8cqmin'),
-      qr:this.qrEl(t.qrSeed||7, t.qrModule||'#202124'),
+      qr:this.qrEl(c.reviewUrl||c.url||'g.page', t.qrModule||'#202124'),
     };
   }
 }
