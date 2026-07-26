@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./qrcode.min.js"></script>
+<script src="./georanking-api.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -55,6 +56,8 @@
 
       <!-- ===== LEFT ===== -->
       <div style="flex:1;min-width:min(100%,440px);display:flex;flex-direction:column;gap:20px">
+
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 13px;border-radius:10px;background:{{ perfilBg }};color:{{ perfilColor }};font-size:12.5px;font-weight:600"><span style="font-family:'Material Symbols Rounded';font-size:17px;line-height:1">{{ perfilIcon }}</span>{{ perfilTexto }}</div>
 
         <!-- PASSO 1 · Sua marca (logo primeiro) -->
         <div style="background:#fff;border:1px solid #DADCE0;border-radius:12px;padding:22px">
@@ -440,7 +443,7 @@ class Component extends DCLogic {
     // biblioteca de artes: mapeia segmento do catalog.json -> id de segmento do criador
     this.ART2SEG={'tecnologia-internet':'tech','celular-assistencia':'celular','seguranca-eletronica':'seguranca','distribuidora-corporativo':'distribuicao','beleza-estetica':'beleza','saude-clinicas':'saude','casa-construcao':'construcao','moda-varejo':'moda'};
     this.state={
-      tpl:0, fmt:0, copyIdx:0, filter:'all', segFilter:'all', accent:null, showStars:true, showLogo:true, snackbar:null, snackIcon:'check_circle',
+      tpl:0, fmt:0, copyIdx:0, filter:'all', segFilter:'all', accent:null, showStars:true, showLogo:true, snackbar:null, snackIcon:'check_circle', perfilFonte:null, perfilNome:null,
       arts:[], molduras:[], bgTab:'artes', artSel:null, artFilter:'all', artFinish:'light',
       logoUrl:null, logoScale:1, fontSel:null, fontScale:1, fontColor:null, textShadow:'none',
       colors:{}, selField:null, selRect:null, pos:{}, guideV:false, guideH:false, gFrame:'none',
@@ -448,7 +451,16 @@ class Component extends DCLogic {
     };
     fetch('./biblioteca/catalog.json').then(r=>r.ok?r.json():null).then(c=>{ if(c&&c.bases) this.setState({arts:c.bases}); }).catch(()=>{});
     fetch('./molduras/catalog.json').then(r=>r.ok?r.json():null).then(c=>{ if(c&&c.molduras) this.setState({molduras:c.molduras}); }).catch(()=>{});
+    // Pre-preenche do perfil do GeoRanking (querystring ?profileId=&token= ou GeoAPI.config). Sem API -> mock (CSA).
+    try{ if(typeof GeoAPI!=='undefined'){ GeoAPI.carregarPerfil().then((p)=>{ if(p&&p.nome) this.aplicarPerfil(p); }).catch(()=>{}); } }catch(e){}
+    // Permite o modal-pai injetar perfil/token via postMessage: {type:'geo-perfil', profileId, token}
+    try{ var self=this; window.addEventListener('message',function(ev){ var m=ev.data||{}; if(m&&m.type==='geo-perfil'&&typeof GeoAPI!=='undefined'){ GeoAPI.config({profileId:m.profileId,token:m.token}); GeoAPI.carregarPerfil().then((p)=>{ if(p&&p.nome) self.aplicarPerfil(p); }).catch(()=>{}); } }); }catch(e){}
   }
+  aplicarPerfil(p){ try{ var raw=p._raw||{};
+      var reviewUrl = raw.googleReviewUrl || raw.reviewUrl || raw.reviewLink || (raw.googlePlaceId?('https://search.google.com/local/writereview?placeid='+raw.googlePlaceId):null) || (p.site||null);
+      var displayUrl = (reviewUrl||p.site||'').replace(/^https?:\/\//,'').replace(/\/$/,'') || 'g.page';
+      this.setState(function(st){ return { perfilFonte:p.fonte, perfilNome:p.nome, content:Object.assign({},st.content,{ brand:p.nome||st.content.brand, category:p.categoria||st.content.category, initials:p.iniciais||st.content.initials, url:displayUrl, reviewUrl:reviewUrl||st.content.reviewUrl }) }; });
+    }catch(e){} }
   toast(m,ic){ this.setState({snackbar:m,snackIcon:ic||'check_circle'}); clearTimeout(this._t); this._t=setTimeout(()=>this.setState({snackbar:null}),2600); }
   pickAt(field,e){ if(this._suppressClick){ this._suppressClick=false; return; } try{ const r=e.currentTarget.getBoundingClientRect(); this.setState({selField:field, selRect:{top:r.top,bottom:r.bottom,left:r.left,right:r.right,width:r.width}}); }catch(_){ this.setState({selField:field, selRect:null}); } }
   startDrag(e){ try{ const el=e.currentTarget; const field=el.getAttribute('data-drag'); if(!field) return; const root=el.closest('[data-card-root]'); if(!root) return;
@@ -670,6 +682,9 @@ class Component extends DCLogic {
       onCta:(e)=>this.setState(st=>({content:{...st.content,cta:e.target.value}})),
       onUrl:(e)=>this.setState(st=>({content:{...st.content,url:e.target.value}})),
       snackbar:s.snackbar, snackIcon:s.snackIcon,
+      perfilCarregado:s.perfilFonte==='api', perfilMock:s.perfilFonte==='mock', perfilNome:s.perfilNome||'',
+      perfilTexto:(s.perfilFonte==='api')?('Perfil carregado: '+(s.perfilNome||'')):'Dados de exemplo — conecte um perfil do GeoRanking',
+      perfilBg:(s.perfilFonte==='api')?'#E6F4EA':'#FEF7E0', perfilColor:(s.perfilFonte==='api')?'#137333':'#8A6D00', perfilIcon:(s.perfilFonte==='api')?'check_circle':'info',
       download:()=>this.toast('Cartão exportado em alta resolução'),
       downloadPdf:()=>this.toast('PDF pronto para impressão gerado'),
       downloadPng:()=>this.toast('Imagem PNG baixada'),
