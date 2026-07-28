@@ -11,138 +11,146 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Roboto: a mesma fonte do app do GeoRanking -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0..1,0&display=block" rel="stylesheet">
 <style>
   *{box-sizing:border-box}
   body{margin:0}
   a{text-decoration:none;color:inherit}
   .ico{font-family:'Material Symbols Rounded';line-height:1;display:inline-block;flex:none}
-  .card{background:#fff;border:1px solid #DADCE0;border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:18px;transition:box-shadow .16s ease,border-color .16s ease}
-  .card:hover{box-shadow:0 6px 22px rgba(60,64,67,.13);border-color:#C5CBD3}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 20px;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;border:1px solid #DADCE0;background:#fff;color:#202124}
-  .btn-pri{background:#1A73E8;color:#fff;border-color:#1A73E8}
-  .btn:hover{filter:brightness(.97)}
+  /* cartão de produto, no mesmo padrão visual dos cards do modal */
+  .prod{background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:22px;display:flex;flex-direction:column;gap:16px;
+        box-shadow:0 1px 2px rgba(15,23,42,.04);transition:box-shadow .16s ease,border-color .16s ease;cursor:pointer}
+  .prod:hover{box-shadow:0 4px 16px rgba(15,23,42,.1);border-color:#d3d8e0}
+  .cta{display:flex;align-items:center;justify-content:center;gap:8px;height:42px;border-radius:6px;
+       background:#4285F4;color:#fff;font-size:14px;font-weight:500;width:100%}
+  .prod:hover .cta{background:#1a73e8}
+  .tag{font-size:11.5px;font-weight:500;color:#5F6368;background:#F1F3F4;padding:5px 10px;border-radius:999px}
   @keyframes gr-fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </helmet>
 
-<div style="font-family:'Google Sans','Google Sans Text',Inter,system-ui,Arial,sans-serif;min-height:100vh;background:#F8FAFD;color:#202124;-webkit-font-smoothing:antialiased">
+<div style="font-family:Roboto,-apple-system,'Segoe UI',sans-serif;background:#F8F9FA;min-height:100vh;color:#202124;-webkit-font-smoothing:antialiased">
 
-  <!-- cabeçalho do modal (contexto: Gerenciar Perfil) -->
-  <div style="background:#1A73E8;color:#fff;padding:16px 28px;display:flex;align-items:center;gap:16px">
-    <div style="width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center">
+  <!-- ==========================================================
+       CHROME DO MODAL — pertence ao app do GeoRanking.
+       Está aqui só para visualizar o encaixe. Na integração,
+       REMOVER este bloco: o app já desenha o cabeçalho e as abas.
+       ========================================================== -->
+  <div style="background:#4285F4;color:#fff;height:107px;display:flex;align-items:center;gap:16px;padding:0 28px">
+    <div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center">
       <span class="ico" style="font-size:28px">storefront</span>
     </div>
-    <div style="flex:1;min-width:0">
-      <div style="font-size:22px;font-weight:600;letter-spacing:-.2px">Presença Digital</div>
-      <div style="font-size:13px;opacity:.9">{{ perfilNome }} · {{ perfilCidade }}</div>
-    </div>
-    <div style="width:40px;height:40px;border-radius:999px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer">
-      <span class="ico" style="font-size:22px">close</span>
+    <div>
+      <div style="font-size:28px;font-weight:600;line-height:1.2">Gerenciar Perfil</div>
+      <div style="font-size:13px;opacity:.92;margin-top:2px">{{ perfilNome }}</div>
     </div>
   </div>
+  <div style="background:#fff;border-bottom:1px solid #E5E7EB;padding:0 20px;display:flex;gap:2px;overflow-x:auto;white-space:nowrap">
+    <sc-for list="{{ abas }}" as="a" hint-placeholder-count="12">
+      <div style="display:flex;align-items:center;gap:7px;padding:14px 13px;font-size:13.5px;font-weight:{{ a.peso }};color:{{ a.cor }};border-bottom:2px solid {{ a.linha }};cursor:pointer">
+        <span class="ico" style="font-size:17px">{{ a.icone }}</span>{{ a.nome }}
+      </div>
+    </sc-for>
+  </div>
+  <!-- ================= FIM DO CHROME DO MODAL ================= -->
 
-  <div style="max-width:1060px;margin:0 auto;padding:34px 24px 80px;animation:gr-fade .2s ease">
 
-    <div style="margin-bottom:26px">
-      <h1 style="margin:0 0 6px;font-size:26px;line-height:32px;font-weight:700;letter-spacing:-.4px">O que você quer criar?</h1>
-      <p style="margin:0;font-size:15px;line-height:23px;color:#5F6368;max-width:640px">
-        Duas ferramentas que usam os dados do seu perfil para trazer mais clientes.
+  <!-- ==========================================================
+       CONTEÚDO DA ABA "PRESENÇA DIGITAL" — é isto que entra no app
+       ========================================================== -->
+  <div style="max-width:1120px;margin:0 auto;padding:26px 20px 60px;animation:gr-fade .2s ease">
+
+    <div style="background:#fff;border:1px solid #E5E7EB;border-radius:8px;box-shadow:0 1px 2px rgba(15,23,42,.04);padding:32px 36px 40px">
+
+      <!-- título no mesmo padrão dos outros cards do modal -->
+      <div style="display:flex;align-items:center;gap:11px;margin-bottom:6px">
+        <span style="width:4px;height:22px;border-radius:2px;background:#4285F4"></span>
+        <h2 style="margin:0;font-size:20px;font-weight:600;color:#202124">Presença Digital</h2>
+      </div>
+      <p style="margin:0 0 26px 15px;font-size:14px;line-height:21px;color:#5F6368;max-width:660px">
+        Duas ferramentas que usam os dados deste perfil para trazer mais clientes.
       </p>
-    </div>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:20px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px">
 
-      <!-- ===================== 1. CARTÃO DE AVALIAÇÃO ===================== -->
-      <a href="Cartão de Avaliação.dc.html" class="card">
-        <div style="display:flex;align-items:flex-start;gap:14px">
-          <div style="width:46px;height:46px;border-radius:12px;background:#FEF7E0;color:#B06000;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <span class="ico" style="font-size:25px">qr_code_2</span>
-          </div>
-          <div style="flex:1;min-width:0">
-            <div style="font-size:19px;font-weight:700;letter-spacing:-.2px">Cartão de Avaliação</div>
-            <div style="font-size:13.5px;color:#5F6368;line-height:20px;margin-top:3px">
-              Um cartão para imprimir e deixar no balcão. O cliente aponta a câmera e cai direto na sua avaliação no Google.
+        <!-- ---------- 1. CARTÃO DE AVALIAÇÃO ---------- -->
+        <a href="Cartão de Avaliação.dc.html" class="prod">
+          <div style="display:flex;align-items:flex-start;gap:13px">
+            <div style="width:42px;height:42px;border-radius:10px;background:#FEF7E0;color:#B06000;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <span class="ico" style="font-size:23px">qr_code_2</span>
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:17px;font-weight:500;color:#202124">Cartão de Avaliação</div>
+              <div style="font-size:13px;color:#5F6368;line-height:19px;margin-top:3px">
+                Cartão para imprimir e deixar no balcão. O cliente aponta a câmera e vai direto avaliar no Google.
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- miniatura do cartão -->
-        <div style="height:186px;border-radius:12px;border:1px solid #E8EAED;background:#202124;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px">
-          <div style="display:flex;gap:3px;color:#FBBC04;font-size:15px;letter-spacing:1px">★★★★★</div>
-          <div style="color:#fff;font-size:14px;font-weight:700;text-align:center;line-height:19px;padding:0 26px">Gostou do atendimento?</div>
-          <div style="width:58px;height:58px;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center">
-            <span class="ico" style="font-size:44px;color:#202124">qr_code_2</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:6px;background:#C9A24B;color:#202124;padding:6px 14px;border-radius:999px;font-size:11px;font-weight:700">
-            <span style="width:14px;height:14px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#4285F4">G</span>
-            Avaliar no Google
-          </div>
-        </div>
-
-        <div style="display:flex;flex-wrap:wrap;gap:7px">
-          <span style="font-size:11.5px;font-weight:600;color:#5F6368;background:#F1F3F4;padding:5px 11px;border-radius:999px">35 modelos</span>
-          <span style="font-size:11.5px;font-weight:600;color:#5F6368;background:#F1F3F4;padding:5px 11px;border-radius:999px">10 molduras Google</span>
-          <span style="font-size:11.5px;font-weight:600;color:#5F6368;background:#F1F3F4;padding:5px 11px;border-radius:999px">PDF para impressão</span>
-        </div>
-
-        <div class="btn btn-pri" style="width:100%">
-          <span class="ico" style="font-size:19px">add</span>Criar cartão
-        </div>
-      </a>
-
-      <!-- ===================== 2. MINI-SITE ===================== -->
-      <a href="{{ urlMiniSite }}" target="_blank" rel="noreferrer" class="card">
-        <div style="display:flex;align-items:flex-start;gap:14px">
-          <div style="width:46px;height:46px;border-radius:12px;background:#E8F0FE;color:#0B57D0;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <span class="ico" style="font-size:25px">smartphone</span>
-          </div>
-          <div style="flex:1;min-width:0">
-            <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
-              <span style="font-size:19px;font-weight:700;letter-spacing:-.2px">Mini-site</span>
-              <span style="font-size:9.5px;font-weight:700;letter-spacing:.5px;background:#E6F4EA;color:#188038;padding:3px 7px;border-radius:999px">NOVO</span>
+          <div style="height:170px;border-radius:6px;background:#202124;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px">
+            <div style="color:#FBBC04;font-size:14px;letter-spacing:1px">★★★★★</div>
+            <div style="color:#fff;font-size:13.5px;font-weight:500;text-align:center;padding:0 26px">Gostou do atendimento?</div>
+            <div style="width:54px;height:54px;border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center">
+              <span class="ico" style="font-size:40px;color:#202124">qr_code_2</span>
             </div>
-            <div style="font-size:13.5px;color:#5F6368;line-height:20px;margin-top:3px">
-              Uma página só sua, com WhatsApp, telefone, rota, fotos e avaliações. Feita para aparecer no Google.
+            <div style="display:flex;align-items:center;gap:6px;background:#C9A24B;color:#202124;padding:6px 13px;border-radius:999px;font-size:11px;font-weight:500">
+              <span style="width:14px;height:14px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#4285F4">G</span>
+              Avaliar no Google
             </div>
           </div>
-        </div>
 
-        <!-- miniatura do mini-site -->
-        <div style="height:186px;border-radius:12px;border:1px solid #E8EAED;background:#F1F3F4;position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:center">
-          <div style="width:132px;background:#fff;border-radius:14px 14px 0 0;border:1px solid #E0E3E7;border-bottom:none;padding:14px 12px 0;display:flex;flex-direction:column;align-items:center;gap:6px">
-            <div style="width:34px;height:34px;border-radius:50%;background:#E8F0FE;color:#0B57D0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800">{{ perfilIniciais }}</div>
-            <div style="width:74%;height:6px;border-radius:3px;background:#202124"></div>
-            <div style="width:52%;height:4px;border-radius:3px;background:#C5CBD3"></div>
-            <div style="display:flex;gap:2px;color:#FBBC04;font-size:9px;letter-spacing:.5px">★★★★★</div>
-            <div style="width:100%;height:19px;border-radius:6px;background:#25D366;margin-top:3px"></div>
-            <div style="width:100%;height:19px;border-radius:6px;background:#1A73E8"></div>
-            <div style="width:100%;height:19px;border-radius:6px;background:#F1F3F4;border:1px solid #E0E3E7"></div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            <span class="tag">35 modelos</span><span class="tag">10 molduras Google</span><span class="tag">PDF para impressão</span>
           </div>
-        </div>
+          <div class="cta"><span class="ico" style="font-size:18px">add</span>Criar cartão</div>
+        </a>
 
-        <div style="display:flex;flex-wrap:wrap;gap:7px">
-          <span style="font-size:11.5px;font-weight:600;color:#5F6368;background:#F1F3F4;padding:5px 11px;border-radius:999px">10 modelos</span>
-          <span style="font-size:11.5px;font-weight:600;color:#5F6368;background:#F1F3F4;padding:5px 11px;border-radius:999px">120 variações</span>
-          <span style="font-size:11.5px;font-weight:600;color:#5F6368;background:#F1F3F4;padding:5px 11px;border-radius:999px">Endereço próprio</span>
-        </div>
+        <!-- ---------- 2. MINI-SITE ---------- -->
+        <a href="{{ urlMiniSite }}" target="_blank" rel="noreferrer" class="prod">
+          <div style="display:flex;align-items:flex-start;gap:13px">
+            <div style="width:42px;height:42px;border-radius:10px;background:#E8F0FE;color:#1967D2;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <span class="ico" style="font-size:23px">smartphone</span>
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                <span style="font-size:17px;font-weight:500;color:#202124">Mini-site</span>
+                <span style="font-size:9.5px;font-weight:700;letter-spacing:.4px;background:#E6F4EA;color:#188038;padding:3px 7px;border-radius:999px">NOVO</span>
+              </div>
+              <div style="font-size:13px;color:#5F6368;line-height:19px;margin-top:3px">
+                Uma página do negócio com WhatsApp, telefone, rota, fotos e avaliações. Feita para aparecer no Google.
+              </div>
+            </div>
+          </div>
 
-        <div class="btn btn-pri" style="width:100%">
-          <span class="ico" style="font-size:19px">edit</span>Criar mini-site
-        </div>
-      </a>
+          <div style="height:170px;border-radius:6px;background:#F1F3F4;display:flex;align-items:flex-end;justify-content:center">
+            <div style="width:124px;background:#fff;border-radius:12px 12px 0 0;border:1px solid #E5E7EB;border-bottom:none;padding:13px 11px 0;display:flex;flex-direction:column;align-items:center;gap:6px">
+              <div style="width:32px;height:32px;border-radius:50%;background:#E8F0FE;color:#1967D2;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700">{{ perfilIniciais }}</div>
+              <div style="width:74%;height:5px;border-radius:3px;background:#202124"></div>
+              <div style="width:52%;height:4px;border-radius:3px;background:#C5CBD3"></div>
+              <div style="color:#FBBC04;font-size:8.5px;letter-spacing:.5px">★★★★★</div>
+              <div style="width:100%;height:18px;border-radius:5px;background:#25D366;margin-top:2px"></div>
+              <div style="width:100%;height:18px;border-radius:5px;background:#4285F4"></div>
+              <div style="width:100%;height:18px;border-radius:5px;background:#F1F3F4;border:1px solid #E5E7EB"></div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            <span class="tag">10 modelos</span><span class="tag">120 variações</span><span class="tag">Endereço próprio</span>
+          </div>
+          <div class="cta"><span class="ico" style="font-size:18px">edit</span>Criar mini-site</div>
+        </a>
+
+      </div>
+
+      <div style="display:flex;align-items:center;gap:10px;margin-top:22px;padding:13px 15px;border-radius:6px;background:#F8F9FA;border:1px solid #E5E7EB;font-size:13px;color:#5F6368">
+        <span class="ico" style="font-size:18px;color:#4285F4">sync</span>
+        Nome, telefone, endereço e avaliações vêm deste perfil — não precisa digitar de novo.
+      </div>
 
     </div>
-
-    <!-- rodapé: de onde vêm os dados -->
-    <div style="display:flex;align-items:center;gap:10px;margin-top:22px;padding:14px 16px;border-radius:10px;background:#fff;border:1px solid #E8EAED;font-size:13px;color:#5F6368">
-      <span class="ico" style="font-size:19px;color:#1A73E8">sync</span>
-      Nome, telefone, endereço e avaliações vêm do seu Perfil — não precisa digitar de novo.
-      <span style="color:#1A73E8;font-weight:600;cursor:pointer;margin-left:auto;white-space:nowrap">Editar Perfil</span>
-    </div>
-
   </div>
 </div>
 </x-dc>
@@ -150,16 +158,23 @@
 <script type="text/x-dc" data-dc-script data-props="{}">
 class Component extends DCLogic {
   renderVals(){
-    const p = {
-      nome:'CSA Casa da Segurança Eletrônica',
-      cidade:'Rio Verde, GO',
-      iniciais:'CSA',
-    };
-    // endereço do editor do mini-site (Next.js). Ajustável quando publicar em produção.
-    const urlMiniSite = 'http://localhost:3000/editor';
+    // abas reais do modal "Gerenciar Perfil" (só para visualizar o encaixe)
+    const nomes = [
+      ['Informações Básicas','apartment'],['Contato','contact_mail'],['Local e Áreas','location_on'],
+      ['Horários','schedule'],['Descrição','description'],['Serviços','build'],['Postagens','post_add'],
+      ['Gabarito','assignment'],['Mais Atributos','tune'],['Assistente IA','auto_awesome'],['SEO','travel_explore'],
+      ['Presença Digital','storefront'],
+    ];
+    const abas = nomes.map(([nome,icone])=>{
+      const ativa = nome === 'Presença Digital';
+      return { nome, icone, cor: ativa?'#1967D2':'#5F6368', peso: ativa?'500':'400', linha: ativa?'#4285F4':'transparent' };
+    });
     return {
-      perfilNome:p.nome, perfilCidade:p.cidade, perfilIniciais:p.iniciais,
-      urlMiniSite,
+      abas,
+      perfilNome:'CSA Casa da Segurança Eletrônica',
+      perfilIniciais:'CSA',
+      // trocar pelo endereço de produção quando o mini-site subir na Vercel
+      urlMiniSite:'http://localhost:3000/editor',
     };
   }
 }
