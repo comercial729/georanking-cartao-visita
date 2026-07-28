@@ -54,23 +54,29 @@ A tela já usa os tokens reais do sistema (medidos no app em produção):
 São **campos adicionais** no mesmo payload. Quem já consome o endpoint continua
 funcionando (só ignora o que não conhece).
 
-| Campo | Tipo | Para que serve | Prioridade |
-|---|---|---|---|
-| `googlePlaceId` | string | **Monta o link real de avaliação** (`search.google.com/local/writereview?placeid=...`). Hoje o QR usa o site do perfil como alternativa. | **ALTA** |
-| `logoUrl` | string (URL) | Logo no cartão e no mini-site | ALTA |
-| `photos` | string[] (URLs) | Galeria do mini-site (mín. 3 para poder indexar) | ALTA |
-| `reviews` | `[{author, rating, text, date}]` | Depoimentos no mini-site | MÉDIA |
-| `serviceAreaDescription` | string | Texto de "onde atendemos" (mín. 80 caracteres) | MÉDIA |
-| `faqs` | `[{q, a}]` | Perguntas frequentes | MÉDIA |
-| `rating` / `reviewCount` | number | Nota e total de avaliações | MÉDIA |
-| `hoursText` | string | Horário em texto pronto | BAIXA |
-| `coverUrl` | string (URL) | Foto de capa | BAIXA |
+> ✅ **Fontes conferidas no banco de produção em 28/07/2026.** A tabela abaixo já
+> está corrigida — a primeira versão deste documento assumia origens erradas.
 
-O front já aceita **todos** esses campos e funciona sem eles (cai em exemplo).
+| Campo no front | Fonte real no banco | Cobertura | Prioridade |
+|---|---|---|---|
+| `reviewUrl` | **`business_profile.review_url`** — já vem no formato certo (`search.google.com/local/writereview?placeid=...`) | **10.911 / 11.526 (94,7%)** | **ALTA** |
+| `photos` | **tabela `photo_profile`** (NÃO `urls_image`, que está 100% vazia) | 132.665 fotos · **5.918 perfis com ≥3** | **ALTA** |
+| `reviews` | tabela de avaliações | 274.652 · **6.703 perfis com ≥3** | ALTA |
+| `rating` / `reviewCount` | agregado das avaliações | idem | MÉDIA |
+| `hoursText` | horários do perfil | existe | BAIXA |
+| `logoUrl` | ⚠️ **não existe fonte no schema** — precisa decidir (upload manual ou sync do GBP) | — | decisão |
+| `serviceAreaDescription`, `faqs`, `coverUrl` | ⚠️ **não existem no schema** → vêm do **editor**, gravados no `jsonb` do item 3.2 | — | via editor |
+
+🔴 **ARMADILHA — não mapear `googlePlaceId` ← `place_google_id`.**
+Essa coluna guarda o **CID numérico** (ex.: `17725265890874731983`), que **não
+funciona** na URL `writereview?placeid=`. Os cartões sairiam impressos com QR que
+não abre a avaliação. **Use `review_url`, que já está pronto.**
+
+O front aceita todos esses campos e funciona sem eles (cai em exemplo).
 Ver o mapeamento em `georanking-minisite/lib/tenant.js` → `mapearTenant()`.
 
-**Se der para fazer só uma coisa: `googlePlaceId`.** É o que faz o QR levar o
-cliente para a avaliação certa.
+**Se der para fazer só uma coisa: expor `review_url`.** Destrava o Cartão de
+Avaliação inteiro, sem custo e sem Places API.
 
 ### 3.2 Endpoint NOVO para salvar a configuração do mini-site
 
@@ -145,6 +151,25 @@ Foram a parte mais sensível do projeto — protegem o cliente e o GeoRanking:
 2. **Indexação condicional**: cliente que **já tem site próprio** recebe `noindex`.
    O mini-site não compete com o site do próprio cliente.
 3. `canonical`, Open Graph e **JSON-LD LocalBusiness** por página.
+
+---
+
+## 6.1 Quantos clientes a trava alcança (medido em produção, 28/07/2026)
+
+| Situação | Perfis |
+|---|---|
+| Total na base | 11.526 |
+| Passam texto + avaliações + fotos | **4.146** |
+| Passam **e** seriam indexáveis (não têm site próprio) | **698** |
+| Com FAQs no critério | 0 — FAQs não existem no banco (vêm do editor) |
+
+**Leitura:** ~698 perfis teriam mini-site **indexável** hoje. Mas `noindex` **não
+significa inútil**: os outros ~3.448 que passam no conteúdo continuam com um
+mini-site funcional para usar como link na bio do Instagram/WhatsApp, em QR e em
+campanhas — só não disputam o Google com o site do próprio cliente.
+
+Ou seja, a trava não reduz o produto; ela separa **"vale ranquear"** de
+**"vale como link"**. Decisão de posicionamento é do Reinaldo.
 
 ---
 
