@@ -48,6 +48,54 @@ def gen_image(prompt, size="1024x1536", quality="medium"):
     b64 = data["data"][0]["b64_json"]
     return "data:image/png;base64," + b64
 
+PROMPT_LOGO = (
+    "Recrie esta logomarca como um arquivo limpo e profissional, pronto para impressao. "
+    "Mantenha EXATAMENTE o mesmo desenho, as mesmas cores e o mesmo texto do original — "
+    "nao invente elementos, nao mude palavras, nao adicione nada. "
+    "Remova completamente o fundo (deixe fundo branco solido e uniforme), "
+    "endireite e centralize a marca, corrija distorcao de perspectiva, "
+    "deixe as bordas nitidas e as cores solidas. "
+    "Remova ruido, sombra, reflexo, marca d'agua e qualquer resto de foto. "
+    "Resultado: a mesma logo, apenas limpa e vetorizada visualmente."
+)
+
+
+def _multipart(campos, arquivos):
+    """Monta multipart/form-data na mao (sem dependencia externa)."""
+    limite = "----georanking" + os.urandom(8).hex()
+    corpo = b""
+    for k, v in campos.items():
+        corpo += (f"--{limite}\r\nContent-Disposition: form-data; name=\"{k}\"\r\n\r\n{v}\r\n").encode()
+    for k, (nome, dados, tipo) in arquivos.items():
+        corpo += (f"--{limite}\r\nContent-Disposition: form-data; name=\"{k}\"; filename=\"{nome}\"\r\n"
+                  f"Content-Type: {tipo}\r\n\r\n").encode()
+        corpo += dados + b"\r\n"
+    corpo += f"--{limite}--\r\n".encode()
+    return corpo, f"multipart/form-data; boundary={limite}"
+
+
+def melhorar_logo(data_url, size="1024x1024"):
+    """Limpa a logo do cliente: tira fundo, endireita, deixa pronta para impressao."""
+    import base64
+    if "," in data_url:
+        data_url = data_url.split(",", 1)[1]
+    imagem = base64.b64decode(data_url)
+
+    corpo, content_type = _multipart(
+        {"model": "gpt-image-1", "prompt": PROMPT_LOGO, "size": size, "n": "1",
+         "background": "opaque", "quality": "high"},
+        {"image": ("logo.png", imagem, "image/png")},
+    )
+    req = urllib.request.Request(
+        "https://api.openai.com/v1/images/edits", data=corpo,
+        headers={"Authorization": "Bearer " + API_KEY, "Content-Type": content_type},
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=180) as r:
+        d = json.loads(r.read().decode("utf-8"))
+    return "data:image/png;base64," + d["data"][0]["b64_json"]
+
+
 class H(BaseHTTPRequestHandler):
     def _cors(self):
         self.send_header("Access-Control-Allow-Origin", "*")
@@ -71,6 +119,19 @@ class H(BaseHTTPRequestHandler):
             payload = {}
         if not API_KEY:
             return self._json(500, {"error": "OPENAI_API_KEY ausente no backend (.env)."})
+
+        # rota de limpeza da logo do cliente
+        if self.path.rstrip("/").endswith("melhorar-logo"):
+            origem = payload.get("image") or payload.get("logo")
+            if not origem:
+                return self._json(400, {"error": "Envie a logo no campo 'image' (data URL)."})
+            try:
+                return self._json(200, {"image": melhorar_logo(origem, payload.get("size", "1024x1024"))})
+            except urllib.error.HTTPError as e:
+                return self._json(e.code, {"error": "OpenAI: " + e.read().decode("utf-8", "ignore")[:500]})
+            except Exception as e:
+                return self._json(500, {"error": str(e)})
+
         prompt = payload.get("prompt") or build_prompt(payload.get("segmento"), payload.get("marca"))
         try:
             img = gen_image(prompt, payload.get("size", "1024x1536"), payload.get("quality", "medium"))
